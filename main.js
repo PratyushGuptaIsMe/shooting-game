@@ -86,7 +86,6 @@ window.addEventListener("load", function(){
         }
 
         update(dt){
-            console.log(this.health);
             this.backgrounds.update(dt);
             this.Player.update(dt);
             this.allCurrentEnemies.forEach((enemy) => {

@@ -43,6 +43,7 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+        this.health = 100;
     }
     update(dt){
         this.gunHeight = this.y + 175 + this.groundMargin;

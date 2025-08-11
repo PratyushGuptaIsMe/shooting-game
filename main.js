@@ -5,6 +5,8 @@ import { Grass } from "./backgrounds.js";
 window.addEventListener("load", function(){
     const CANVAS = document.getElementById("mainCanvas");
     const ctx = CANVAS.getContext("2d");
+    const TCANVAS = document.getElementById("textCanvas");
+    const text = TCANVAS.getContext("2d");
     CANVAS.width = 500;
     CANVAS.height = 500;
 
@@ -26,6 +28,10 @@ window.addEventListener("load", function(){
             this.enemyInterval = 1000;
 
             this.score = 0;
+        }
+
+        updateText(textContext){
+            let text = textContext;
         }
 
         #spawnWhiteSkeleton(){
@@ -81,6 +87,7 @@ window.addEventListener("load", function(){
                 
             })
         }
+
         hurtPlayer(dmg){
             this.Player.health = this.Player.health - dmg;
         }
@@ -100,12 +107,13 @@ window.addEventListener("load", function(){
                 this.enemyTimer = 0;
             }
         }
-        draw(ctx){
+        draw(ctx, textContext){
             this.backgrounds.draw(ctx);
             this.Player.draw(ctx);
             this.allCurrentEnemies.forEach((enemy) => {
                 enemy.draw(ctx);
             });
+            this.updateText(textContext);
         }
     }
 
@@ -120,10 +128,11 @@ window.addEventListener("load", function(){
 
         ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
         game.update(deltaTime);
-        game.draw(ctx);
+        game.draw(ctx, text);
         requestAnimationFrame(animationLoop);
     }
     animationLoop(l);
+
     window.addEventListener("keydown", (event) => {
         if(!game.keysArray.includes(event.key)){
             game.keysArray.push(event.key);

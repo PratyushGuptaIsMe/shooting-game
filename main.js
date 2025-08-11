@@ -26,7 +26,6 @@ window.addEventListener("load", function(){
             this.enemyInterval = 1000;
 
             this.score = 0;
-            this.health = 100;
         }
 
         #spawnWhiteSkeleton(){
@@ -83,7 +82,7 @@ window.addEventListener("load", function(){
             })
         }
         hurtPlayer(dmg){
-            this.health = this.health - dmg;
+            this.Player.health = this.Player.health - dmg;
         }
 
         update(dt){

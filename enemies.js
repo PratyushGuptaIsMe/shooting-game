@@ -74,10 +74,10 @@ class Enemies{
             this.y = -35;
         }
         if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
-            this.x = this.game.canvasWidth - (this.spriteWidth * 2 - 150) - 70
+            this.x = this.game.canvasWidth - (this.spriteWidth * 2 - 150) - 70;
         }
         if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
-            this.y = this.game.canvasHeight - (this.spriteHeight * 2 - 35) - 35
+            this.y = this.game.canvasHeight - (this.spriteHeight * 2 - 35) - 35;
         }
 
     }
@@ -106,7 +106,9 @@ export class YellowSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
+
         this.attackDmg = 2;
+        this.scoreValue = 20;
     }
     update(dt){
         super.update(dt);
@@ -136,7 +138,9 @@ export class WhiteSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
+
         this.attackDmg = 1;
+        this.scoreValue = 10;
     }
     update(dt){
         super.update(dt);

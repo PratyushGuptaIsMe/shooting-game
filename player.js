@@ -44,6 +44,7 @@ export class Player{
             h: this.spriteHeight + 14
         }
         this.health = 100;
+        this.dead = false;
     }
     update(dt){
         this.gunHeight = this.y + 175 + this.groundMargin;
@@ -178,6 +179,16 @@ export class Player{
         }
         if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
             this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
+        }
+
+        if(this.health <= 0){
+            if(this.dead === false){
+                this.dead = true;
+
+                //here make 1 time use property changes if die
+                document.getElementById("textCanvas").classList.add("displaynone");
+                document.getElementById("textCanvas").classList.remove("displayblock");
+            }
         }
     }
     draw(ctx){

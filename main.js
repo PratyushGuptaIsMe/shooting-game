@@ -5,6 +5,8 @@ import { Grass } from "./backgrounds.js";
 window.addEventListener("load", function(){
     const CANVAS = document.getElementById("mainCanvas");
     const ctx = CANVAS.getContext("2d");
+    const TCANVAS = document.getElementById("textCanvas");
+    const text = TCANVAS.getContext("2d");
     CANVAS.width = 500;
     CANVAS.height = 500;
 
@@ -26,6 +28,18 @@ window.addEventListener("load", function(){
             this.enemyInterval = 1000;
 
             this.score = 0;
+        }
+
+        updateText(text){
+            text.font = "35px Arial";
+            text.fillStyle = "black";
+            
+            text.fillText("Health : " + this.Player.health, 10, 40);
+            text.fillText("Ammo : " + this.Player.ammunition, 10, 80);
+            text.save();
+            text.font = "700 35px Arial";
+            text.fillText("Score : " + this.score, 10, 120);
+            text.restore();
         }
 
         #spawnWhiteSkeleton(){
@@ -81,31 +95,48 @@ window.addEventListener("load", function(){
                 
             })
         }
+
         hurtPlayer(dmg){
             this.Player.health = this.Player.health - dmg;
         }
+        healPlayer(health){
+            this.Player.health = this.Player.health + health;
+        }
+        incrementScore(score){
+            this.score = this.score + score;
+        }
 
         update(dt){
-            this.backgrounds.update(dt);
-            this.Player.update(dt);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.update(dt);
-            });
-            this.#enemyCollisionChecks();
+            if(this.Player.dead === true){
+                //if dead
+                console.log("dead");
+            }else if(this.Player.dead === false){
+                this.backgrounds.update(dt);
+                this.Player.update(dt);
+                this.allCurrentEnemies.forEach((enemy) => {
+                    enemy.update(dt);
+                });
+                this.#enemyCollisionChecks();
 
-            if(this.enemyTimer < this.enemyInterval){
-                this.enemyTimer = this.enemyTimer + dt;
-            }else if(this.enemyTimer >= this.enemyInterval){
-                this.spawnEnemy();
-                this.enemyTimer = 0;
+                if(this.enemyTimer < this.enemyInterval){
+                    this.enemyTimer = this.enemyTimer + dt;
+                }else if(this.enemyTimer >= this.enemyInterval){
+                    this.spawnEnemy();
+                    this.enemyTimer = 0;
+                }
             }
         }
-        draw(ctx){
-            this.backgrounds.draw(ctx);
-            this.Player.draw(ctx);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.draw(ctx);
-            });
+        draw(ctx, text){
+            if(this.Player.dead === true){
+                //if dead
+            }else if(this.Player.dead === false){
+                this.backgrounds.draw(ctx);
+                this.Player.draw(ctx);
+                this.allCurrentEnemies.forEach((enemy) => {
+                    enemy.draw(ctx);
+                });
+                this.updateText(text);
+            }
         }
     }
 
@@ -119,11 +150,13 @@ window.addEventListener("load", function(){
         l = t;
 
         ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+        text.clearRect(0, 0, CANVAS.width, CANVAS.height);
         game.update(deltaTime);
-        game.draw(ctx);
+        game.draw(ctx, text);
         requestAnimationFrame(animationLoop);
     }
     animationLoop(l);
+
     window.addEventListener("keydown", (event) => {
         if(!game.keysArray.includes(event.key)){
             game.keysArray.push(event.key);

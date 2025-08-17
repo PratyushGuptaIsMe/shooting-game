@@ -35,8 +35,11 @@ window.addEventListener("load", function(){
             text.fillStyle = "black";
             
             text.fillText("Health : " + this.Player.health, 10, 40);
-            text.fillText("Score : " + this.score, 10, 80);
-            text.fillText("Ammo : " + this.Player.ammunition, 10, 120)
+            text.fillText("Ammo : " + this.Player.ammunition, 10, 80);
+            text.save();
+            text.font = "700 35px Arial";
+            text.fillText("Score : " + this.score, 10, 120);
+            text.restore();
         }
 
         #spawnWhiteSkeleton(){
@@ -98,6 +101,9 @@ window.addEventListener("load", function(){
         }
         healPlayer(health){
             this.Player.health = this.Player.health + health;
+        }
+        incrementScore(score){
+            this.score = this.score + score;
         }
 
         update(dt){

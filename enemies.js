@@ -106,7 +106,9 @@ export class YellowSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
+
         this.attackDmg = 2;
+        this.scoreValue = 20;
     }
     update(dt){
         super.update(dt);
@@ -136,7 +138,9 @@ export class WhiteSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
+
         this.attackDmg = 1;
+        this.scoreValue = 10;
     }
     update(dt){
         super.update(dt);

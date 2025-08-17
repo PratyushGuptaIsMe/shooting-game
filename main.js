@@ -30,8 +30,13 @@ window.addEventListener("load", function(){
             this.score = 0;
         }
 
-        updateText(textContext){
-            let text = textContext;
+        updateText(text){
+            text.font = "35px Arial";
+            text.fillStyle = "black";
+            
+            text.fillText("Health : " + this.Player.health, 10, 40);
+            text.fillText("Score : " + this.score, 10, 80);
+            text.fillText("Ammo : " + this.Player.ammunition, 10, 120)
         }
 
         #spawnWhiteSkeleton(){
@@ -91,29 +96,41 @@ window.addEventListener("load", function(){
         hurtPlayer(dmg){
             this.Player.health = this.Player.health - dmg;
         }
+        healPlayer(health){
+            this.Player.health = this.Player.health + health;
+        }
 
         update(dt){
-            this.backgrounds.update(dt);
-            this.Player.update(dt);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.update(dt);
-            });
-            this.#enemyCollisionChecks();
+            if(this.Player.dead === true){
+                //if dead
+                console.log("dead");
+            }else if(this.Player.dead === false){
+                this.backgrounds.update(dt);
+                this.Player.update(dt);
+                this.allCurrentEnemies.forEach((enemy) => {
+                    enemy.update(dt);
+                });
+                this.#enemyCollisionChecks();
 
-            if(this.enemyTimer < this.enemyInterval){
-                this.enemyTimer = this.enemyTimer + dt;
-            }else if(this.enemyTimer >= this.enemyInterval){
-                this.spawnEnemy();
-                this.enemyTimer = 0;
+                if(this.enemyTimer < this.enemyInterval){
+                    this.enemyTimer = this.enemyTimer + dt;
+                }else if(this.enemyTimer >= this.enemyInterval){
+                    this.spawnEnemy();
+                    this.enemyTimer = 0;
+                }
             }
         }
-        draw(ctx, textContext){
-            this.backgrounds.draw(ctx);
-            this.Player.draw(ctx);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.draw(ctx);
-            });
-            this.updateText(textContext);
+        draw(ctx, text){
+            if(this.Player.dead === true){
+                //if dead
+            }else if(this.Player.dead === false){
+                this.backgrounds.draw(ctx);
+                this.Player.draw(ctx);
+                this.allCurrentEnemies.forEach((enemy) => {
+                    enemy.draw(ctx);
+                });
+                this.updateText(text);
+            }
         }
     }
 
@@ -127,6 +144,7 @@ window.addEventListener("load", function(){
         l = t;
 
         ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+        text.clearRect(0, 0, CANVAS.width, CANVAS.height);
         game.update(deltaTime);
         game.draw(ctx, text);
         requestAnimationFrame(animationLoop);

@@ -135,10 +135,12 @@ export class Player{
         if(this.keysPressed.includes("r") &&
             this.canReload === true &&
             !this.shootingAnimationRunning){
-            this.ammunition += this.replenishThisValueOfAmmo;
             this.reloadAnimationRunning = true;
             this.canReload = false;
-            setTimeout(() => {this.reloadAnimationRunning = false}, this.howLongShouldReloadingLast);
+            setTimeout(() => {
+                this.reloadAnimationRunning = false;
+                this.ammunition += this.replenishThisValueOfAmmo;
+            }, this.howLongShouldReloadingLast);
         }
         if(this.reloadAnimationRunning === true){
             this.currentImage = document.getElementById("reloadingpng");

@@ -36,6 +36,7 @@ export class Player{
         this.gunHeight = this.y + 175 + this.groundMargin;
 
         this.flipImage = false;
+        this.bulletFlipState = false;
 
         this.hitbox = {
             x: this.x + 100,
@@ -183,6 +184,11 @@ export class Player{
             this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
         }
 
+
+        if(this.bulletActive === false){
+            this.bulletFlipState = this.flipImage;
+        }
+
         if(this.health <= 0){
             if(this.dead === false){
                 this.dead = true;
@@ -200,12 +206,6 @@ export class Player{
             ctx.save();
             ctx.translate(this.game.canvasWidth, 0);
             ctx.scale(-1, 1);
-            if(this.bulletActive){
-                ctx.fillRect(this.game.canvasWidth - this.x - this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX -= this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
             ctx.drawImage(this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
@@ -218,12 +218,6 @@ export class Player{
             );
             ctx.restore();
         }else{
-            if(this.bulletActive){
-                ctx.fillRect(this.x + this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
             ctx.drawImage(this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
@@ -245,5 +239,21 @@ export class Player{
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
         }
+
+        if(this.bulletFlipState === true){
+            if(this.bulletActive){
+                ctx.fillRect(this.game.canvasWidth - this.x - this.projectileX, this.gunHeight, 25, 10);
+                this.projectileX -= this.projectileSpeed;
+            }else{
+                this.projectileX = 200;
+            }
+        }else{
+            if(this.bulletActive){
+                ctx.fillRect(this.x + this.projectileX, this.gunHeight, 25, 10);
+                this.projectileX += this.projectileSpeed;
+            }else{
+                this.projectileX = 200;
+            }
+        };
     }
 }

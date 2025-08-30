@@ -48,7 +48,6 @@ export class Player{
         this.dead = false;
     }
     update(dt){
-        this.gunHeight = this.y + 175 + this.groundMargin;
         this.hitbox = {
             x: this.x + 100,
             y: this.y + this.groundMargin + 115,
@@ -187,6 +186,7 @@ export class Player{
 
         if(this.bulletActive === false){
             this.bulletFlipState = this.flipImage;
+            this.gunHeight = this.y + 175 + this.groundMargin;
         }
 
         if(this.health <= 0){
@@ -243,7 +243,7 @@ export class Player{
         if(this.bulletFlipState === true){
             if(this.bulletActive){
                 ctx.fillRect(this.game.canvasWidth - this.x - this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX -= this.projectileSpeed;
+                this.projectileX += this.projectileSpeed;
             }else{
                 this.projectileX = 200;
             }

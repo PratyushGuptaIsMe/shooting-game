@@ -74,7 +74,7 @@ class GAME{
             this.#spawnWhiteSkeleton();
         }
     }
-    #enemySpawnCheck(){
+    #enemySpawnCheck(dt){
         if(this.enemyTimer < this.enemyInterval){
             this.enemyTimer = this.enemyTimer + dt;
         }else if(this.enemyTimer >= this.enemyInterval){
@@ -123,7 +123,7 @@ class GAME{
                 enemy.update(dt);
             });
             this.#enemyCollisionChecks();
-            this.#enemySpawnCheck();
+            this.#enemySpawnCheck(dt);
         }
     }
     draw(ctx, text){

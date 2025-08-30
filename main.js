@@ -8,6 +8,7 @@ const TCANVAS = document.getElementById("textCanvas");
 const text = TCANVAS.getContext("2d");
 CANVAS.width = 500;
 CANVAS.height = 500;
+
 class GAME{
     constructor(width, height){
         this.canvasWidth = width;

@@ -24,7 +24,7 @@ class GAME{
         this.Player = new Player(this);
 
         this.enemyTimer = 0;
-        this.enemyInterval = 1000;
+        this.enemyInterval = 1000;  //time which enemy spawns
 
         this.score = 0;
     }
@@ -74,6 +74,14 @@ class GAME{
             this.#spawnWhiteSkeleton();
         }
     }
+    #enemySpawnCheck(){
+        if(this.enemyTimer < this.enemyInterval){
+            this.enemyTimer = this.enemyTimer + dt;
+        }else if(this.enemyTimer >= this.enemyInterval){
+            this.spawnEnemy();
+            this.enemyTimer = 0;
+        }
+    }
 
     #enemyCollisionChecks(){
         this.allCurrentEnemies.forEach((enemy) => {
@@ -115,13 +123,7 @@ class GAME{
                 enemy.update(dt);
             });
             this.#enemyCollisionChecks();
-
-            if(this.enemyTimer < this.enemyInterval){
-                this.enemyTimer = this.enemyTimer + dt;
-            }else if(this.enemyTimer >= this.enemyInterval){
-                this.spawnEnemy();
-                this.enemyTimer = 0;
-            }
+            this.#enemySpawnCheck();
         }
     }
     draw(ctx, text){

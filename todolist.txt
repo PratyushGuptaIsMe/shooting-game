@@ -1,2 +1,0 @@
-Fix the bullet spawning and aerodynamics. It spawns weird.
-Check boundaries for enemies

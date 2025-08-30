@@ -19,7 +19,7 @@ export class Player{
         this.canReload = true;
         this.shootingAnimationRunning = false;
         this.reloadAnimationRunning = false;
-        this.howLongShouldShootingLast = 10; //ms how long is animation
+        this.howLongShouldShootingLast = 1; //ms how long is animation
         this.howLongShouldReloadingLast = 1000; //ms how long is animation
         this.shootInterval = 1000;  //shooting cooldown
         this.shootTimer = 0;
@@ -27,9 +27,8 @@ export class Player{
         this.reloadTimer = 0;
         this.replenishThisValueOfAmmo = 2;
         this.projectileX = 200;
-        this.projectileSpeed = 8.2;
+        this.projectileSpeed = 11;
         this.bulletActive = false;
-        this.howLongBulletActive = 2000;
 
         this.walkingSpeed = 3;
         
@@ -115,8 +114,6 @@ export class Player{
             this.canShoot = false;
             this.maxFrameX = 3;
             this.bulletActive = true;
-            setTimeout(() => {this.bulletActive = false}, this.howLongBulletActive);
-
         }
         if(this.ammunition <= 0){
             this.canShoot = false;
@@ -183,11 +180,29 @@ export class Player{
             this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
         }
 
-
         if(this.bulletActive === false){
             this.bulletFlipState = this.flipImage;
             this.gunHeight = this.y + 175 + this.groundMargin;
+        }else if(this.bulletActive === true){
+            if( this.projectileX < 0 ||
+                this.projectileX > this.game.canvasWidth){
+                    this.bulletActive = false;
+            }
         }
+        if(this.bulletFlipState === true){
+            if(this.bulletActive === true){
+                this.projectileX -= this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x;
+            }
+        }else if(this.bulletFlipState === false){
+            if(this.bulletActive === true){
+                this.projectileX += this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + this.spriteWidth/2;
+            }
+        }
+
 
         if(this.health <= 0){
             if(this.dead === false){
@@ -240,20 +255,8 @@ export class Player{
             ctx.restore();
         }
 
-        if(this.bulletFlipState === true){
-            if(this.bulletActive){
-                ctx.fillRect(this.game.canvasWidth - this.x - this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
-        }else{
-            if(this.bulletActive){
-                ctx.fillRect(this.x + this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
-        };
+        if(this.bulletActive){
+            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
+        }
     }
 }

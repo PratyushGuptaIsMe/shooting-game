@@ -66,7 +66,7 @@ class Enemies{
             this.game.hurtPlayer(this.attackDmg);
         }
 
-        //boundary checks Idk if it works tho. Might be wrong
+        //boundary checks. idk if it works though. Might be wrong.
         if(this.hitbox.x < 0){
             this.x = -70;
         }
@@ -106,7 +106,6 @@ export class YellowSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
-
         this.attackDmg = 2;
         this.scoreValue = 20;
     }
@@ -138,7 +137,6 @@ export class WhiteSkeleton extends Enemies{
         this.spriteWidth = 96;
         this.spriteHeight = 64;
         this.maxFrameX = 7;
-
         this.attackDmg = 1;
         this.scoreValue = 10;
     }

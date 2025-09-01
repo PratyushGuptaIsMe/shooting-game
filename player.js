@@ -19,7 +19,7 @@ export class Player{
         this.canReload = true;
         this.shootingAnimationRunning = false;
         this.reloadAnimationRunning = false;
-        this.howLongShouldShootingLast = 10; //ms how long is animation
+        this.howLongShouldShootingLast = 1; //ms how long is animation
         this.howLongShouldReloadingLast = 1000; //ms how long is animation
         this.shootInterval = 1000;  //shooting cooldown
         this.shootTimer = 0;
@@ -27,15 +27,15 @@ export class Player{
         this.reloadTimer = 0;
         this.replenishThisValueOfAmmo = 2;
         this.projectileX = 200;
-        this.projectileSpeed = 8.2;
+        this.projectileSpeed = 11;
         this.bulletActive = false;
-        this.howLongBulletActive = 2000;
 
         this.walkingSpeed = 3;
         
         this.gunHeight = this.y + 175 + this.groundMargin;
 
         this.flipImage = false;
+        this.bulletFlipState = false;
 
         this.hitbox = {
             x: this.x + 100,
@@ -47,7 +47,6 @@ export class Player{
         this.dead = false;
     }
     update(dt){
-        this.gunHeight = this.y + 175 + this.groundMargin;
         this.hitbox = {
             x: this.x + 100,
             y: this.y + this.groundMargin + 115,
@@ -115,8 +114,6 @@ export class Player{
             this.canShoot = false;
             this.maxFrameX = 3;
             this.bulletActive = true;
-            setTimeout(() => {this.bulletActive = false}, this.howLongBulletActive);
-
         }
         if(this.ammunition <= 0){
             this.canShoot = false;
@@ -183,6 +180,30 @@ export class Player{
             this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
         }
 
+        if(this.bulletActive === false){
+            this.bulletFlipState = this.flipImage;
+            this.gunHeight = this.y + 175 + this.groundMargin;
+        }else if(this.bulletActive === true){
+            if( this.projectileX < 0 ||
+                this.projectileX > this.game.canvasWidth){
+                    this.bulletActive = false;
+            }
+        }
+        if(this.bulletFlipState === true){
+            if(this.bulletActive === true){
+                this.projectileX -= this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x;
+            }
+        }else if(this.bulletFlipState === false){
+            if(this.bulletActive === true){
+                this.projectileX += this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + this.spriteWidth/2;
+            }
+        }
+
+
         if(this.health <= 0){
             if(this.dead === false){
                 this.dead = true;
@@ -200,12 +221,6 @@ export class Player{
             ctx.save();
             ctx.translate(this.game.canvasWidth, 0);
             ctx.scale(-1, 1);
-            if(this.bulletActive){
-                ctx.fillRect(this.game.canvasWidth - this.x - this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX -= this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
             ctx.drawImage(this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
@@ -218,12 +233,6 @@ export class Player{
             );
             ctx.restore();
         }else{
-            if(this.bulletActive){
-                ctx.fillRect(this.x + this.projectileX, this.gunHeight, 25, 10);
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = 200;
-            }
             ctx.drawImage(this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
@@ -244,6 +253,10 @@ export class Player{
             ctx.strokeStyle = "grey";
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
+        }
+
+        if(this.bulletActive){
+            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
         }
     }
 }

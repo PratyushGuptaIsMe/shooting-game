@@ -99,7 +99,19 @@ class GAME{
                 enemy.attackAnimationRunning = false;
             }
             
+            if( this.Player.bulletActive === true &&
+                this.Player.projectileX < enemy.hitbox.x + enemy.hitbox.w &&
+                this.Player.projectileX + 25 > enemy.hitbox.x &&
+                this.Player.gunHeight < enemy.hitbox.y + enemy.hitbox.h &&
+                this.Player.gunHeight + 10 > enemy.hitbox.y
+            ){
+                enemy.dead = true;
+                enemy.frameX = 0;
+                enemy.maxFrameX = 13;
+                enemy.frameTimer = 0;
+            }
         })
+        
     }
 
     hurtPlayer(dmg){

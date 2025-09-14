@@ -4,6 +4,8 @@ class Enemies{
         this.frameTimer = 0;
         this.frameInterval = 1000/this.game.fps * 2;
         this.frameX = 0;
+        this.maxFrameX = 7;
+        this.frameAccelerator = 1;  //  *
         this.x = Math.random() * this.game.canvasWidth + 1;
         this.y = Math.random() * this.game.canvasHeight + 1;
         this.movementRand = Math.random();
@@ -20,6 +22,7 @@ class Enemies{
 
         this.markedForDeletion = false;
         this.dead = false;
+        this.deathFrameOffset = 2;
     }
     update(dt){
         this.hitbox = {
@@ -30,11 +33,13 @@ class Enemies{
         }
     
         if(this.frameTimer < this.frameInterval){
-            this.frameTimer += dt;
+            this.frameTimer += dt * this.frameAccelerator;
         }else{
             this.frameX += 1;
             if(this.frameX > this.maxFrameX){
-                this.frameX = 0;
+                if(this.dead === false){
+                    this.frameX = 0;
+                }
             }
             this.frameTimer = 0;
             if(this.dead === false){
@@ -91,7 +96,7 @@ class Enemies{
 
     }
     updateDeadSkeleton(){
-        if(this.frameX > this.maxFrameX){
+        if(this.frameX + this.deathFrameOffset > this.maxFrameX){
             this.markedForDeletion = true;
         }
     }
@@ -119,7 +124,6 @@ export class YellowSkeleton extends Enemies{
         this.image = document.getElementById("YellowSkeletonIdle");
         this.spriteWidth = 96;
         this.spriteHeight = 64;
-        this.maxFrameX = 7;
         this.attackDmg = 2;
         this.scoreValue = 20;
 
@@ -160,7 +164,6 @@ export class WhiteSkeleton extends Enemies{
         this.image = document.getElementById("WhiteSkeletonIdle");
         this.spriteWidth = 96;
         this.spriteHeight = 64;
-        this.maxFrameX = 7;
         this.attackDmg = 1;
         this.scoreValue = 10;
         

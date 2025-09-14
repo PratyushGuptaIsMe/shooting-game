@@ -105,13 +105,19 @@ class GAME{
                 this.Player.gunHeight < enemy.hitbox.y + enemy.hitbox.h &&
                 this.Player.gunHeight + 10 > enemy.hitbox.y
             ){
+                console.log(enemy.markedForDeletion);
                 enemy.dead = true;
                 enemy.frameX = 0;
+                enemy.frameAccelerator = 1.4;
                 enemy.maxFrameX = 13;
                 enemy.frameTimer = 0;
             }
+
         })
-        
+
+        this.allCurrentEnemies = this.allCurrentEnemies.filter((enemy) => {
+            return enemy.markedForDeletion === false;
+        })
     }
 
     hurtPlayer(dmg){

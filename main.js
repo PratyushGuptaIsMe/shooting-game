@@ -105,7 +105,6 @@ class GAME{
                 this.Player.gunHeight < enemy.hitbox.y + enemy.hitbox.h &&
                 this.Player.gunHeight + 10 > enemy.hitbox.y
             ){
-                console.log(enemy.markedForDeletion);
                 enemy.dead = true;
                 enemy.frameX = 0;
                 enemy.frameAccelerator = 1.4;

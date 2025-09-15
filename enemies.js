@@ -97,6 +97,7 @@ class Enemies{
     }
     updateDeadSkeleton(){
         if(this.frameX + this.deathFrameOffset > this.maxFrameX){
+            this.game.incrementScore(this.scoreValue);
             this.markedForDeletion = true;
         }
     }

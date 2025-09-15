@@ -99,7 +99,9 @@ class GAME{
                 enemy.attackAnimationRunning = false;
             }
             
-            if( this.Player.bulletActive === true &&
+            if( enemy.dead === false &&
+                enemy.markedForDeletion === false &&
+                this.Player.bulletActive === true &&
                 this.Player.projectileX < enemy.hitbox.x + enemy.hitbox.w &&
                 this.Player.projectileX + 25 > enemy.hitbox.x &&
                 this.Player.gunHeight < enemy.hitbox.y + enemy.hitbox.h &&

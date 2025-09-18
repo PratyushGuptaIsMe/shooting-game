@@ -1,0 +1,83 @@
+class Preloading{
+    constructor(_class_ = "preloading"){
+        this.barProgress = 0;
+        this.elementsToBeLoaded = document.getElementsByClassName(_class_);
+        this.numberOfElements = this.elementsToBeLoaded.length;
+        this.percentLoadingProgress =  0;    //percent
+        this.intervalID;
+        this.#constructorSingleUseCode();
+    }
+    updateLoadingBar(){}
+    inscribeElements(){
+        Array.from(this.elementsToBeLoaded).forEach(element => {
+            if(element.complete){
+                element.finishedLoadingProperty = true;
+            }else{
+                element.finishedLoadingProperty = false;
+                element.addEventListener("load", () => {
+                    element.finishedLoadingProperty = true;
+                })
+            }
+        });
+    }
+    checkLoadingProgress(){
+        let elementsComplete = 0;
+        Array.from(this.elementsToBeLoaded).forEach(element => {
+            if(element.finishedLoadingProperty === true){
+                elementsComplete++;
+            }
+        })
+        let currentPercentLoadingProgress = (elementsComplete / this.numberOfElements) * 100;
+        if(this.percentLoadingProgress < currentPercentLoadingProgress){
+            this.percentLoadingProgress = currentPercentLoadingProgress;
+            this.updateLoadingBar();
+        }
+        this.checkIfAllLoaded();
+        console.log(this.percentLoadingProgress);
+    }
+    allLoaded(){
+        clearInterval(this.intervalID);
+        this.#addTextCanvas();
+        this.#addMainCanvas();
+        this.#addScript();
+    }
+    #addScript(){
+        const mainscript = document.createElement('script');
+        mainscript.type = 'module';
+        mainscript.src = 'main.js';
+        document.body.appendChild(mainscript);
+    }
+    #addTextCanvas(){
+        const tCanvas = document.createElement('canvas');
+        tCanvas.id = "textCanvas";
+        tCanvas.width = 300;
+        tCanvas.height = 250;
+        document.body.appendChild(tCanvas);
+    }
+    #addMainCanvas(){
+        const mCanvas = document.createElement('canvas');
+        mCanvas.id = "mainCanvas";
+        mCanvas.width = 500;
+        mCanvas.height = 500;
+        document.body.appendChild(mCanvas);
+    }
+    checkIfAllLoaded(){
+        if(this.percentLoadingProgress >= 100){
+            this.allLoaded();
+        }
+    }
+    #constructorSingleUseCode(){
+        try{
+            this.inscribeElements();
+            this.intervalID = setInterval(() => {
+                this.checkLoadingProgress();
+            }, 10);
+        }catch(e){
+            e(e);
+        }
+    }
+    e(e){
+        console.error(e);
+    }
+}
+let preload = new Preloading();

@@ -155,8 +155,8 @@ class GAME{
 }
 
     const CANVAS = document.getElementById("mainCanvas");
-    const ctx = CANVAS.getContext("2d");
     const TCANVAS = document.getElementById("textCanvas");
+    const ctx = CANVAS.getContext("2d");
     const text = TCANVAS.getContext("2d");
     CANVAS.width = 500;
     CANVAS.height = 500;

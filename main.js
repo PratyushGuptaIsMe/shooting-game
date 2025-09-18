@@ -39,12 +39,12 @@ class GAME{
             newSkelly.hitbox.x + newSkelly.hitbox.w > this.Player.hitbox.x &&
             newSkelly.hitbox.y < this.Player.hitbox.y + this.Player.hitbox.h &&
             newSkelly.hitbox.y + newSkelly.hitbox.h > this.Player.hitbox.y
-            ){
-                newSkelly = "";
-                this.#spawnWhiteSkeleton();
-            }else{
-                this.allCurrentEnemies.push(newSkelly);
-            }
+        ){
+            newSkelly = "";
+            this.#spawnWhiteSkeleton();
+        }else{
+            this.allCurrentEnemies.push(newSkelly);
+        }
     }
     #spawnYellowSkeleton(){
         let newSkelly = new YellowSkeleton(this);
@@ -52,12 +52,12 @@ class GAME{
             newSkelly.hitbox.x + newSkelly.hitbox.w > this.Player.hitbox.x &&
             newSkelly.hitbox.y < this.Player.hitbox.y + this.Player.hitbox.h &&
             newSkelly.hitbox.y + newSkelly.hitbox.h > this.Player.hitbox.y
-            ){
-                newSkelly = "";
-                this.#spawnYellowSkeleton();
-            }else{
-                this.allCurrentEnemies.push(newSkelly);
-            }
+        ){
+            newSkelly = "";
+            this.#spawnYellowSkeleton();
+        }else{
+            this.allCurrentEnemies.push(newSkelly);
+        }
     }
     spawnEnemy(){
         let rand = Math.random();

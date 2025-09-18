@@ -86,7 +86,9 @@ class GAME{
             ){
                 if(enemy.attackAnimationRunning === false){
                     enemy.attackAnimationRunning = true;
-                    enemy.frameX = 0;
+                    if(enemy.dead === false){
+                        enemy.frameX = 0;
+                    }
                 }
             }else{
                 enemy.attackAnimationRunning = false;

@@ -160,7 +160,7 @@ class GAME{
 }
 
 window.addEventListener("load", () => {
-    let game = new GAME(CANVAS.width, CANVAS.height)
+    let game = new GAME(CANVAS.width, CANVAS.height);
     let l = 0;
     animationLoop(l);
     window.addEventListener("keydown", (event) => {

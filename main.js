@@ -2,13 +2,6 @@ import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
 import { Grass } from "./backgrounds.js";
 
-const CANVAS = document.getElementById("mainCanvas");
-const ctx = CANVAS.getContext("2d");
-const TCANVAS = document.getElementById("textCanvas");
-const text = TCANVAS.getContext("2d");
-CANVAS.width = 500;
-CANVAS.height = 500;
-
 class GAME{
     constructor(width, height){
         this.canvasWidth = width;
@@ -159,7 +152,12 @@ class GAME{
     }
 }
 
-window.addEventListener("load", () => {
+    const CANVAS = document.getElementById("mainCanvas");
+    const ctx = CANVAS.getContext("2d");
+    const TCANVAS = document.getElementById("textCanvas");
+    const text = TCANVAS.getContext("2d");
+    CANVAS.width = 500;
+    CANVAS.height = 500;
     let game = new GAME(CANVAS.width, CANVAS.height);
     let l = 0;
     animationLoop(l);
@@ -187,4 +185,3 @@ window.addEventListener("load", () => {
         game.draw(ctx, text);
         requestAnimationFrame(animationLoop);
     }
-})

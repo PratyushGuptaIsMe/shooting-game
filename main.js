@@ -154,36 +154,36 @@ class GAME{
     }
 }
 
-    const CANVAS = document.getElementById("mainCanvas");
-    const TCANVAS = document.getElementById("textCanvas");
-    const ctx = CANVAS.getContext("2d");
-    const text = TCANVAS.getContext("2d");
-    CANVAS.width = 500;
-    CANVAS.height = 500;
-    let game = new GAME(CANVAS.width, CANVAS.height);
-    let l = 0;
-    animationLoop(l);
-    window.addEventListener("keydown", (event) => {
-        if(!game.keysArray.includes(event.key)){
-            game.keysArray.push(event.key);
-        }
-        if(event.key === "d"){
-            game.debugMode = !game.debugMode;
-        }
-    });
-    window.addEventListener("keyup", (event) => {
-        if(game.keysArray.includes(event.key)){
-            game.keysArray.splice(game.keysArray.indexOf(event.key), 1);
-        }
-    });
-
-    function animationLoop(t){
-        let deltaTime = t - l;
-        l = t;
-
-        ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
-        text.clearRect(0, 0, CANVAS.width, CANVAS.height);
-        game.update(deltaTime);
-        game.draw(ctx, text);
-        requestAnimationFrame(animationLoop);
+const CANVAS = document.getElementById("mainCanvas");
+const TCANVAS = document.getElementById("textCanvas");
+const ctx = CANVAS.getContext("2d");
+const text = TCANVAS.getContext("2d");
+CANVAS.width = 500;
+CANVAS.height = 500;
+let game = new GAME(CANVAS.width, CANVAS.height);
+let l = 0;
+animationLoop(l);
+window.addEventListener("keydown", (event) => {
+    if(!game.keysArray.includes(event.key)){
+        game.keysArray.push(event.key);
     }
+    if(event.key === "d"){
+        game.debugMode = !game.debugMode;
+    }
+});
+window.addEventListener("keyup", (event) => {
+    if(game.keysArray.includes(event.key)){
+        game.keysArray.splice(game.keysArray.indexOf(event.key), 1);
+    }
+});
+
+function animationLoop(t){
+    let deltaTime = t - l;
+    l = t;
+
+    ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    text.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    game.update(deltaTime);
+    game.draw(ctx, text);
+    requestAnimationFrame(animationLoop);
+}

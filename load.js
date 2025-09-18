@@ -23,7 +23,7 @@ class Preloading{
     checkLoadingProgress(){
         let elementsComplete = 0;
         Array.from(this.elementsToBeLoaded).forEach(element => {
-                    if(element.finishedLoadingProperty === true){
+            if(element.finishedLoadingProperty === true){
                 elementsComplete++;
             }
         })

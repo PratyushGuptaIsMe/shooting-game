@@ -1,13 +1,20 @@
 class Preloading{
-    constructor(_class_ = "preloading"){
-        this.barProgress = 0;
-        this.elementsToBeLoaded = document.getElementsByClassName(_class_);
+    constructor(html_class = "preloading"){
+        this.root = document.documentElement;
+        this.cssWidthVariable = "--LOADING-BAR-PROGRESS-NUM";
+        this.loadingScreen = document.getElementById("loadingScreen");
+        this.percentageCounter = document.getElementById("loadingPercentageCounter");
+
+        this.elementsToBeLoaded = document.getElementsByClassName(html_class);
         this.numberOfElements = this.elementsToBeLoaded.length;
-        this.percentLoadingProgress =  0;    //percent
+        this.percentLoadingProgress = 0;    //percent
         this.intervalID;
         this.#constructorSingleUseCode();
     }
-    updateLoadingBar(){}
+    updateLoadingBar(){
+        this.root.style.setProperty(this.cssWidthVariable, `${this.percentLoadingProgress}%`);
+        this.percentageCounter.textContent = `${Math.floor(this.percentLoadingProgress)}%`;
+    }
     inscribeElements(){
         Array.from(this.elementsToBeLoaded).forEach(element => {
             if(element.complete){
@@ -37,6 +44,7 @@ class Preloading{
     }
     allLoaded(){
         clearInterval(this.intervalID);
+        this.loadingScreen.style.display = "none";
         this.#addTextCanvas();
         this.#addMainCanvas();
         this.#addScript();
@@ -73,7 +81,7 @@ class Preloading{
                 this.checkLoadingProgress();
             }, 10);
         }catch(e){
-            e(e);
+            this.e(e);
         }
     }
     e(e){

@@ -1,4 +1,4 @@
-export class Grass{
+export class Background{
     constructor(game){
         this.game = game;
         this.grassImg = document.getElementById("grass");

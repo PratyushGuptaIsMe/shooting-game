@@ -27,9 +27,15 @@ img{
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
     --CANVAS-GAP: -2px;
+
+    --HIND-SILIGURI: "Hind Siliguri", sans-serif;
 }
 
 /* ||   STYLES   || */
+
+.attributionArea{
+    font-family: var(--HIND-SILIGURI);
+}
 
 #mainCanvas{
     width: 500px;
@@ -81,7 +87,7 @@ img{
     margin: auto;
     margin-top: 1%;
     text-align: center;
-    font-family: "Hind Siliguri", sans-serif;
+    font-family: var(--HIND-SILIGURI);
     font-size: 56px;
     font-weight: 500;
 }

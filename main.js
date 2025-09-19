@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
-import { Grass } from "./backgrounds.js";
+import { Background } from "./backgrounds.js";
 
 class GAME{
     constructor(width, height){
@@ -13,9 +13,10 @@ class GAME{
         this.season = "autumn";
 
         this.allCurrentEnemies = [];
-        this.backgrounds = new Grass(this);
+        this.backgrounds = new Background(this);
         this.Player = new Player(this);
 
+        this.enemySpawning = true;  //enemy spawning switch
         this.enemyTimer = 0;
         this.enemyInterval = 1000;  //time which enemy spawns
 
@@ -69,7 +70,7 @@ class GAME{
     }
     #enemySpawnCheck(dt){
         if(this.enemyTimer < this.enemyInterval){
-            this.enemyTimer = this.enemyTimer + dt;
+            this.enemyTimer += dt;
         }else if(this.enemyTimer >= this.enemyInterval){
             this.spawnEnemy();
             this.enemyTimer = 0;
@@ -104,7 +105,7 @@ class GAME{
             ){
                 enemy.dead = true;
                 enemy.frameX = 0;
-                enemy.frameAccelerator = 1.4;
+                enemy.frameAccelerator = 1.2;
                 enemy.maxFrameX = 13;
                 enemy.frameTimer = 0;
             }
@@ -137,7 +138,9 @@ class GAME{
                 enemy.update(dt);
             });
             this.#enemyCollisionChecks();
-            this.#enemySpawnCheck(dt);
+            if(this.enemySpawning === true){
+                this.#enemySpawnCheck(dt);
+            }
         }
     }
     draw(ctx, text){
@@ -162,12 +165,13 @@ CANVAS.width = 500;
 CANVAS.height = 500;
 let game = new GAME(CANVAS.width, CANVAS.height);
 let l = 0;
+const activateDebugPassKey = "p";
 animationLoop(l);
 window.addEventListener("keydown", (event) => {
     if(!game.keysArray.includes(event.key)){
         game.keysArray.push(event.key);
     }
-    if(event.key === "d"){
+    if(event.key === activateDebugPassKey){
         game.debugMode = !game.debugMode;
     }
 });

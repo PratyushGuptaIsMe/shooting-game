@@ -25,11 +25,11 @@ class GAME{
     updateText(text){
         text.font = "35px Arial";
         text.fillStyle = "black";
-        text.fillText("Health : " + this.Player.health, 10, 40);
-        text.fillText("Ammo : " + this.Player.ammunition, 10, 80);
+        text.fillText("Health : " + this.Player.health, 25, 40);
+        text.fillText("Ammo : " + this.Player.ammunition, 25, 80);
         text.save();
         text.font = "700 35px Arial";
-        text.fillText("Score : " + this.score, 10, 120);
+        text.fillText("Score : " + this.score, 25, 120);
         text.restore();
     }
 

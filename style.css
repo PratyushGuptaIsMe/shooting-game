@@ -7,19 +7,19 @@
 
 /* ||   RESET   || */
 
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-img {
+img{
     display:none;
 }
 
 /* ||   VARIABLES   || */
 
-:root {
+:root{
     --MAIN-CANVAS-COLOR: rgba(220, 64, 17, 0.195);
     --TEXT-CANVAS-COLOR: rgba(195, 255, 0, 0.195);
     --LOADING-BAR-COLOR: rgb(0, 255, 255);
@@ -30,7 +30,7 @@ img {
 
 /* ||   STYLES   || */
 
-#mainCanvas {
+#mainCanvas{
     width: 500px;
     height: 500px;
     border: 3px solid black;
@@ -43,7 +43,7 @@ img {
     max-height: 100%;
 }
 
-#textCanvas {
+#textCanvas{
     width: 300px;
     height: 250px;
     border: 3px solid black;
@@ -51,6 +51,17 @@ img {
     background-color: var(--TEXT-CANVAS-COLOR);
     margin-top: 1.3%;
     left: 5.6%;
+}
+
+.loadingScreen{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .loadingBar{

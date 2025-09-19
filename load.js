@@ -3,7 +3,6 @@ class Preloading{
         this.root = document.documentElement;
         this.cssVariable = "--LOADING-BAR-PROGRESS-NUM";
         this.loadingScreen = document.getElementById("loadingScreen");
-        this.loadingBar = document.getElementById("loadingProgressBar");
         this.percentageCounter = document.getElementById("loadingPercentageCounter");
 
         this.elementsToBeLoaded = document.getElementsByClassName(html_class);
@@ -13,7 +12,8 @@ class Preloading{
         this.#constructorSingleUseCode();
     }
     updateLoadingBar(){
-        this.root.style.setProperty(this.cssVariable, `${this.percentLoadingProgress}%`)
+        this.root.style.setProperty(this.cssVariable, `${this.percentLoadingProgress}%`);
+        this.percentageCounter.textContent = `${Math.floor(this.percentLoadingProgress)}%`;
     }
     inscribeElements(){
         Array.from(this.elementsToBeLoaded).forEach(element => {
@@ -79,7 +79,6 @@ class Preloading{
             this.inscribeElements();
             this.intervalID = setInterval(() => {
                 this.checkLoadingProgress();
-                this.updateLoadingBar();
             }, 10);
         }catch(e){
             this.e(e);

@@ -1,8 +1,9 @@
-Check boundaries for enemies.js
-Add background and use backgorunds js
+Add background and use backgrounds.js
 
 Contrast between enemies
 
 Add favicon
 
 Attribute my assets
+
+Change bullet from yellow rectangle to actual bullet

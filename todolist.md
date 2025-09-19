@@ -1,5 +1,9 @@
-Check boundaries for enemies.js
-Add background and use backgorunds js
+Add background and use backgrounds.js
 
-Possibly add loading screen
 Contrast between enemies
+
+Add favicon
+
+Attribute my assets
+
+Change bullet from yellow rectangle to actual bullet

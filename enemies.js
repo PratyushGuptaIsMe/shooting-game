@@ -80,7 +80,6 @@ class Enemies{
             this.game.hurtPlayer(this.attackDmg);
         }
 
-        //boundary checks. idk if it works though. Might be wrong.
         if(this.hitbox.x < 0){
             this.x = -70;
         }
@@ -88,12 +87,10 @@ class Enemies{
             this.y = -35;
         }
         if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
-            this.x = this.game.canvasWidth - (this.spriteWidth * 2 - 150) - 70;
-        }
+            this.x = this.game.canvasWidth - this.hitbox.w - 70;        }
         if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
-            this.y = this.game.canvasHeight - (this.spriteHeight * 2 - 35) - 35;
+            this.y = this.game.canvasHeight - this.hitbox.h - 35;        
         }
-
     }
     updateDeadSkeleton(){
         if(this.frameX + this.deathFrameOffset > this.maxFrameX){

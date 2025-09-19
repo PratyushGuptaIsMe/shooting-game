@@ -60,6 +60,7 @@ class Preloading{
         tCanvas.id = "textCanvas";
         tCanvas.width = 300;
         tCanvas.height = 250;
+        tCanvas.style.display = "block";
         document.body.appendChild(tCanvas);
     }
     #addMainCanvas(){
@@ -67,6 +68,7 @@ class Preloading{
         mCanvas.id = "mainCanvas";
         mCanvas.width = 500;
         mCanvas.height = 500;
+        mCanvas.style.display = "block";
         document.body.appendChild(mCanvas);
     }
     checkIfAllLoaded(){

@@ -1,18 +1,18 @@
 class Preloading{
     constructor(html_class = "preloading"){
         this.root = document.documentElement;
-        this.cssVariable = "--LOADING-BAR-PROGRESS-NUM";
+        this.cssWidthVariable = "--LOADING-BAR-PROGRESS-NUM";
         this.loadingScreen = document.getElementById("loadingScreen");
         this.percentageCounter = document.getElementById("loadingPercentageCounter");
 
         this.elementsToBeLoaded = document.getElementsByClassName(html_class);
         this.numberOfElements = this.elementsToBeLoaded.length;
-        this.percentLoadingProgress =  0;    //percent
+        this.percentLoadingProgress = 0;    //percent
         this.intervalID;
         this.#constructorSingleUseCode();
     }
     updateLoadingBar(){
-        this.root.style.setProperty(this.cssVariable, `${this.percentLoadingProgress}%`);
+        this.root.style.setProperty(this.cssWidthVariable, `${this.percentLoadingProgress}%`);
         this.percentageCounter.textContent = `${Math.floor(this.percentLoadingProgress)}%`;
     }
     inscribeElements(){

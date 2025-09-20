@@ -123,6 +123,7 @@ export class Player{
                 this.ammunition--;
                 this.canShoot = false;
                 this.shootingAnimationRunning = true;
+                this.#playAudio(this.game.getRandomObjectValue(this.audio.shooting.shoot));
                 setTimeout(() => {
                     this.shootingAnimationRunning = false;
                     this.frameAccelerator = 1;

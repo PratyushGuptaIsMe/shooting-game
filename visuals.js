@@ -23,10 +23,15 @@ export class LoadAudio{
             walking: {},
             dying: {},
             shooting: {
-                blank: new CreateAudio('audio/empty-gun-shot.mp3', 1, false)
+                blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', 1, false),
+                shoot: {
+                    id1: new CreateAudio('audio/p-s/gunshot-loud.wav', 2, false),
+                    id2: new CreateAudio('audio/p-s/gunshot1.wav', 1, false),
+                    id3: new CreateAudio('audio/p-s/gunshot2.wav', 1, false)
+                }
             },
             reloading: {
-                id1: new CreateAudio('audio/caulking-gun-back.mp3', 1, false)
+                id1: new CreateAudio('audio/p-r/caulking-gun-back.mp3', 1, false)
             }
         };
         this.enemies = {

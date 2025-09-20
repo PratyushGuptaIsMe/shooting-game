@@ -146,6 +146,11 @@ class GAME{
             console.error(e);
         }
     }
+    getRandomObjectValue(object){
+        let key = Object.keys(object);
+        let randomID = Math.floor(Math.random() * key.length);
+        return object[key[randomID]];
+    }
 
     update(dt){
         if(this.Player.dead === true){

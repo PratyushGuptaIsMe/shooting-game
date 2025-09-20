@@ -23,15 +23,16 @@ export class LoadAudio{
             walking: {},
             dying: {},
             shooting: {
-                blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', 1, false),
+                blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', false),
                 shoot: {
-                    id1: new CreateAudio('audio/p-s/gunshot-loud.wav', 2, false),
-                    id2: new CreateAudio('audio/p-s/gunshot1.wav', 1, false),
-                    id3: new CreateAudio('audio/p-s/gunshot2.wav', 1, false)
+                    id1: new CreateAudio('audio/p-s/gunshot-loud.wav', false),
+                    id2: new CreateAudio('audio/p-s/gunshot1.mp3', false),
+                    id3: new CreateAudio('audio/p-s/gunshot2.wav', false)
                 }
             },
             reloading: {
-                id1: new CreateAudio('audio/p-r/caulking-gun-back.mp3', 1, false)
+                id1: new CreateAudio('audio/p-r/caulking-gun-back.mp3', false),
+                id2: new CreateAudio('audio/p-r/fx-gun-reload.wav', false)
             }
         };
         this.enemies = {
@@ -46,11 +47,9 @@ export class LoadAudio{
 }
 
 class CreateAudio{
-    constructor(path, length, loop){
+    constructor(path, loop){
         this.a =  new Audio(path);  //audio file
         this.l =  loop; //loop or not
-        this.lengthS = length;
-        this.lengthMS = this.lengthS * 1000;
         this.playing =  false;
         this.a.loop = this.l;
     }

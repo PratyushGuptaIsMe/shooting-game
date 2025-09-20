@@ -137,9 +137,7 @@ class GAME{
                 audio.a.play();
                 if(audio.l === false){
                     audio.playing = true;
-                    setTimeout(() => {
-                        audio.playing = false;
-                    }, audio.lengthMS)
+                    this.a.onended = () => this.playing = false;
                 }
             }
         }catch(e){

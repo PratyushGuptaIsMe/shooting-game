@@ -123,7 +123,7 @@ export class Player{
                 this.ammunition--;
                 this.canShoot = false;
                 this.shootingAnimationRunning = true;
-                this.#playAudio(this.game.getRandomObjectValue(this.audio.shooting.shoot));
+                this.#playAudio(this.#getRandomObjectValue(this.audio.shooting.shoot));
                 setTimeout(() => {
                     this.shootingAnimationRunning = false;
                     this.frameAccelerator = 1;
@@ -157,7 +157,7 @@ export class Player{
                 this.reloadAnimationRunning = true;
                 this.canReload = false;
                 setTimeout(() => {
-                    this.#playAudio(this.audio.reloading.id1);
+                    this.#playAudio(this.#getRandomObjectValue(this.audio.reloading));
                 }, 30)
                 setTimeout(() => {
                     this.reloadAnimationRunning = false;
@@ -239,10 +239,7 @@ export class Player{
         if(this.health <= 0){
             if(this.dead === false){
                 this.dead = true;
-
                 //here make 1 time use property changes if die
-                document.getElementById("textCanvas").classList.add("displaynone");
-                document.getElementById("textCanvas").classList.remove("displayblock");
             }
         }
     }
@@ -293,5 +290,8 @@ export class Player{
     }
     #playAudio(audio){
         this.game.playAudio(audio);
+    }
+    #getRandomObjectValue(object){
+        return this.game.getRandomObjectValue(object);
     }
 }

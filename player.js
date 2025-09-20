@@ -16,7 +16,7 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.ammunition = 2;
+        this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;
         this.shootingAnimationRunning = false;
@@ -31,6 +31,7 @@ export class Player{
         this.projectileX = 200;
         this.projectileSpeed = 11;
         this.bulletActive = false;
+        this.maxAmmo = 10;
 
         this.walkingSpeed = 3;
         
@@ -56,8 +57,8 @@ export class Player{
             h: this.spriteHeight + 14
         }
 
-        if(this.ammunition > 10){
-            this.ammunition = 10;
+        if(this.ammunition > this.maxAmmo){
+            this.ammunition = this.maxAmmo;
         }
         
         if((this.keysPressed.includes("ArrowLeft") ||
@@ -172,7 +173,7 @@ export class Player{
             !this.reloadAnimationRunning){
             if(this.reloadTimer >= this.reloadInterval){
                 this.reloadTimer = 0;
-                if(this.ammunition < 10){
+                if(this.ammunition < this.maxAmmo){
                     this.canReload = true;
                 }
             }else{

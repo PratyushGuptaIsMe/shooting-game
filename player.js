@@ -1,6 +1,7 @@
 export class Player{
     constructor(game){
         this.game = game;
+        this.audio = this.game.audio.player;    //player audio
         this.x = 0;
         this.y = 0;
         this.spriteWidth = 128;
@@ -119,9 +120,7 @@ export class Player{
                 this.maxFrameX = 2;
                 this.currentImage = document.getElementById("aimedshotpng");
                 this.ammunition--;
-                //decrease ammo
                 this.canShoot = false;
-                //reset canShoot
                 this.shootingAnimationRunning = true;
                 setTimeout(() => {
                     this.shootingAnimationRunning = false;
@@ -153,13 +152,16 @@ export class Player{
         if(this.keysPressed.includes("r") &&
             this.canReload === true &&
             !this.shootingAnimationRunning){
-            this.reloadAnimationRunning = true;
-            this.canReload = false;
-            setTimeout(() => {
-                this.reloadAnimationRunning = false;
-                this.ammunition += this.replenishThisValueOfAmmo;
-                this.frameAccelerator = 1;
-            }, this.howLongShouldReloadingLast);
+                this.reloadAnimationRunning = true;
+                this.canReload = false;
+                setTimeout(() => {
+                    this.#playAudio(this.audio.reloading.id1);
+                }, 30)
+                setTimeout(() => {
+                    this.reloadAnimationRunning = false;
+                    this.ammunition += this.replenishThisValueOfAmmo;
+                    this.frameAccelerator = 1;
+                }, this.howLongShouldReloadingLast);
         }
         if(this.reloadAnimationRunning === true){
             this.currentImage = document.getElementById("reloadingpng");
@@ -280,5 +282,8 @@ export class Player{
         if(this.bulletActive){
             ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
         }
+    }
+    #playAudio(audio){
+        this.game.playAudio(audio);
     }
 }

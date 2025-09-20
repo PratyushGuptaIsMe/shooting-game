@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
-import { Background } from "./backgrounds.js";
+import { Background, LoadAudio } from "./visuals.js";
 
 class GAME{
     constructor(width, height){
@@ -12,6 +12,8 @@ class GAME{
         this.debugMode = false;
         this.season = "autumn";
 
+        this.audio = new LoadAudio();
+
         this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
         this.Player = new Player(this);
@@ -21,12 +23,6 @@ class GAME{
         this.enemyInterval = 1000;  //time which enemy spawns
 
         this.score = 0;
-
-        this.audio = {
-            player: {},
-            enemies: {},
-            other: {}
-        }
     }
 
     updateText(text){
@@ -133,21 +129,40 @@ class GAME{
         this.score = this.score + score;
     }
 
+    playAudio(audio){
+        try{
+            if(audio.playing === true){
+                return;
+            }else{
+                audio.a.play();
+                if(audio.l === false){
+                    audio.playing = true;
+                    setTimeout(() => {
+                        audio.playing = false;
+                    }, audio.lengthMS)
+                }
+            }
+        }catch(e){
+            console.error(e);
+        }
+    }
+
     update(dt){
         if(this.Player.dead === true){
-            //if dead
             console.log("dead");
-        }else if(this.Player.dead === false){
-            this.backgrounds.update(dt);
-            this.Player.update(dt);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.update(dt);
-            });
-            this.#enemyCollisionChecks();
-            if(this.enemySpawning === true){
-                this.#enemySpawnCheck(dt);
-            }
+            return;
         }
+        this.backgrounds.update(dt);
+        this.Player.update(dt);
+        this.allCurrentEnemies.forEach((enemy) => {
+            enemy.update(dt);
+        });
+        this.#enemyCollisionChecks();
+        if(this.enemySpawning === true){
+            this.#enemySpawnCheck(dt);
+        }
+        
+        
     }
     draw(ctx, text){
         if(this.Player.dead === true){

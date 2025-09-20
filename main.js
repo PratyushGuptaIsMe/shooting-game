@@ -26,14 +26,9 @@ class GAME{
     }
 
     updateText(text){
-        text.font = "35px Arial";
-        text.fillStyle = "black";
-        text.fillText("Health : " + this.Player.health, 25, 40);
-        text.fillText("Ammo : " + this.Player.ammunition, 25, 80);
-        text.save();
-        text.font = "700 35px Arial";
-        text.fillText("Score : " + this.score, 25, 120);
-        text.restore();
+        text.health.textContent = "Health : " + this.Player.health;
+        text.ammo.textContent = "Ammo : " + this.Player.ammunition;
+        text.score.textContent = "Score : " + this.score;
     }
 
     #spawnWhiteSkeleton(){
@@ -89,11 +84,12 @@ class GAME{
             ){
                 if(enemy.attackAnimationRunning === false){
                     enemy.attackAnimationRunning = true;
+                    enemy.frameAccelerator = 1.2;
                     if(enemy.dead === false){
                         enemy.frameX = 0;
                     }
                 }
-            }else{
+            }else if(enemy.frameX === enemy.maxFrameX){
                 enemy.attackAnimationRunning = false;
             }
             
@@ -120,7 +116,15 @@ class GAME{
     }
 
     hurtPlayer(dmg){
-        this.Player.health = this.Player.health - dmg;
+        if(this.Player.hurt === false){
+            this.Player.hurt = true;
+            setTimeout(() => {
+                this.Player.hurt = false;
+            }, this.Player.invinsibilityFramesMS)
+            this.Player.health = this.Player.health - dmg;
+        }else if(this.Player.hurt === true){
+            return;
+        }
     }
     healPlayer(health){
         this.Player.health = this.Player.health + health;
@@ -139,7 +143,7 @@ class GAME{
                 audio.a.play();
                 if(audio.l === false){
                     audio.playing = true;
-                    this.a.onended = () => this.playing = false;
+                    audio.a.onended = () => audio.playing = false;
                 }
             }
         }catch(e){
@@ -168,7 +172,7 @@ class GAME{
         
         
     }
-    draw(ctx, text){
+    draw(ctx){
         if(this.Player.dead === true){
             //if dead
         }else if(this.Player.dead === false){
@@ -177,20 +181,24 @@ class GAME{
             this.allCurrentEnemies.forEach((enemy) => {
                 enemy.draw(ctx);
             });
-            this.updateText(text);
         }
     }
 }
 
 const CANVAS = document.getElementById("mainCanvas");
-const TCANVAS = document.getElementById("textCanvas");
 const ctx = CANVAS.getContext("2d");
-const text = TCANVAS.getContext("2d");
 CANVAS.width = 500;
 CANVAS.height = 500;
 let game = new GAME(CANVAS.width, CANVAS.height);
 let l = 0;
-const activateDebugPassKey = "p";
+const text = {
+    health: document.getElementById("healthDisplay"),
+    ammo: document.getElementById("ammoDisplay"),
+    score: document.getElementById("scoreDisplay")
+};
+
+const activateDebugPassKey = "p";   //////////////////////////////////////////////
+
 animationLoop(l);
 window.addEventListener("keydown", (event) => {
     if(!game.keysArray.includes(event.key)){
@@ -209,10 +217,9 @@ window.addEventListener("keyup", (event) => {
 function animationLoop(t){
     let deltaTime = t - l;
     l = t;
-
     ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
-    text.clearRect(0, 0, CANVAS.width, CANVAS.height);
     game.update(deltaTime);
-    game.draw(ctx, text);
+    game.draw(ctx);
+    game.updateText(text);
     requestAnimationFrame(animationLoop);
 }

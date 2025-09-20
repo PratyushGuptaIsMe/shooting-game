@@ -45,23 +45,16 @@ class Preloading{
     allLoaded(){
         clearInterval(this.intervalID);
         this.loadingScreen.style.display = "none";
-        this.#addTextCanvas();
         this.#addMainCanvas();
         this.#addScript();
+        document.getElementById("textArea").classList.remove("displaynone");
+        document.getElementById("textArea").style.display = "block";
     }
     #addScript(){
         const mainscript = document.createElement('script');
         mainscript.type = 'module';
         mainscript.src = 'main.js';
         document.body.appendChild(mainscript);
-    }
-    #addTextCanvas(){
-        const tCanvas = document.createElement('canvas');
-        tCanvas.id = "textCanvas";
-        tCanvas.width = 300;
-        tCanvas.height = 250;
-        tCanvas.style.display = "block";
-        document.body.appendChild(tCanvas);
     }
     #addMainCanvas(){
         const mCanvas = document.createElement('canvas');

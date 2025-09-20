@@ -32,11 +32,10 @@ export class Player{
         this.projectileSpeed = 11;
         this.bulletActive = false;
         this.maxAmmo = 10;
+        this.gunHeight = this.y + 175 + this.groundMargin;
 
         this.walkingSpeed = 3;
         
-        this.gunHeight = this.y + 175 + this.groundMargin;
-
         this.flipImage = false;
         this.bulletFlipState = false;
 
@@ -47,6 +46,8 @@ export class Player{
             h: this.spriteHeight + 14
         }
         this.health = 100;
+        this.hurt = false;
+        this.invinsibilityFramesMS = 200;
         this.dead = false;
     }
     update(dt){

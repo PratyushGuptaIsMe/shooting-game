@@ -25,9 +25,9 @@ export class LoadAudio{
             shooting: {
                 blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', false),
                 shoot: {
-                    id1: new CreateAudio('audio/p-s/gunshot-loud.wav', false),
+                    id1: new CreateAudio('audio/p-s/gunshot-loud.mp3', false),
                     id2: new CreateAudio('audio/p-s/gunshot1.mp3', false),
-                    id3: new CreateAudio('audio/p-s/gunshot2.wav', false)
+                    id3: new CreateAudio('audio/p-s/gunshot2.mp3', false)
                 }
             },
             reloading: {

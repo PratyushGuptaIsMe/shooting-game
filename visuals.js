@@ -41,7 +41,7 @@ export class LoadAudio{
             attacking: {}
         };
         this.miscellaneous = {
-
+            background_music: new CreateAudio('', true)
         };
     }
 }

@@ -16,7 +16,7 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.ammunition = 10;
+        this.ammunition = 2;
         this.canShoot = true;
         this.canReload = true;
         this.shootingAnimationRunning = false;
@@ -180,6 +180,12 @@ export class Player{
             }
         }
 
+        if(this.canShoot === false &&
+            this.ammunition <= 0 &&
+            this.keysPressed.includes(" ")
+        ){
+            this.#playAudio(this.audio.shooting.blank);
+        }
 
         if(this.frameTimer < this.frameInterval){
             this.frameTimer += (dt * this.frameAccelerator);

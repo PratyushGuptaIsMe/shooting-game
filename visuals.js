@@ -22,7 +22,9 @@ export class LoadAudio{
         this.player = {
             walking: {},
             dying: {},
-            shooting: {},
+            shooting: {
+                blank: new CreateAudio('audio/empty-gun-shot.mp3', 1, false)
+            },
             reloading: {
                 id1: new CreateAudio('audio/caulking-gun-back.mp3', 1, false)
             }

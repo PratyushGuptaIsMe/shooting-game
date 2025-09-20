@@ -21,6 +21,12 @@ class GAME{
         this.enemyInterval = 1000;  //time which enemy spawns
 
         this.score = 0;
+
+        this.audio = {
+            player: {},
+            enemies: {},
+            other: {}
+        }
     }
 
     updateText(text){

@@ -129,6 +129,8 @@ class GAME{
         this.score = this.score + score;
     }
 
+    // Pass a CreateAudio instance (has properties: a, l, playing, etc.)
+    // This function will play the audio and handle the 'playing' flag for non-looping sounds
     playAudio(audio){
         try{
             if(audio.playing === true){
@@ -143,11 +145,10 @@ class GAME{
         }catch(e){
             console.error(e);
         }
-    }
+    }  
+    // in x = {id1: "hello", id2: "bye", id3: "chao"}.  If we pass x it will give us "hello"/"bye"
     getRandomObjectValue(object){
-        let key = Object.keys(object);
-        let randomID = Math.floor(Math.random() * key.length);
-        return object[key[randomID]];
+        return object[Object.keys(object)[Math.floor(Math.random() * Object.keys(object).length)]];
     }
 
     update(dt){

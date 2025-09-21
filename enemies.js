@@ -23,6 +23,8 @@ class Enemies{
         this.markedForDeletion = false;
         this.dead = false;
         this.deathFrameOffset = 2;
+
+        this.audio = this.game.audio.enemies;
     }
     update(dt){
         this.hitbox = {

@@ -154,6 +154,9 @@ class GAME{
     getRandomObjectValue(object){
         return object[Object.keys(object)[Math.floor(Math.random() * Object.keys(object).length)]];
     }
+    playRandomAudio(audio){
+        this.playAudio(this.getRandomObjectValue(audio));
+    }
 
     update(dt){
         if(this.Player.dead === true){

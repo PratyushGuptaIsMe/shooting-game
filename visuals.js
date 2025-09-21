@@ -20,7 +20,16 @@ export class Background{
 export class LoadAudio{
     constructor(){
         this.player = {
-            walking: {},
+            walking: {
+                Cid1: new CreateAudio('audio/p-w/step_cloth1.ogg', false),
+                Cid2: new CreateAudio('audio/p-w/step_cloth2.ogg', false),
+                Cid3: new CreateAudio('audio/p-w/step_cloth3.ogg', false),
+                Cid4: new CreateAudio('audio/p-w/step_cloth4.ogg', false),
+                Lthid1: new CreateAudio('audio/p-w/step_lth1.ogg', false),
+                Lthid2: new CreateAudio('audio/p-w/step_lth2.ogg', false),
+                Lthid3: new CreateAudio('audio/p-w/step_lth3.ogg', false),
+                Lthid4: new CreateAudio('audio/p-w/step_lth4.ogg', false),
+            },
             dying: {},
             shooting: {
                 blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', false),
@@ -36,12 +45,47 @@ export class LoadAudio{
             }
         };
         this.enemies = {
-            walking: {},
+            rattle: {
+                id1: new CreateAudio('audio/s-r/skeleton_walk.mp3', false),
+                id2: {
+                    s0: new CreateAudio('audio/s-r/0.ogg', false),
+                    s1: new CreateAudio('audio/s-r/1.ogg', false),
+                    s2: new CreateAudio('audio/s-r/2.ogg', false),
+                    s3: new CreateAudio('audio/s-r/3.ogg', false),
+                    s4: new CreateAudio('audio/s-r/4.ogg', false),
+                    s5: new CreateAudio('audio/s-r/5.ogg', false),
+                    s6: new CreateAudio('audio/s-r/6.ogg', false),
+                    s7: new CreateAudio('audio/s-r/7.ogg', false),
+                    s8: new CreateAudio('audio/s-r/8.ogg', false),
+                    s9: new CreateAudio('audio/s-r/9.ogg', false),
+                }
+            },
             dying: {},
-            attacking: {}
+            attacking: {
+                id1: new CreateAudio('audio/s-a/sword_clash.1.ogg', false),
+                id2: new CreateAudio('audio/s-a/sword_clash.2.ogg', false),
+                id3: new CreateAudio('audio/s-a/sword_clash.3.ogg', false),
+                id4: new CreateAudio('audio/s-a/sword_clash.4.ogg', false),
+                id5: new CreateAudio('audio/s-a/sword_clash.5.ogg', false),
+                id6: new CreateAudio('audio/s-a/sword_clash.6.ogg', false),
+                id7: new CreateAudio('audio/s-a/sword_clash.7.ogg', false),
+                id8: new CreateAudio('audio/s-a/sword_clash.8.ogg', false),
+                id9: new CreateAudio('audio/s-a/sword_clash.9.ogg', false),
+                id10: new CreateAudio('audio/s-a/sword_clash.10.ogg', false),
+                id11: new CreateAudio('audio/s-a/sword.1.ogg', false),
+                id12: new CreateAudio('audio/s-a/sword.2.ogg', false),
+                id13: new CreateAudio('audio/s-a/sword.3.ogg', false),
+                id14: new CreateAudio('audio/s-a/sword.4.ogg', false),
+                id15: new CreateAudio('audio/s-a/sword.5.ogg', false),
+                id16: new CreateAudio('audio/s-a/sword.6.ogg', false),
+                id17: new CreateAudio('audio/s-a/sword.7.ogg', false),
+                id18: new CreateAudio('audio/s-a/sword.8.ogg', false),
+                id19: new CreateAudio('audio/s-a/sword.9.ogg', false),
+                id20: new CreateAudio('audio/s-a/sword.10.ogg', false),
+            }
         };
         this.miscellaneous = {
-            background_music: new CreateAudio('', true)
+            background_music: new CreateAudio('audio/music/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true)
         };
     }
 }

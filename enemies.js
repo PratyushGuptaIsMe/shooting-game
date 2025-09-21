@@ -25,6 +25,8 @@ class Enemies{
         this.deathFrameOffset = 2;
 
         this.audio = this.game.audio.enemies;
+        this.audioCooldown = 0;
+        this.audioPause = 3000;
     }
     update(dt){
         this.hitbox = {
@@ -57,22 +59,50 @@ class Enemies{
 
         if(this.attackAnimationRunning === false){  
             if(this.movementRand <= 0.10){
-                this.x-= this.walkLength;
+                this.x -= this.walkLength;
             }else if(this.movementRand <= 0.20 &&
                 this.movementRand > 0.10
             ){
-                this.x+= this.walkLength;
+                this.x += this.walkLength;
             }else if(this.movementRand <= 0.30 &&
                         this.movementRand > 0.20
             ){
-                this.y+= this.walkLength;
+                this.y += this.walkLength;
             }else if(this.movementRand <= 0.40 &&
                         this.movementRand > 0.30
             ){
-                this.y-= this.walkLength;
+                this.y -= this.walkLength;
             }else{
                 this.x = this.x;
                 this.y = this.y;
+            }
+        }
+
+        if(this.attackAnimationRunning === false){
+            if(this.movementRand <= 0.40){
+                if(this.movementRand > 0.20){
+                    if(this.audioCooldown <= 0){
+                        this.game.currentEnemySounds += 1;
+                        this.#playAudio(this.audio.rattle.id1);
+                        this.audioCooldown = this.audioPause;
+                    }else{
+                        this.audioCooldown = this.audioCooldown - dt;
+                        setTimeout(() => {
+                            this.game.currentEnemySounds -= 1;
+                        }, 500);
+                    }
+                }else if(this.movementRand < 0.20){
+                    if(this.audioCooldown <= 0){
+                        this.game.currentEnemySounds += 1;
+                        this.#playRandomSequence(this.audio.rattle.id2);
+                        this.audioCooldown = this.audioPause + 1000;
+                    }else{
+                        this.audioCooldown = this.audioCooldown - dt;
+                        setTimeout(() => {
+                            this.game.currentEnemySounds -= 1;
+                        }, 500);
+                    }
+                }
             }
         }
 
@@ -119,6 +149,18 @@ class Enemies{
         if(this.game.debugMode === true){
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.w, this.hitbox.h);
         }
+    }
+    #playAudio(audio){
+        this.game.playAudio(audio);
+    }
+    #getRandomObjectValue(object){
+        return this.game.getRandomObjectValue(object);
+    }
+    #playRandomAudio(audio){
+        this.game.playRandomAudio(audio);
+    }
+    #playRandomSequence(audioObjs){
+        this.game.playRandomSequence(audioObjs);
     }
 }
 

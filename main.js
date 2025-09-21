@@ -13,6 +13,8 @@ class GAME{
         this.season = "autumn";
 
         this.audio = new LoadAudio();
+        this.currentEnemySounds = 0;
+        this.maxEnemySounds = 5;
 
         this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
@@ -137,7 +139,9 @@ class GAME{
     // This function will play the audio and handle the 'playing' flag for non-looping sounds
     playAudio(audio){
         try{
-            if(audio.playing === true){
+            if(audio.playing === true ||
+                this.currentEnemySounds >= this.maxEnemySounds
+            ){
                 return;
             }else{
                 audio.a.play();
@@ -157,6 +161,22 @@ class GAME{
     playRandomAudio(audio){
         this.playAudio(this.getRandomObjectValue(audio));
     }
+    playRandomSequence(audioObjects) {
+        let audios = Object.values(audioObjects);
+        let count = Math.floor(Math.random() * audios.length) + 1;
+        let chosen = audios.sort(() => 0.5 - Math.random()).slice(0, count);
+        let index = 0;
+        const playNext = () => {
+            if (index < chosen.length) {
+                let current = chosen[index].a;
+                index++;
+                current.currentTime = 0;
+                current.play();
+                current.onended = playNext;
+            }
+        };
+        playNext();
+    }
 
     update(dt){
         if(this.Player.dead === true){
@@ -172,8 +192,7 @@ class GAME{
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);
         }
-        
-        
+        this.playAudio(this.audio.miscellaneous.background_music);
     }
     draw(ctx){
         if(this.Player.dead === true){

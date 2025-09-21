@@ -87,6 +87,24 @@ export class LoadAudio{
         this.miscellaneous = {
             background_music: new CreateAudio('audio/music/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true)
         };
+        this.#setAudioPropertyValues();
+    }
+    #setAudioPropertyValues(){
+        Object.keys(this.player.walking).forEach((key) => {
+            this.player.walking[key].a.playbackRate = 0.45;
+            this.player.walking[key].a.volume = 0.65;
+        });
+        Object.keys(this.player.reloading).forEach((key) => {
+            this.player.reloading[key].a.volume = 0.5;
+        })
+        Object.keys(this.player.shooting.shoot).forEach((key) => {
+            this.player.shooting.shoot[key].a.volume = 0.4;
+        })
+        Object.values(this.enemies.rattle.id2).forEach((audio) => {
+            audio.a.volume = 0.3;
+            audio.a.playbackRate = 0.55;
+        })
+        this.miscellaneous.background_music.a.volume = 0.4;
     }
 }
 

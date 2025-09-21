@@ -71,6 +71,7 @@ export class Player{
                 this.currentImage = document.getElementById("walking");
                 this.flipImage = true;
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowRight") ||
             this.keysPressed.includes("d") ||
@@ -81,6 +82,7 @@ export class Player{
                 this.currentImage = document.getElementById("walking");
                 this.flipImage = false;
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowUp") ||
             this.keysPressed.includes("w") ||
@@ -90,6 +92,7 @@ export class Player{
                 this.y -= this.walkingSpeed;
                 this.currentImage = document.getElementById("walking");
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowDown") ||
             this.keysPressed.includes("s") ||
@@ -99,6 +102,7 @@ export class Player{
                 this.y += this.walkingSpeed;
                 this.currentImage = document.getElementById("walking");
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if(!this.keysPressed.includes("ArrowLeft") &&
            !this.keysPressed.includes("ArrowRight") &&
@@ -124,7 +128,7 @@ export class Player{
                 this.ammunition--;
                 this.canShoot = false;
                 this.shootingAnimationRunning = true;
-                this.#playAudio(this.#getRandomObjectValue(this.audio.shooting.shoot));
+                this.#playRandomAudio(this.audio.shooting.shoot)
                 setTimeout(() => {
                     this.shootingAnimationRunning = false;
                     this.frameAccelerator = 1;
@@ -158,7 +162,7 @@ export class Player{
                 this.reloadAnimationRunning = true;
                 this.canReload = false;
                 setTimeout(() => {
-                    this.#playAudio(this.#getRandomObjectValue(this.audio.reloading));
+                    this.#playRandomAudio(this.audio.reloading);
                 }, 30)
                 setTimeout(() => {
                     this.reloadAnimationRunning = false;
@@ -294,5 +298,11 @@ export class Player{
     }
     #getRandomObjectValue(object){
         return this.game.getRandomObjectValue(object);
+    }
+    #playRandomAudio(audio){
+        this.game.playRandomAudio(audio);
+    }
+    #playRandomSequence(audioObjs){
+        this.game.playRandomSequence(audioObjs);
     }
 }

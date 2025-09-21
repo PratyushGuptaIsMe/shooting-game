@@ -40,8 +40,7 @@ class GAME{
             newSkelly.hitbox.y < this.Player.hitbox.y + this.Player.hitbox.h &&
             newSkelly.hitbox.y + newSkelly.hitbox.h > this.Player.hitbox.y
         ){
-            newSkelly = "";
-            this.#spawnWhiteSkeleton();
+            return;
         }else{
             this.allCurrentEnemies.push(newSkelly);
         }
@@ -53,17 +52,16 @@ class GAME{
             newSkelly.hitbox.y < this.Player.hitbox.y + this.Player.hitbox.h &&
             newSkelly.hitbox.y + newSkelly.hitbox.h > this.Player.hitbox.y
         ){
-            newSkelly = "";
-            this.#spawnYellowSkeleton();
+            return;
         }else{
             this.allCurrentEnemies.push(newSkelly);
         }
     }
     spawnEnemy(){
         let rand = Math.random();
-        if(rand <= 0.20){
+        if(rand <= 0.15){
             this.#spawnYellowSkeleton();
-        }else if(rand > 0.20 && rand < 1){
+        }else if(rand > 0.15 && rand < 1){
             this.#spawnWhiteSkeleton();
         }
     }

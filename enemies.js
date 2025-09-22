@@ -27,6 +27,8 @@ class Enemies{
         this.audio = this.game.audio.enemies;
         this.audioCooldown = 0;
         this.audioPause = 3000;
+        this.currentEnemySounds = 0;
+        this.maxEnemySounds = 5;
     }
     update(dt){
         this.hitbox = {
@@ -151,15 +153,24 @@ class Enemies{
         }
     }
     #playAudio(audio){
+        if(this.currentEnemySounds >= this.maxEnemySounds){
+            return;
+        }
         this.game.playAudio(audio);
     }
     #getRandomObjectValue(object){
         return this.game.getRandomObjectValue(object);
     }
     #playRandomAudio(audio){
+        if(this.currentEnemySounds >= this.maxEnemySounds){
+            return;
+        }
         this.game.playRandomAudio(audio);
     }
     #playRandomSequence(audioObjs){
+        if(this.currentEnemySounds >= this.maxEnemySounds){
+            return;
+        }
         this.game.playRandomSequence(audioObjs);
     }
 }

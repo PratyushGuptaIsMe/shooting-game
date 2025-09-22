@@ -13,8 +13,6 @@ class GAME{
         this.season = "autumn";
 
         this.audio = new LoadAudio();
-        this.currentEnemySounds = 0;
-        this.maxEnemySounds = 5;
 
         this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
@@ -137,9 +135,7 @@ class GAME{
     // This function will play the audio and handle the 'playing' flag for non-looping sounds
     playAudio(audio){
         try{
-            if(audio.playing === true ||
-                this.currentEnemySounds >= this.maxEnemySounds
-            ){
+            if(audio.playing === true){
                 return;
             }else{
                 audio.a.play();

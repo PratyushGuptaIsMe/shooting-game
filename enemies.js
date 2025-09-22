@@ -116,6 +116,7 @@ class Enemies{
             this.hitbox.y + this.hitbox.h > this.game.Player.hitbox.y
         ){
             this.game.hurtPlayer(this.attackDmg);
+            this.#playRandomAudio(this.audio.attacking);
         }
 
         if(this.hitbox.x < 0){

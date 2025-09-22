@@ -187,6 +187,7 @@ class GAME{
             this.#enemySpawnCheck(dt);
         }
         this.playAudio(this.audio.miscellaneous.background_music);
+        console.log(dt);
     }
     draw(ctx){
         if(this.Player.dead === true){

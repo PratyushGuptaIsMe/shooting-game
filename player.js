@@ -221,7 +221,7 @@ export class Player{
             this.bulletFlipState = this.flipImage;
             this.gunHeight = this.y + 175 + this.groundMargin;
         }else if(this.bulletActive === true){
-            if( this.projectileX + 25< 0 ||
+            if( this.projectileX + 25 < 0 ||
                 this.projectileX > this.game.canvasWidth){
                     this.bulletActive = false;
             }
@@ -230,13 +230,13 @@ export class Player{
             if(this.bulletActive === true){
                 this.projectileX -= this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x;
+                this.projectileX = this.hitbox.x + 25 + 25;
             }
         }else if(this.bulletFlipState === false){
             if(this.bulletActive === true){
                 this.projectileX += this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x + this.spriteWidth/2;
+                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 25 - 25;
             }
         }
 
@@ -251,11 +251,16 @@ export class Player{
     draw(ctx){
         ctx.fillStyle = "yellow";
 
+        if(this.bulletActive){
+            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
+        }
+
         if(this.flipImage === true){
             ctx.save();
             ctx.translate(this.game.canvasWidth, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.currentImage,
+            ctx.drawImage(
+                        this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
                         this.spriteWidth,
@@ -267,7 +272,8 @@ export class Player{
             );
             ctx.restore();
         }else{
-            ctx.drawImage(this.currentImage,
+            ctx.drawImage(
+                        this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
                         this.spriteWidth,
@@ -287,10 +293,6 @@ export class Player{
             ctx.strokeStyle = "grey";
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
-        }
-
-        if(this.bulletActive){
-            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
         }
     }
     #playAudio(audio){

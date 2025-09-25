@@ -4,13 +4,19 @@ import { Background, LoadAudio } from "./visuals.js";
 
 class GAME{
     constructor(width, height){
+        this.ALLSEASONS = {
+            AUTUMN: 1,
+            WINTER: 2,
+            SUMMER: 3
+        }
+
         this.canvasWidth = width;
         this.canvasHeight = height;
         this.fps = 20;
         this.keysArray = [];
         this.groundArea = 200;
         this.debugMode = false;
-        this.season = "autumn";
+        this.season = this.ALLSEASONS.AUTUMN;
 
         this.audio = new LoadAudio();
 
@@ -74,11 +80,11 @@ class GAME{
 
     #enemyCollisionChecks(){
         this.allCurrentEnemies.forEach((enemy) => {
-
-            if( enemy.hitbox.x < this.Player.hitbox.x + this.Player.hitbox.w &&
-                enemy.hitbox.x + enemy.hitbox.w > this.Player.hitbox.x &&
-                enemy.hitbox.y < this.Player.hitbox.y + this.Player.hitbox.h &&
-                enemy.hitbox.y + enemy.hitbox.h > this.Player.hitbox.y
+            let expansion = 6;
+            if( enemy.hitbox.x - expansion < this.Player.hitbox.x + this.Player.hitbox.w &&
+                enemy.hitbox.x + enemy.hitbox.w + expansion > this.Player.hitbox.x &&
+                enemy.hitbox.y - expansion < this.Player.hitbox.y + this.Player.hitbox.h &&
+                enemy.hitbox.y + enemy.hitbox.h + expansion > this.Player.hitbox.y
             ){
                 if(enemy.attackAnimationRunning === false){
                     enemy.attackAnimationRunning = true;
@@ -174,10 +180,9 @@ class GAME{
 
     update(dt){
         if(this.Player.dead === true){
-            console.log("dead");
             return;
         }
-        this.backgrounds.update(dt);
+        this.backgrounds.update();
         this.Player.update(dt);
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.update(dt);
@@ -187,7 +192,6 @@ class GAME{
             this.#enemySpawnCheck(dt);
         }
         this.playAudio(this.audio.miscellaneous.background_music);
-        console.log(dt);
     }
     draw(ctx){
         if(this.Player.dead === true){

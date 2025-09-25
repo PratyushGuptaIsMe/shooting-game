@@ -7,10 +7,12 @@ export class Background{
         this.spriteWidth = 400/this.numItemsX;
         this.spriteHeight = 224/this.numItemsY;
         //dont need frameX or frameY since it is a background. Not a animation/spritesheet
+
+        this.ALLSEASONS = this.game.ALLSEASONS;
         this.season = this.game.season;
     }
-    update(dt){
-        this.season = this.game.season;
+    update(){
+
     }
     draw(ctx){
         
@@ -92,7 +94,7 @@ export class LoadAudio{
     #setAudioPropertyValues(){
         Object.keys(this.player.walking).forEach((key) => {
             this.player.walking[key].a.playbackRate = 0.45;
-            this.player.walking[key].a.volume = 0.65;
+            this.player.walking[key].a.volume = 0.95;
         });
         Object.keys(this.player.reloading).forEach((key) => {
             this.player.reloading[key].a.volume = 0.5;
@@ -101,7 +103,7 @@ export class LoadAudio{
             this.player.shooting.shoot[key].a.volume = 0.4;
         })
         Object.values(this.enemies.rattle.id2).forEach((audio) => {
-            audio.a.volume = 0.3;
+            audio.a.volume = 0.2;
             audio.a.playbackRate = 0.55;
         })
         this.miscellaneous.background_music.a.volume = 0.4;

@@ -33,7 +33,7 @@ class Enemies{
         this.audioCooldown = 0;
         this.audioPause = 3000;
         this.currentEnemySounds = 0;
-        this.maxEnemySounds = 5;
+        this.maxEnemySounds = 6;
     }
     update(dt){
         this.hitbox = {
@@ -131,23 +131,23 @@ class Enemies{
         }
     }
     #moveEnemy(dt){
-        if (this.attackAnimationRunning === false) {
-            switch (true) {
+        if(this.attackAnimationRunning === false) {
+            switch(true) {
                 case (this.movementRand <= 0.10):
                     this.x -= this.walkLength;
                     this.facing = this.DIRECTIONS.LEFT;
                     // left
                     break;
-                case (this.movementRand <= 0.20 && this.movementRand > 0.10):
+                case(this.movementRand <= 0.20 && this.movementRand > 0.10):
                     this.x += this.walkLength;
                     this.facing = this.DIRECTIONS.RIGHT;
                     // right
                     break;
-                case (this.movementRand <= 0.30 && this.movementRand > 0.20):
+                case(this.movementRand <= 0.30 && this.movementRand > 0.20):
                     this.y += this.walkLength;
                     // down
                     break;
-                case (this.movementRand <= 0.40 && this.movementRand > 0.30):
+                case(this.movementRand <= 0.40 && this.movementRand > 0.30):
                     this.y -= this.walkLength;
                     // up
                     break;

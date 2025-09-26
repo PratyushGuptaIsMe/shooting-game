@@ -87,7 +87,6 @@ class GAME{
                 enemy.hitbox.y + enemy.hitbox.h + expansion > this.Player.hitbox.y
             ){
                 if(enemy.attackAnimationRunning === false){
-                    this.playRandomAudio(enemy.audio.attacking);
                     enemy.attackAnimationRunning = true;
                     enemy.frameAccelerator = 1.2;
                     if(enemy.dead === false){
@@ -98,6 +97,12 @@ class GAME{
                 enemy.attackAnimationRunning = false;
             }
             
+            if( enemy.attackAnimationRunning === true &&
+                enemy.frameX > (enemy.maxFrameX / 2 ) + 1 
+            ){
+                this.playRandomAudio(enemy.audio.attacking);
+            }
+
             if( enemy.dead === false &&
                 enemy.markedForDeletion === false &&
                 this.Player.bulletActive === true &&

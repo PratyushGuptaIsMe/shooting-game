@@ -62,7 +62,22 @@ export class LoadAudio{
                     s9: new CreateAudio('audio/s-r/9.ogg', false),
                 }
             },
-            dying: {},
+            dying: {
+                //same as rattle rn
+                id1: new CreateAudio('audio/s-r/skeleton_walk.mp3', false),
+                id2: {
+                    s0: new CreateAudio('audio/s-r/0.ogg', false),
+                    s1: new CreateAudio('audio/s-r/1.ogg', false),
+                    s2: new CreateAudio('audio/s-r/2.ogg', false),
+                    s3: new CreateAudio('audio/s-r/3.ogg', false),
+                    s4: new CreateAudio('audio/s-r/4.ogg', false),
+                    s5: new CreateAudio('audio/s-r/5.ogg', false),
+                    s6: new CreateAudio('audio/s-r/6.ogg', false),
+                    s7: new CreateAudio('audio/s-r/7.ogg', false),
+                    s8: new CreateAudio('audio/s-r/8.ogg', false),
+                    s9: new CreateAudio('audio/s-r/9.ogg', false),
+                }
+            },
             attacking: {
                 id1: new CreateAudio('audio/s-a/sword_clash.1.ogg', false),
                 id2: new CreateAudio('audio/s-a/sword_clash.2.ogg', false),
@@ -106,15 +121,26 @@ export class LoadAudio{
             audio.a.volume = 0.2;
             audio.a.playbackRate = 0.55;
         })
-        this.miscellaneous.background_music.a.volume = 0.4;
+        Object.values(this.enemies.attacking).forEach((audio) => {
+            audio.a.volume = 0.5;
+        })
+        this.miscellaneous.background_music.a.volume = 0.2;
     }
 }
-
 class CreateAudio{
     constructor(path, loop){
         this.a =  new Audio(path);  //audio file
         this.l =  loop; //loop or not
         this.playing =  false;
         this.a.loop = this.l;
+    }
+}
+
+class Particles{
+    constructor(){
+
+    }
+    draw(ctx){
+
     }
 }

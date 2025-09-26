@@ -87,6 +87,7 @@ class GAME{
                 enemy.hitbox.y + enemy.hitbox.h + expansion > this.Player.hitbox.y
             ){
                 if(enemy.attackAnimationRunning === false){
+                    this.playRandomAudio(enemy.audio.attacking);
                     enemy.attackAnimationRunning = true;
                     enemy.frameAccelerator = 1.2;
                     if(enemy.dead === false){
@@ -110,6 +111,11 @@ class GAME{
                 enemy.frameAccelerator = 1.2;
                 enemy.maxFrameX = 13;
                 enemy.frameTimer = 0;
+                if(Math.random() < 0.5){
+                    this.playRandomSequence(enemy.audio.dying.id2);
+                }else{
+                    this.playAudio(enemy.audio.dying.id1);
+                }
             }
 
         })

@@ -24,6 +24,10 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 - Possibly add some contrast between enemies.
 
+- Maybe get new fonts.
+
+- Add particles and utilize them in player gun, blood, collisions, etc
+
 ---
 
 ### UPCOMING BUGFIXES:
@@ -35,3 +39,5 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 - Fix erratic and random enemy movement
 
 - Get the timings for cooldowns and animations right
+
+- Get the canvas styling and positions correct and properly aligned

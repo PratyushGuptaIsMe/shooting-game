@@ -38,7 +38,8 @@ export class LoadAudio{
                 shoot: {
                     id1: new CreateAudio('audio/p-s/gunshot-loud.mp3', false),
                     id2: new CreateAudio('audio/p-s/gunshot1.mp3', false),
-                    id3: new CreateAudio('audio/p-s/gunshot2.mp3', false)
+                    id3: new CreateAudio('audio/p-s/gunshot2.mp3', false),
+                    id4: new CreateAudio('audio/p-s/loud-gun.wav', false)
                 }
             },
             reloading: {

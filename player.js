@@ -46,7 +46,6 @@ export class Player{
             h: this.spriteHeight + 14
         }
         this.health = 100;
-        this.hurt = false;
         this.invinsibilityFramesMS = 200;
         this.dead = false;
     }

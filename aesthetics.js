@@ -1,5 +1,6 @@
 export class Background{
     constructor(game){
+        this.ctx;
         this.game = game;
         this.grassImg = document.getElementById("grass");
         this.numItemsX = 25;
@@ -8,14 +9,51 @@ export class Background{
         this.spriteHeight = 224/this.numItemsY;
         //dont need frameX or frameY since it is a background. Not a animation/spritesheet
 
+        this.ZOOM = {
+            grass: 2
+        }
+        this.GRASSBLOCKS = {
+            id1: {
+                indexX: 0,
+                indexY: 0
+            },
+            id2: {
+                indexX: 2,
+                indexY: 6 
+            },
+            id3: {
+                indexX: 2,
+                indexY: 4 
+            },
+            id4: {
+                indexX: 8,
+                indexY: 2 
+            }
+        }
+
         this.ALLSEASONS = this.game.ALLSEASONS;
         this.season = this.game.season;
     }
     update(){
 
     }
+    #drawGrassTile(x, y, blockId){
+        this.ctx.drawImage(this.grassImg,
+            blockId.indexX * this.spriteWidth,
+            blockId.indexY * this.spriteHeight,
+            this.spriteWidth,
+            this.spriteHeight,
+            x,
+            y, 
+            this.spriteWidth * this.ZOOM.grass,
+            this.spriteHeight * this.ZOOM.grass
+        )
+    }
     draw(ctx){
-        
+        this.ctx = ctx;
+        this.#drawGrassTile(this.spriteWidth * this.ZOOM.grass, this.spriteHeight * this.ZOOM.grass, this.GRASSBLOCKS.id1);
+        this.#drawGrassTile(this.spriteWidth * this.ZOOM.grass, this.spriteHeight * this.ZOOM.grass, this.GRASSBLOCKS.id4);
+
     }   
 }
 

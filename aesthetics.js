@@ -9,10 +9,11 @@ export class Background{
         this.spriteHeight = 224/this.numItemsY;
         //dont need frameX or frameY since it is a background. Not a animation/spritesheet
 
+        this.scaleFactor = 15;
         this.ZOOM = {
-            grass: 2
+            grass: this.game.canvasWidth / 16 / this.scaleFactor
         }
-        this.GRASSBLOCKS = {
+        this.MORNINGGRASSBLOCKS = {
             id1: {
                 indexX: 0,
                 indexY: 0
@@ -30,30 +31,135 @@ export class Background{
                 indexY: 2 
             }
         }
+        this.NIGHTGRASSBLOCKS = {
+            id1: {
+                indexX: 0,
+                indexY: 1
+            },
+            id2: {
+                indexX: 2,
+                indexY: 7
+            },
+            id3: {
+                indexX: 2,
+                indexY: 5 
+            },
+            id4: {
+                indexX: 8,
+                indexY: 3 
+            }
+        }
+        this.SUMMERGRASSBLOCKS = {
+            id1: {
+                indexX: 1,
+                indexY: 0
+            },
+            id2: {
+                indexX: 3,
+                indexY: 6 
+            },
+            id3: {
+                indexX: 3,
+                indexY: 4 
+            },
+            id4: {
+                indexX: 9,
+                indexY: 2 
+            }
+        }
+        this.PLANTS = {
+            blueFlower: {
+                indexX: 0,
+                indexY: 12
+            },
+            darkBlueFlower: {
+                indexX: 1,
+                indexY: 12
+            },
+            redFlower: {
+                indexX: 2,
+                indexY: 12
+            },
+            yellowFlower: {
+                indexX: 3,
+                indexY: 12
+            },
+            redMushrooms: {
+                indexX: 12,
+                indexY: 13
+            },
+            bush1: {
+                indexX: 10,
+                indexY: 11
+            },
+            bush2: {
+                indexX: 12,
+                indexY: 11
+            },
+            bush3: {
+                indexX: 13,
+                indexY: 11
+            },
+            fern: {
+                indexX: 20,
+                indexY: 11
+            }
+        }
+        this.OBJECTS = {
+            gravestone: {
+                indexX: 10,
+                indexY: 13
+            },
+            sign: {
+                indexX: 24,
+                indexY: 13
+            }
+        }
 
         this.ALLSEASONS = this.game.ALLSEASONS;
         this.season = this.game.season;
+        this.indexX = 0;    //between 0-this.scaleFactor
+        this.indexY = 0;    //between 0-this.scaleFactor
+        this.tempX = this.spriteWidth * this.ZOOM.grass * this.indexX;
+        this.tempY = this.spriteHeight * this.ZOOM.grass * this.indexY;
     }
     update(){
-
+        this.season = this.game.season;
     }
-    #drawGrassTile(x, y, blockId){
+    #drawGrassTile(blockId){
         this.ctx.drawImage(this.grassImg,
             blockId.indexX * this.spriteWidth,
             blockId.indexY * this.spriteHeight,
             this.spriteWidth,
             this.spriteHeight,
-            x,
-            y, 
+            this.tempX,
+            this.tempY, 
             this.spriteWidth * this.ZOOM.grass,
             this.spriteHeight * this.ZOOM.grass
         )
     }
+    #drawBackground(){
+        this.#recalcIndex(0, 0);
+        this.#drawGrassTile(this.OBJECTS.sign);
+        this.#recalcIndex(1, 0)
+        this.#drawGrassTile(this.OBJECTS.sign);
+    }
+    #recalcIndex(incrementX, incrementY){
+        this.indexX += incrementX;
+        this.indexY += incrementY;
+        if(this.indexX >= this.scaleFactor){
+            this.indexX = this.scaleFactor - 1;
+        }
+        if(this.indexY >= this.scaleFactor){
+            this.indexY = this.scaleFactor - 1;
+        }
+        this.tempX = this.spriteWidth * this.ZOOM.grass * this.indexX;
+        this.tempY = this.spriteHeight * this.ZOOM.grass * this.indexY;
+    }
     draw(ctx){
         this.ctx = ctx;
-        this.#drawGrassTile(this.spriteWidth * this.ZOOM.grass, this.spriteHeight * this.ZOOM.grass, this.GRASSBLOCKS.id1);
-        this.#drawGrassTile(this.spriteWidth * this.ZOOM.grass, this.spriteHeight * this.ZOOM.grass, this.GRASSBLOCKS.id4);
-
+        this.#drawBackground();
+        this.#recalcIndex(-this.indexX, -this.indexY);
     }   
 }
 
@@ -175,7 +281,7 @@ class CreateAudio{
     }
 }
 
-class Particles{
+export class Particles{
     constructor(){
 
     }

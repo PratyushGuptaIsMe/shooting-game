@@ -1,7 +1,7 @@
 export class Player{
     constructor(game){
         this.game = game;
-        this.audio = this.game.audio.player;    //player audio
+        this.audio = this.game.audio.player;
         this.x = 0;
         this.y = 0;
         this.spriteWidth = 128;

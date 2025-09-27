@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
-import { Background, LoadAudio } from "./aesthetics.js";
+import { Background, LoadAudio, Particles } from "./aesthetics.js";
 
 class GAME{
     constructor(width, height){
@@ -32,9 +32,9 @@ class GAME{
     }
 
     updateText(text){
-        text.health.textContent = "Health : " + this.Player.health;
-        text.ammo.textContent = "Ammo : " + this.Player.ammunition;
-        text.score.textContent = "Score : " + this.score;
+        text.health.textContent = "health : " + this.Player.health;
+        text.ammo.textContent = "ammo : " + this.Player.ammunition;
+        text.score.textContent = "score : " + this.score;
     }
 
     #spawnWhiteSkeleton(){

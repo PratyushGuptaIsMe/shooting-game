@@ -1,6 +1,6 @@
 /* ||   CSS IMPORTS   || */
 
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
 /* ||   RESET   || */
 
@@ -30,6 +30,8 @@ h1, h2, h3, h4, h5, h6{
     --CANVAS-GAP: -2px;
 
     --HIND-SILIGURI: "Hind Siliguri", sans-serif;
+    --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
+
 }
 
 /* ||   STYLES   || */
@@ -62,7 +64,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .counters{
-    font-family: var(--HIND-SILIGURI);
+    font-family: var(--PIXELIFY-SANS);
     font-size: 2.4em;
     margin-left: 1rem;
 }
@@ -92,7 +94,7 @@ h1, h2, h3, h4, h5, h6{
     margin: auto;
     margin-top: 1%;
     text-align: center;
-    font-family: var(--HIND-SILIGURI);
+    font-family: var(--PIXELIFY-SANS);
     font-size: 56px;
     font-weight: 500;
 }

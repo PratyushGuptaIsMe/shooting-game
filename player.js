@@ -16,6 +16,7 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
+        this.bullet = document.getElementById('bullets');
         this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;

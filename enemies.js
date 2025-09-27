@@ -12,8 +12,10 @@ class Enemies{
         this.frameAccelerator = 1;  //  multiply and accelerate frames
         this.x = Math.random() * this.game.canvasWidth + 1;
         this.y = Math.random() * this.game.canvasHeight + 1;
+        this.moveRandUpdateInterval = 4;
+        this.moveRandUpdateCounter = 0;
         this.movementRand = Math.random();
-        this.walkLength = 3; //px
+        this.walkLength = 2.5; //px
         this.facing = this.#getRandomObjectValue(this.DIRECTIONS);
 
         this.hitbox = {
@@ -22,7 +24,7 @@ class Enemies{
             w: this.spriteWidth * 2 - 150,
             h: this.spriteHeight * 2 - 35
         }
-        this.hitboxExpansion = 6;
+        this.hitboxExpansion = 0;
 
         this.attackAnimationRunning = false;
 
@@ -55,7 +57,19 @@ class Enemies{
             }
             this.frameTimer = 0;
             if(this.dead === false){
-                this.movementRand = Math.random();
+                let tempMoveRandUpdateInterval = 0;
+                if(Math.random() < 0.50){
+                    tempMoveRandUpdateInterval = this.moveRandUpdateInterval;
+                }else{
+                    tempMoveRandUpdateInterval = this.moveRandUpdateCounter / 2;
+                }
+
+                if(this.moveRandUpdateCounter >= tempMoveRandUpdateInterval){
+                    this.movementRand = Math.random();
+                    this.moveRandUpdateCounter = 0;
+                }else{
+                    this.moveRandUpdateCounter++;
+                }
             }else{
                 this.movementRand = 1;
             }
@@ -138,21 +152,21 @@ class Enemies{
     #moveEnemy(dt){
         if(this.attackAnimationRunning === false) {
             switch(true) {
-                case (this.movementRand <= 0.10):
+                case(this.movementRand <= 0.20):
                     this.x -= this.walkLength;
                     this.facing = this.DIRECTIONS.LEFT;
                     // left
                     break;
-                case(this.movementRand <= 0.20 && this.movementRand > 0.10):
+                case(this.movementRand <= 0.40 && this.movementRand > 0.20):
                     this.x += this.walkLength;
                     this.facing = this.DIRECTIONS.RIGHT;
                     // right
                     break;
-                case(this.movementRand <= 0.30 && this.movementRand > 0.20):
+                case(this.movementRand <= 0.60 && this.movementRand > 0.40):
                     this.y += this.walkLength;
                     // down
                     break;
-                case(this.movementRand <= 0.40 && this.movementRand > 0.30):
+                case(this.movementRand <= 0.80 && this.movementRand > 0.60):
                     this.y -= this.walkLength;
                     // up
                     break;
@@ -162,17 +176,17 @@ class Enemies{
                     this.y = this.y;
                     break;
             }
-            if(this.movementRand <= 0.40){
-                if(this.movementRand > 0.20){
+            if(this.movementRand <= 0.80){
+                if(this.movementRand > 0.40){
                     if(this.audioCooldown <= 0){
-                            this.game.currentEnemySounds += 1;
-                            this.#playAudio(this.audio.rattle.id1);
-                            this.audioCooldown = this.audioPause;
+                        this.game.currentEnemySounds += 1;
+                        this.#playAudio(this.audio.rattle.id1);
+                        this.audioCooldown = this.audioPause;
                     }else{
-                            this.audioCooldown = this.audioCooldown - dt;
-                            setTimeout(() => {
-                                this.game.currentEnemySounds -= 1;
-                            }, (500/16) * dt);
+                        this.audioCooldown = this.audioCooldown - dt;
+                        setTimeout(() => {
+                            this.game.currentEnemySounds -= 1;
+                        }, (500/16) * dt);
                     }
                 }else if(this.movementRand < 0.20){
                     if(this.audioCooldown <= 0){
@@ -233,11 +247,11 @@ export class WhiteSkeleton extends Enemies{
         }
     }
     updateSkeleton(){
-        if(this.movementRand <= 0.50 &&
+        if(this.movementRand <= 0.80 &&
             !this.attackAnimationRunning
         ){
             this.image = document.getElementById("WhiteSkeletonWalk");
-        }else if(this.movementRand > 0.50 &&
+        }else if(this.movementRand > 0.80 &&
                 !this.attackAnimationRunning
         ){
             this.image = document.getElementById("WhiteSkeletonIdle");
@@ -273,11 +287,11 @@ export class YellowSkeleton extends Enemies{
         }
     }
     updateSkeleton(){
-        if(this.movementRand <= 0.50 && 
+        if(this.movementRand <= 0.80 && 
             !this.attackAnimationRunning
         ){
             this.image = document.getElementById("YellowSkeletonWalk");
-        }else if(this.movementRand > 0.50 &&
+        }else if(this.movementRand > 0.80 &&
             !this.attackAnimationRunning
         ){
             this.image = document.getElementById("YellowSkeletonIdle");

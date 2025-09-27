@@ -20,11 +20,7 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 - Add backgrounds and start using backgrounds class.
 
-- Change the player bullet to a actual bullet.
-
 - Possibly add some contrast between enemies.
-
-- Maybe get new fonts.
 
 - Add particles and utilize them in player gun, blood, collisions, etc
 
@@ -35,8 +31,6 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 - Fix bullets duplicating when they go through the boundary
 
 - Fix players and enemies glitching/shaking when they contact the border
-
-- Fix erratic and random enemy movement
 
 - Get the timings for cooldowns and animations right
 

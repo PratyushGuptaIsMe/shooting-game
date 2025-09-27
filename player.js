@@ -31,7 +31,7 @@ export class Player{
         this.reloadTimer = 0;
         this.replenishThisValueOfAmmo = 2;
         this.projectileX = 200;
-        this.projectileSpeed = 11;
+        this.projectileSpeed = 9;
         this.bulletActive = false;
         this.maxAmmo = 10;
         this.gunHeight = this.y + 175 + this.groundMargin;
@@ -47,7 +47,7 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
-        
+
         this.hurt = false;
         this.health = 100;
         this.invinsibilityFramesMS = 200;

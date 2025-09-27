@@ -16,7 +16,8 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.bullet = document.getElementById('bullets');
+        this.bulletL = document.getElementById('bulletL');
+        this.bulletR = document.getElementById('bulletR')
         this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;
@@ -46,6 +47,8 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+        
+        this.hurt = false;
         this.health = 100;
         this.invinsibilityFramesMS = 200;
         this.dead = false;
@@ -221,7 +224,7 @@ export class Player{
             this.bulletFlipState = this.flipImage;
             this.gunHeight = this.y + 175 + this.groundMargin;
         }else if(this.bulletActive === true){
-            if( this.projectileX + 25 < 0 ||
+            if( this.projectileX + 20 < 0 ||
                 this.projectileX > this.game.canvasWidth){
                     this.bulletActive = false;
             }
@@ -230,13 +233,13 @@ export class Player{
             if(this.bulletActive === true){
                 this.projectileX -= this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x + 25 + 25;
+                this.projectileX = this.hitbox.x + 20 + 20;
             }
         }else if(this.bulletFlipState === false){
             if(this.bulletActive === true){
                 this.projectileX += this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 25 - 25;
+                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
             }
         }
 
@@ -252,7 +255,31 @@ export class Player{
         ctx.fillStyle = "yellow";
 
         if(this.bulletActive){
-            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
+            if(this.bulletFlipState === true){
+                ctx.drawImage(
+                    this.bulletL,
+                    0, 
+                    0, 
+                    977,
+                    495,
+                    this.projectileX,
+                    this.gunHeight,
+                    20,
+                    10
+                );
+            }else if(this.bulletFlipState === false){
+                ctx.drawImage(
+                    this.bulletR,
+                    0, 
+                    0, 
+                    977,
+                    495,
+                    this.projectileX,
+                    this.gunHeight,
+                    20,
+                    10
+                );
+            }
         }
 
         if(this.flipImage === true){

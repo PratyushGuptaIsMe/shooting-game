@@ -80,11 +80,10 @@ class GAME{
 
     #enemyCollisionChecks(){
         this.allCurrentEnemies.forEach((enemy) => {
-            let expansion = 6;
-            if( enemy.hitbox.x - expansion < this.Player.hitbox.x + this.Player.hitbox.w &&
-                enemy.hitbox.x + enemy.hitbox.w + expansion > this.Player.hitbox.x &&
-                enemy.hitbox.y - expansion < this.Player.hitbox.y + this.Player.hitbox.h &&
-                enemy.hitbox.y + enemy.hitbox.h + expansion > this.Player.hitbox.y
+            if( enemy.hitbox.x - enemy.hitboxExpansion < this.Player.hitbox.x + this.Player.hitbox.w &&
+                enemy.hitbox.x + enemy.hitbox.w + enemy.hitboxExpansion > this.Player.hitbox.x &&
+                enemy.hitbox.y - enemy.hitboxExpansion < this.Player.hitbox.y + this.Player.hitbox.h &&
+                enemy.hitbox.y + enemy.hitbox.h + enemy.hitboxExpansion > this.Player.hitbox.y
             ){
                 if(enemy.attackAnimationRunning === false){
                     enemy.attackAnimationRunning = true;
@@ -107,7 +106,7 @@ class GAME{
                 enemy.markedForDeletion === false &&
                 this.Player.bulletActive === true &&
                 this.Player.projectileX < enemy.hitbox.x + enemy.hitbox.w &&
-                this.Player.projectileX + 25 > enemy.hitbox.x &&
+                this.Player.projectileX + 20 > enemy.hitbox.x &&
                 this.Player.gunHeight < enemy.hitbox.y + enemy.hitbox.h &&
                 this.Player.gunHeight + 10 > enemy.hitbox.y
             ){

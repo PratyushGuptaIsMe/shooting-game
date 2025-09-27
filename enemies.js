@@ -22,6 +22,7 @@ class Enemies{
             w: this.spriteWidth * 2 - 150,
             h: this.spriteHeight * 2 - 35
         }
+        this.hitboxExpansion = 6;
 
         this.attackAnimationRunning = false;
 
@@ -128,6 +129,10 @@ class Enemies{
 
         if(this.game.debugMode === true){
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.w, this.hitbox.h);
+            ctx.save();
+            ctx.strokeStyle = 'red';
+            ctx.strokeRect(this.hitbox.x - this.hitboxExpansion, this.hitbox.y - this.hitboxExpansion, this.hitbox.w + this.hitboxExpansion + this.hitboxExpansion, this.hitbox.h + this.hitboxExpansion + this.hitboxExpansion);
+            ctx.restore();
         }
     }
     #moveEnemy(dt){

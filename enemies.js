@@ -111,6 +111,8 @@ class Enemies{
         }
     }
     draw(ctx){
+        ctx.save();
+        ctx.filter = "brightness(0.92) contrast(1.1) saturate(0.8)";
         if(this.facing === this.DIRECTIONS.LEFT){
             ctx.save();
             ctx.translate(this.game.canvasWidth, 0);
@@ -140,6 +142,7 @@ class Enemies{
                         this.spriteHeight * 2
             );
         }
+        ctx.restore();
 
         if(this.game.debugMode === true){
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.w, this.hitbox.h);
@@ -172,8 +175,6 @@ class Enemies{
                     break;
                 default:
                     // idle
-                    this.x = this.x;
-                    this.y = this.y;
                     break;
             }
             if(this.movementRand <= 0.80){

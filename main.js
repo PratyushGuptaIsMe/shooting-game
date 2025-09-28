@@ -35,6 +35,16 @@ class GAME{
         text.health.textContent = "health : " + this.Player.health;
         text.ammo.textContent = "ammo : " + this.Player.ammunition;
         text.score.textContent = "score : " + this.score;
+        if(this.Player.ammunition < 1){
+            text.ammo.style.color = 'red';
+            if(this.keysArray.includes(" ")){
+                text.ammo.classList.add("jiggle");
+            }else{
+                text.ammo.classList.remove("jiggle")
+            }
+        }else{
+            text.ammo.style.color = 'black';
+        }
     }
 
     #spawnWhiteSkeleton(){

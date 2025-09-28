@@ -14,13 +14,11 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 - Add a proper GAME OVER SCREEN.
 
-- Add warnings for when player ammo gets low.
+- **Add warnings for when player ammo gets low.**
 
-- Add jiggles and moves in the text/warnings if player runs out of ammo
+- **Add jiggles and moves in the text/warnings if player runs out of ammo**
 
 - Add backgrounds and start using backgrounds class.
-
-- Possibly add some contrast between enemies.
 
 - Add particles and utilize them in player gun, blood, collisions, etc
 

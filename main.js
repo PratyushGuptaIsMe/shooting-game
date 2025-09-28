@@ -228,8 +228,8 @@ class GAME{
 
 const CANVAS = document.getElementById("mainCanvas");
 const ctx = CANVAS.getContext("2d");
-CANVAS.width = 500;
-CANVAS.height = 500;
+CANVAS.width = window.innerHeight;
+CANVAS.height = window.innerHeight;
 let game = new GAME(CANVAS.width, CANVAS.height);
 let l = 0;
 const text = {

@@ -59,8 +59,8 @@ class Preloading{
     #addMainCanvas(){
         const mCanvas = document.createElement('canvas');
         mCanvas.id = "mainCanvas";
-        mCanvas.width = 500;
-        mCanvas.height = 500;
+        mCanvas.width = window.innerHeight;
+        mCanvas.height = window.innerHeight;
         mCanvas.style.display = "block";
         document.body.appendChild(mCanvas);
     }

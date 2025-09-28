@@ -10,6 +10,13 @@
     box-sizing: border-box;
 }
 
+body, html {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 img {
     display:none;
 }
@@ -40,7 +47,7 @@ h1, h2,h3, h4, h5, h6 {
     
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
-    --CANVAS-GAP: -2px;
+    --CANVAS-GAP: -3.5vw;
 
     --HIND-SILIGURI: "Hind Siliguri", sans-serif;
     --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
@@ -53,14 +60,14 @@ h1, h2,h3, h4, h5, h6 {
 }
 
 #mainCanvas {
-    width: 500px;
-    height: 500px;
+    width: 100vh;
+    height: 100vh;
     border: 3px solid black;
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 50%;
     background-color: var(--MAIN-CANVAS-COLOR);
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     max-width: 100%;
     max-height: 100%;
 }
@@ -71,8 +78,8 @@ h1, h2,h3, h4, h5, h6 {
     height: 250px;
     border: 3px solid black;
     background-color: var(--TEXT-CANVAS-COLOR);
-    top: calc(50% - 250px);
-    left: calc(50% - 250px - var(--CANVAS-GAP) - 300px);
+    top: 0;
+    right: calc(75vw + var(--CANVAS-GAP));
 }
 
 .counters {

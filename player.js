@@ -1,6 +1,7 @@
 export class Player{
     constructor(game){
         this.game = game;
+        this.audio = this.game.audio.player;
         this.x = 0;
         this.y = 0;
         this.spriteWidth = 128;
@@ -15,6 +16,8 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
+        this.bulletL = document.getElementById('bulletL');
+        this.bulletR = document.getElementById('bulletR')
         this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;
@@ -28,13 +31,13 @@ export class Player{
         this.reloadTimer = 0;
         this.replenishThisValueOfAmmo = 2;
         this.projectileX = 200;
-        this.projectileSpeed = 11;
+        this.projectileSpeed = 9;
         this.bulletActive = false;
+        this.maxAmmo = 10;
+        this.gunHeight = this.y + 175 + this.groundMargin;
 
         this.walkingSpeed = 3;
         
-        this.gunHeight = this.y + 175 + this.groundMargin;
-
         this.flipImage = false;
         this.bulletFlipState = false;
 
@@ -44,7 +47,10 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+
+        this.hurt = false;
         this.health = 100;
+        this.invinsibilityFramesMS = 200;
         this.dead = false;
     }
     update(dt){
@@ -55,8 +61,8 @@ export class Player{
             h: this.spriteHeight + 14
         }
 
-        if(this.ammunition > 10){
-            this.ammunition = 10;
+        if(this.ammunition > this.maxAmmo){
+            this.ammunition = this.maxAmmo;
         }
         
         if((this.keysPressed.includes("ArrowLeft") ||
@@ -68,6 +74,7 @@ export class Player{
                 this.currentImage = document.getElementById("walking");
                 this.flipImage = true;
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowRight") ||
             this.keysPressed.includes("d") ||
@@ -78,6 +85,7 @@ export class Player{
                 this.currentImage = document.getElementById("walking");
                 this.flipImage = false;
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowUp") ||
             this.keysPressed.includes("w") ||
@@ -87,6 +95,7 @@ export class Player{
                 this.y -= this.walkingSpeed;
                 this.currentImage = document.getElementById("walking");
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if((this.keysPressed.includes("ArrowDown") ||
             this.keysPressed.includes("s") ||
@@ -96,6 +105,7 @@ export class Player{
                 this.y += this.walkingSpeed;
                 this.currentImage = document.getElementById("walking");
                 this.maxFrameX = 11;
+                this.#playRandomAudio(this.audio.walking);
         }
         if(!this.keysPressed.includes("ArrowLeft") &&
            !this.keysPressed.includes("ArrowRight") &&
@@ -119,10 +129,9 @@ export class Player{
                 this.maxFrameX = 2;
                 this.currentImage = document.getElementById("aimedshotpng");
                 this.ammunition--;
-                //decrease ammo
                 this.canShoot = false;
-                //reset canShoot
                 this.shootingAnimationRunning = true;
+                this.#playRandomAudio(this.audio.shooting.shoot)
                 setTimeout(() => {
                     this.shootingAnimationRunning = false;
                     this.frameAccelerator = 1;
@@ -153,13 +162,16 @@ export class Player{
         if(this.keysPressed.includes("r") &&
             this.canReload === true &&
             !this.shootingAnimationRunning){
-            this.reloadAnimationRunning = true;
-            this.canReload = false;
-            setTimeout(() => {
-                this.reloadAnimationRunning = false;
-                this.ammunition += this.replenishThisValueOfAmmo;
-                this.frameAccelerator = 1;
-            }, this.howLongShouldReloadingLast);
+                this.reloadAnimationRunning = true;
+                this.canReload = false;
+                setTimeout(() => {
+                    this.#playRandomAudio(this.audio.reloading);
+                }, 30)
+                setTimeout(() => {
+                    this.reloadAnimationRunning = false;
+                    this.ammunition += this.replenishThisValueOfAmmo;
+                    this.frameAccelerator = 1;
+                }, this.howLongShouldReloadingLast);
         }
         if(this.reloadAnimationRunning === true){
             this.currentImage = document.getElementById("reloadingpng");
@@ -170,7 +182,7 @@ export class Player{
             !this.reloadAnimationRunning){
             if(this.reloadTimer >= this.reloadInterval){
                 this.reloadTimer = 0;
-                if(this.ammunition < 10){
+                if(this.ammunition < this.maxAmmo){
                     this.canReload = true;
                 }
             }else{
@@ -178,6 +190,12 @@ export class Player{
             }
         }
 
+        if(this.canShoot === false &&
+            this.ammunition <= 0 &&
+            this.keysPressed.includes(" ")
+        ){
+            this.#playAudio(this.audio.shooting.blank);
+        }
 
         if(this.frameTimer < this.frameInterval){
             this.frameTimer += (dt * this.frameAccelerator);
@@ -206,7 +224,7 @@ export class Player{
             this.bulletFlipState = this.flipImage;
             this.gunHeight = this.y + 175 + this.groundMargin;
         }else if(this.bulletActive === true){
-            if( this.projectileX + 25< 0 ||
+            if( this.projectileX + 20 < 0 ||
                 this.projectileX > this.game.canvasWidth){
                     this.bulletActive = false;
             }
@@ -215,13 +233,13 @@ export class Player{
             if(this.bulletActive === true){
                 this.projectileX -= this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x;
+                this.projectileX = this.hitbox.x + 20 + 20;
             }
         }else if(this.bulletFlipState === false){
             if(this.bulletActive === true){
                 this.projectileX += this.projectileSpeed;
             }else{
-                this.projectileX = this.hitbox.x + this.spriteWidth/2;
+                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
             }
         }
 
@@ -229,21 +247,47 @@ export class Player{
         if(this.health <= 0){
             if(this.dead === false){
                 this.dead = true;
-
                 //here make 1 time use property changes if die
-                document.getElementById("textCanvas").classList.add("displaynone");
-                document.getElementById("textCanvas").classList.remove("displayblock");
             }
         }
     }
     draw(ctx){
         ctx.fillStyle = "yellow";
 
+        if(this.bulletActive){
+            if(this.bulletFlipState === true){
+                ctx.drawImage(
+                    this.bulletL,
+                    0, 
+                    0, 
+                    977,
+                    495,
+                    this.projectileX,
+                    this.gunHeight,
+                    20,
+                    10
+                );
+            }else if(this.bulletFlipState === false){
+                ctx.drawImage(
+                    this.bulletR,
+                    0, 
+                    0, 
+                    977,
+                    495,
+                    this.projectileX,
+                    this.gunHeight,
+                    20,
+                    10
+                );
+            }
+        }
+
         if(this.flipImage === true){
             ctx.save();
             ctx.translate(this.game.canvasWidth, 0);
             ctx.scale(-1, 1);
-            ctx.drawImage(this.currentImage,
+            ctx.drawImage(
+                        this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
                         this.spriteWidth,
@@ -255,7 +299,8 @@ export class Player{
             );
             ctx.restore();
         }else{
-            ctx.drawImage(this.currentImage,
+            ctx.drawImage(
+                        this.currentImage,
                         this.frameX * this.spriteWidth,
                         this.frameY * this.spriteHeight, 
                         this.spriteWidth,
@@ -276,9 +321,17 @@ export class Player{
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
         }
-
-        if(this.bulletActive){
-            ctx.fillRect(this.projectileX, this.gunHeight, 25, 10);
-        }
+    }
+    #playAudio(audio){
+        this.game.playAudio(audio);
+    }
+    #getRandomObjectValue(object){
+        return this.game.getRandomObjectValue(object);
+    }
+    #playRandomAudio(audio){
+        this.game.playRandomAudio(audio);
+    }
+    #playRandomSequence(audioObjs){
+        this.game.playRandomSequence(audioObjs);
     }
 }

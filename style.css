@@ -1,41 +1,58 @@
 /* ||   CSS IMPORTS   || */
 
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Orbitron:wght@400..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
 /* ||   RESET   || */
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-img{
+img {
     display:none;
+}
+
+h1, h2,h3, h4, h5, h6 {
+    margin-top: 0;
+}
+
+@keyframes jiggle1 {
+    0%    { transform: translateX(0);}
+    10%   { transform: translateX(4px);}
+    20%   { transform: translateX(-4px);}
+    30%   { transform: translateX(4px);}
+    40%  { transform: translateX(-4px);}
+    50%  { transform: translateX(4px);}
+    60%  { transform: translateX(-4px);}
+    70%  { transform: translateX(4px);}
+    80%  { transform: translateX(-4px);}
+    90%  { transform: translateX(4px);}
 }
 
 /* ||   VARIABLES   || */
 
-:root{
+:root {
     --MAIN-CANVAS-COLOR: rgba(220, 64, 17, 0.195);
     --TEXT-CANVAS-COLOR: rgba(195, 255, 0, 0.195);
-    --LOADING-BAR-COLOR: rgb(0, 255, 255);
+    --LOADING-BAR-COLOR: rgb(4, 154, 154);
     
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
     --CANVAS-GAP: -2px;
 
     --HIND-SILIGURI: "Hind Siliguri", sans-serif;
+    --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
 }
 
 /* ||   STYLES   || */
 
-.attributionArea{
+.attributionArea {
     font-family: var(--HIND-SILIGURI);
 }
 
-#mainCanvas{
+#mainCanvas {
     width: 500px;
     height: 500px;
     border: 3px solid black;
@@ -48,23 +65,27 @@ img{
     max-height: 100%;
 }
 
-#textCanvas{
+.textArea {
     position: absolute;
     width: 300px;
     height: 250px;
     border: 3px solid black;
     background-color: var(--TEXT-CANVAS-COLOR);
-    /* Align top edge with mainCanvas top */
-    top: calc(50% - 250px); /* 500px / 2 */
-    /* Place to the left of mainCanvas with a gap */
-    left: calc(50% - 250px - var(--CANVAS-GAP) - 300px); /* main half-width (250) + gap + text width (300) */
+    top: calc(50% - 250px);
+    left: calc(50% - 250px - var(--CANVAS-GAP) - 300px);
 }
 
-.loadingScreen{
+.counters {
+    font-family: var(--PIXELIFY-SANS);
+    font-size: 2.7em;
+    margin-left: 1rem;
+}
+
+.loadingScreen {
     margin-top: 30vh;
 }
 
-.loadingBar{
+.loadingBar {
     margin: auto;
     border: 5px solid black;
     border-radius: 20px;
@@ -72,7 +93,7 @@ img{
     padding: 0.55%;
 }
 
-.loadingProgressBar{
+.loadingProgressBar {
     background-color: var(--LOADING-BAR-COLOR);
     color: var(--LOADING-BAR-COLOR);
     font-size: var(--LOADING-BAR-SIZE);
@@ -81,11 +102,11 @@ img{
     width: var(--LOADING-BAR-PROGRESS-NUM);
 }
 
-.loadingPercentageCounter{
+.loadingPercentageCounter {
     margin: auto;
     margin-top: 1%;
     text-align: center;
-    font-family: var(--HIND-SILIGURI);
+    font-family: var(--PIXELIFY-SANS);
     font-size: 56px;
     font-weight: 500;
 }
@@ -98,4 +119,8 @@ img{
 
 .displayblock {
     display: block;
+}
+
+.jiggle1 {
+    animation: jiggle1 0.8s ease-in-out infinite;
 }

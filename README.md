@@ -31,5 +31,3 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 - Fix players and enemies glitching/shaking when they contact the border
 
 - Get the timings for cooldowns and animations right
-
-- Get the canvas styling and positions correct and properly aligned

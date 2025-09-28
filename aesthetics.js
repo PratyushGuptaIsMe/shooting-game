@@ -156,10 +156,36 @@ export class Background{
         this.tempX = this.spriteWidth * this.ZOOM.grass * this.indexX;
         this.tempY = this.spriteHeight * this.ZOOM.grass * this.indexY;
     }
+    drawGridBased(){
+        const tileW = this.spriteWidth * this.ZOOM.grass;
+        const tileH = this.spriteHeight * this.ZOOM.grass;
+        const cols = this.scaleFactor;
+        const rows = this.scaleFactor;
+        this.ctx.save();
+        this.ctx.strokeStyle = "rgba(86, 84, 84, 1)";
+        this.ctx.lineWidth = 1;
+        // vertical lines
+        for (let x = 0; x <= cols; x++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x * tileW, 0);
+            this.ctx.lineTo(x * tileW, rows * tileH);
+            this.ctx.stroke();
+        }
+        // horizontal lines
+        for (let y = 0; y <= rows; y++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y * tileH);
+            this.ctx.lineTo(cols * tileW, y * tileH);
+            this.ctx.stroke();
+        }
+        this.ctx.restore();
+    }
+
     draw(ctx){
         this.ctx = ctx;
         this.#drawBackground();
         this.#recalcIndex(-this.indexX, -this.indexY);
+        this.drawGridBased();
     }   
 }
 

@@ -16,8 +16,6 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.bulletL = document.getElementById('bulletL');
-        this.bulletR = document.getElementById('bulletR')
         this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;
@@ -257,7 +255,7 @@ export class Player{
         if(this.bulletActive){
             if(this.bulletFlipState === true){
                 ctx.drawImage(
-                    this.bulletL,
+                    document.getElementById("bulletL"),
                     0, 
                     0, 
                     977,
@@ -269,7 +267,7 @@ export class Player{
                 );
             }else if(this.bulletFlipState === false){
                 ctx.drawImage(
-                    this.bulletR,
+                    document.getElementById("bulletR"),
                     0, 
                     0, 
                     977,

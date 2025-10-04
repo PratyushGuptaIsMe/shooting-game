@@ -164,14 +164,12 @@ export class Background{
         this.ctx.save();
         this.ctx.strokeStyle = "rgba(86, 84, 84, 1)";
         this.ctx.lineWidth = 1;
-        // vertical lines
         for (let x = 0; x <= cols; x++) {
             this.ctx.beginPath();
             this.ctx.moveTo(x * tileW, 0);
             this.ctx.lineTo(x * tileW, rows * tileH);
             this.ctx.stroke();
         }
-        // horizontal lines
         for (let y = 0; y <= rows; y++) {
             this.ctx.beginPath();
             this.ctx.moveTo(0, y * tileH);
@@ -184,9 +182,11 @@ export class Background{
     draw(ctx){
         this.ctx = ctx;
         this.#drawBackground();
-        this.#recalcIndex(-this.indexX, -this.indexY);
         this.drawGridBased();
-    }   
+
+        //reset
+        this.#recalcIndex(-this.indexX, -this.indexY);
+    }
 }
 
 export class LoadAudio{

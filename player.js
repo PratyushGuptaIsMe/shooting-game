@@ -246,6 +246,7 @@ export class Player{
             if(this.dead === false){
                 this.dead = true;
                 //here make 1 time use property changes if die
+                this.currentImage = document.getElementById("deadpng");
             }
         }
     }

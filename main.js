@@ -199,11 +199,11 @@ class GAME{
     }
 
     update(dt){
+        this.Player.update(dt);
         if(this.Player.dead === true){
             return;
         }
         this.backgrounds.update();
-        this.Player.update(dt);
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.update(dt);
         });

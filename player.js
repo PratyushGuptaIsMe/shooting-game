@@ -47,7 +47,7 @@ export class Player{
         }
 
         this.hurt = false;
-        this.health = 1;
+        this.health = 100;
         this.invinsibilityFramesMS = 200;
         this.dead = false;
     }

@@ -203,10 +203,6 @@ class GAME{
     }
 
     update(dt){
-        if(this.gameOver === true){
-            this.debugMode = false;
-            //play gameover audio
-        }
         this.Player.update(dt);
         this.backgrounds.update();
         this.allCurrentEnemies.forEach((enemy) => {
@@ -217,7 +213,9 @@ class GAME{
             return;
         }
         if(this.gameOver === true){
+            this.debugMode = false;
             return;
+            //play gameover audio
         }
         this.#enemyCollisionChecks();
         if(this.enemySpawning === true){

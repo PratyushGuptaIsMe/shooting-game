@@ -47,7 +47,7 @@ export class Player{
         }
 
         this.hurt = false;
-        this.health = 100;
+        this.health = 1;
         this.invinsibilityFramesMS = 200;
         this.dead = false;
     }
@@ -58,9 +58,43 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+        
+        this.#increaseFrames(dt);
 
+        if(this.health < 0){
+            this.health = 0;
+        }        
         if(this.ammunition > this.maxAmmo){
             this.ammunition = this.maxAmmo;
+        }
+
+        if(this.hitbox.x < 0){
+            this.x = -100;
+        }
+        if(this.hitbox.y < 0){
+            this.y = -this.groundMargin - 115;
+        }
+        if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
+            this.x = this.game.canvasWidth - this.spriteWidth/2 - 100 + 18;
+        }
+        if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
+            this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
+        }
+
+        if(this.health <= 0){
+            if(this.dead === false){
+                //here make 1 time use property changes if die
+                this.dead = true;
+                this.currentImage = document.getElementById("deadpng");
+                this.frameX = 0;
+                this.maxFrameX = 5;
+                this.frameAccelerator = 0.4;
+            }
+        }
+
+        if(this.dead){
+            this.currentImage = document.getElementById("deadpng");
+            return;
         }
         
         if((this.keysPressed.includes("ArrowLeft") ||
@@ -195,29 +229,6 @@ export class Player{
             this.#playAudio(this.audio.shooting.blank);
         }
 
-        if(this.frameTimer < this.frameInterval){
-            this.frameTimer += (dt * this.frameAccelerator);
-        }else{
-            this.frameX += 1;
-            if(this.frameX > this.maxFrameX){
-                this.frameX = 0;
-            }
-            this.frameTimer = 0;
-        }
-
-        if(this.hitbox.x < 0){
-            this.x = -100;
-        }
-        if(this.hitbox.y < 0){
-            this.y = -this.groundMargin - 115;
-        }
-        if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
-            this.x = this.game.canvasWidth - this.spriteWidth/2 - 100 + 18;
-        }
-        if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
-            this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
-        }
-
         if(this.bulletActive === false){
             this.bulletFlipState = this.flipImage;
             this.gunHeight = this.y + 175 + this.groundMargin;
@@ -238,15 +249,6 @@ export class Player{
                 this.projectileX += this.projectileSpeed;
             }else{
                 this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
-            }
-        }
-
-
-        if(this.health <= 0){
-            if(this.dead === false){
-                this.dead = true;
-                //here make 1 time use property changes if die
-                this.currentImage = document.getElementById("deadpng");
             }
         }
     }
@@ -319,6 +321,18 @@ export class Player{
             ctx.strokeStyle = "grey";
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
+        }
+    }
+
+    #increaseFrames(dt){
+        if(this.frameTimer < this.frameInterval){
+            this.frameTimer += (dt * this.frameAccelerator);
+        }else{
+            this.frameX += 1;
+            if(this.frameX > this.maxFrameX){
+                this.frameX = 0;
+            }
+            this.frameTimer = 0;
         }
     }
     #playAudio(audio){

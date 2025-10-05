@@ -138,12 +138,6 @@ export class Background{
             this.spriteHeight * this.ZOOM.grass
         )
     }
-    #drawBackground(){
-        this.#recalcIndex(0, 0);
-        this.#drawGrassTile(this.OBJECTS.sign);
-        this.#recalcIndex(1, 0)
-        this.#drawGrassTile(this.OBJECTS.sign);
-    }
     #recalcIndex(incrementX, incrementY){
         this.indexX += incrementX;
         this.indexY += incrementY;
@@ -156,35 +150,40 @@ export class Background{
         this.tempX = this.spriteWidth * this.ZOOM.grass * this.indexX;
         this.tempY = this.spriteHeight * this.ZOOM.grass * this.indexY;
     }
-    drawGridBased(){
-        const tileW = this.spriteWidth * this.ZOOM.grass;
-        const tileH = this.spriteHeight * this.ZOOM.grass;
-        const cols = this.scaleFactor;
-        const rows = this.scaleFactor;
+    drawGrid(){
         this.ctx.save();
-        this.ctx.strokeStyle = "rgba(86, 84, 84, 1)";
+        this.ctx.strokeStyle = "rgba(0, 0, 0, 1)";
         this.ctx.lineWidth = 1;
-        for (let x = 0; x <= cols; x++) {
+        for (let x = 0; x <= this.scaleFactor; x++) {
             this.ctx.beginPath();
-            this.ctx.moveTo(x * tileW, 0);
-            this.ctx.lineTo(x * tileW, rows * tileH);
+            this.ctx.moveTo(x * this.spriteWidth * this.ZOOM.grass, 0);
+            this.ctx.lineTo(x * this.spriteWidth * this.ZOOM.grass, this.scaleFactor * this.spriteHeight * this.ZOOM.grass);
             this.ctx.stroke();
         }
-        for (let y = 0; y <= rows; y++) {
+        for (let y = 0; y <= this.scaleFactor; y++) {
             this.ctx.beginPath();
-            this.ctx.moveTo(0, y * tileH);
-            this.ctx.lineTo(cols * tileW, y * tileH);
+            this.ctx.moveTo(0, y * this.spriteHeight * this.ZOOM.grass);
+            this.ctx.lineTo(this.scaleFactor * this.spriteWidth * this.ZOOM.grass, y * this.spriteHeight * this.ZOOM.grass);
             this.ctx.stroke();
         }
         this.ctx.restore();
+    }
+    #drawGridBased(){
+        if(this.game.debugMode === true){
+            this.drawGrid();
+        }
+    }
+    #drawBackground(){
+        this.#recalcIndex(0, 0);
+        this.#drawGrassTile(this.OBJECTS.sign);
+        this.#recalcIndex(1, 0)
+        this.#drawGrassTile(this.OBJECTS.sign);
     }
 
     draw(ctx){
         this.ctx = ctx;
         this.#drawBackground();
-        this.drawGridBased();
-
-        //reset
+        this.#drawGridBased();
         this.#recalcIndex(-this.indexX, -this.indexY);
     }
 }

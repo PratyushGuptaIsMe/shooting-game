@@ -91,6 +91,8 @@ export class Player{
                 this.frameAccelerator = 0.4;
             }
         }
+        
+        this.#runBulletOperations();
 
         if(this.dead){
             this.currentImage = document.getElementById("deadpng");
@@ -228,29 +230,6 @@ export class Player{
         ){
             this.#playAudio(this.audio.shooting.blank);
         }
-
-        if(this.bulletActive === false){
-            this.bulletFlipState = this.flipImage;
-            this.gunHeight = this.y + 175 + this.groundMargin;
-        }else if(this.bulletActive === true){
-            if( this.projectileX + 20 < 0 ||
-                this.projectileX > this.game.canvasWidth){
-                    this.bulletActive = false;
-            }
-        }
-        if(this.bulletFlipState === true){
-            if(this.bulletActive === true){
-                this.projectileX -= this.projectileSpeed;
-            }else{
-                this.projectileX = this.hitbox.x + 20 + 20;
-            }
-        }else if(this.bulletFlipState === false){
-            if(this.bulletActive === true){
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
-            }
-        }
     }
     draw(ctx){
         ctx.fillStyle = "yellow";
@@ -333,6 +312,30 @@ export class Player{
                 this.frameX = 0;
             }
             this.frameTimer = 0;
+        }
+    }
+    #runBulletOperations(){
+        if(this.bulletActive === false){
+            this.bulletFlipState = this.flipImage;
+            this.gunHeight = this.y + 175 + this.groundMargin;
+        }else if(this.bulletActive === true){
+            if( this.projectileX + 20 < 0 ||
+                this.projectileX > this.game.canvasWidth){
+                    this.bulletActive = false;
+            }
+        }
+        if(this.bulletFlipState === true){
+            if(this.bulletActive === true){
+                this.projectileX -= this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + 20 + 20;
+            }
+        }else if(this.bulletFlipState === false){
+            if(this.bulletActive === true){
+                this.projectileX += this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
+            }
         }
     }
     #playAudio(audio){

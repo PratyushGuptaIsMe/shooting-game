@@ -252,6 +252,11 @@ export class WhiteSkeleton extends Enemies{
     }
     update(dt){
         super.update(dt);
+        if(this.game.gameOver) {
+            this.image = document.getElementById("WhiteSkeletonIdle");
+            this.frameAccelerator = 1;
+            return;
+        }
         if(this.dead === false){
             this.updateSkeleton();
         }else{
@@ -291,6 +296,11 @@ export class YellowSkeleton extends Enemies{
     }
     update(dt){
         super.update(dt);
+        if(this.game.gameOver) {
+            this.image = document.getElementById("YellowSkeletonIdle");
+            this.frameAccelerator = 1;
+            return;
+        }
         if(this.dead === false){
             this.updateSkeleton();
         }else{

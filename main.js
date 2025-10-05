@@ -29,7 +29,7 @@ class GAME{
         this.enemyTimer = 0;
         this.enemyInterval = 1000;  //time which enemy spawns
 
-        this.score = 0;
+        this.score = 0;    
     }
 
     updateText(text){
@@ -214,6 +214,9 @@ class GAME{
         });
         if(this.Player.dead === true){
             this.gameOver = true;
+            return;
+        }
+        if(this.gameOver === true){
             return;
         }
         this.#enemyCollisionChecks();

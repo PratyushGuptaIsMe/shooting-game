@@ -34,7 +34,7 @@ export class Player{
         this.maxAmmo = 10;
         this.gunHeight = this.y + 175 + this.groundMargin;
 
-        this.walkingSpeed = 3;
+        this.walkingSpeed = 2;
         
         this.flipImage = false;
         this.bulletFlipState = false;
@@ -48,7 +48,7 @@ export class Player{
 
         this.hurt = false;
         this.health = 100;
-        this.invinsibilityFramesMS = 200;
+        this.invinsibilityFramesMS = 500;
         this.dead = false;
     }
     update(dt){
@@ -81,9 +81,18 @@ export class Player{
             this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
         }
 
+        if(this.hurt === true){
+            this.currentImage = document.getElementById("hurtpng");
+            this.maxFrameX = 3;
+            this.frameAccelerator = 0.4;
+            return;
+        }else{
+            this.frameAccelerator = 1;
+        }
+
         if(this.health <= 0){
             if(this.dead === false){
-                //here make 1 time use property changes if die
+                //here make 1 time use property changes if died
                 this.dead = true;
                 this.currentImage = document.getElementById("deadpng");
                 this.frameX = 0;

@@ -46,15 +46,9 @@ class Preloading{
         clearInterval(this.intervalID);
         this.loadingScreen.style.display = "none";
         this.#addMainCanvas();
-        this.#addScript();
         document.getElementById("textArea").classList.remove("displaynone");
         document.getElementById("textArea").style.display = "block";
-    }
-    #addScript(){
-        const mainscript = document.createElement('script');
-        mainscript.type = 'module';
-        mainscript.src = 'main.js';
-        document.body.appendChild(mainscript);
+        new GameStart();
     }
     #addMainCanvas(){
         const mCanvas = document.createElement('canvas');
@@ -83,4 +77,29 @@ class Preloading{
         console.error(e);
     }
 }
-let preload = new Preloading();
+class GameStart{
+    constructor(){
+        this.INFO = {
+            msg1: {
+                text: "Click to start Game.",
+                x: 0,
+                y: 0
+            }
+        }
+        const _canvas = document.getElementById("mainCanvas");
+        const ctx = _canvas.getContext('2d');
+        ctx.font = "40px sans-serif";
+        ctx.fillStyle = "black";
+        ctx.fillText(this.INFO.msg1.text, this.INFO.msg1.x, this.INFO.msg1.y);
+        document.addEventListener("click", () => {
+            this.#LoadMainScript();
+        })
+    }
+    #LoadMainScript(){
+        const mainscript = document.createElement('script');
+        mainscript.type = 'module';
+        mainscript.src = 'main.js';
+        document.body.appendChild(mainscript);
+    }
+}
+new Preloading();

@@ -140,6 +140,8 @@ export class Background{
                 break;
 
             default:
+                throw new Error("Undefined season");
+                
         }
     }
     #drawBlock(blockId){

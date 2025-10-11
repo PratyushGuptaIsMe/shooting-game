@@ -14,8 +14,6 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 - Add a proper GAME OVER SCREEN.
 
-- **Add warnings for when player ammo gets low.**
-
 - **Add jiggles and moves in the text/warnings if player runs out of ammo**
 
 - Add backgrounds and start using backgrounds class.
@@ -31,5 +29,3 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 - Fix players and enemies glitching/shaking when they contact the border
 
 - Get the timings for cooldowns and animations right
-
-- Get the canvas styling and positions correct and properly aligned

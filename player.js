@@ -1,5 +1,6 @@
 export class Player{
     constructor(game){
+        this.abortPlayer = false;
         this.game = game;
         this.audio = this.game.audio.player;
         this.x = 0;
@@ -16,8 +17,6 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.bulletL = document.getElementById('bulletL');
-        this.bulletR = document.getElementById('bulletR')
         this.ammunition = 10;
         this.canShoot = true;
         this.canReload = true;
@@ -36,7 +35,7 @@ export class Player{
         this.maxAmmo = 10;
         this.gunHeight = this.y + 175 + this.groundMargin;
 
-        this.walkingSpeed = 3;
+        this.walkingSpeed = 2.5;
         
         this.flipImage = false;
         this.bulletFlipState = false;
@@ -50,7 +49,7 @@ export class Player{
 
         this.hurt = false;
         this.health = 100;
-        this.invinsibilityFramesMS = 200;
+        this.invinsibilityFramesMS = 500;
         this.dead = false;
     }
     update(dt){
@@ -60,9 +59,63 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+        
+        if(this.abortPlayer === true){
+            this.frameX = this.maxFrameX - 1;
+            return;
+        }
 
+        this.#increaseFrames(dt);
+
+        if(this.health < 0){
+            this.health = 0;
+        }        
         if(this.ammunition > this.maxAmmo){
             this.ammunition = this.maxAmmo;
+        }
+
+        if(this.hitbox.x < 0){
+            this.x = -100;
+        }
+        if(this.hitbox.y < 0){
+            this.y = -this.groundMargin - 115;
+        }
+        if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
+            this.x = this.game.canvasWidth - this.spriteWidth/2 - 100 + 18;
+        }
+        if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
+            this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
+        }
+
+        if(this.hurt === true){
+            this.currentImage = document.getElementById("hurtpng");
+            this.maxFrameX = 3;
+            
+            this.frameAccelerator = 0.5;
+            return;
+        }else{
+            this.frameAccelerator = 1;
+        }
+
+        if(this.health <= 0){
+            if(this.dead === false){
+                //here make 1 time use property changes if died
+                this.dead = true;
+                this.currentImage = document.getElementById("deadpng");
+                this.frameX = 0;
+                this.maxFrameX = 5;
+                this.frameAccelerator = 0.5;
+            }
+        }
+        
+        this.#runBulletOperations();
+
+        if(this.dead){
+            this.currentImage = document.getElementById("deadpng");
+            if(this.frameX >= this.maxFrameX){
+                this.abortPlayer = true;
+            }
+            return;
         }
         
         if((this.keysPressed.includes("ArrowLeft") ||
@@ -196,68 +249,16 @@ export class Player{
         ){
             this.#playAudio(this.audio.shooting.blank);
         }
-
-        if(this.frameTimer < this.frameInterval){
-            this.frameTimer += (dt * this.frameAccelerator);
-        }else{
-            this.frameX += 1;
-            if(this.frameX > this.maxFrameX){
-                this.frameX = 0;
-            }
-            this.frameTimer = 0;
-        }
-
-        if(this.hitbox.x < 0){
-            this.x = -100;
-        }
-        if(this.hitbox.y < 0){
-            this.y = -this.groundMargin - 115;
-        }
-        if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
-            this.x = this.game.canvasWidth - this.spriteWidth/2 - 100 + 18;
-        }
-        if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
-            this.y = this.game.canvasHeight - 115 - 14 - this.spriteHeight - this.groundMargin;
-        }
-
-        if(this.bulletActive === false){
-            this.bulletFlipState = this.flipImage;
-            this.gunHeight = this.y + 175 + this.groundMargin;
-        }else if(this.bulletActive === true){
-            if( this.projectileX + 20 < 0 ||
-                this.projectileX > this.game.canvasWidth){
-                    this.bulletActive = false;
-            }
-        }
-        if(this.bulletFlipState === true){
-            if(this.bulletActive === true){
-                this.projectileX -= this.projectileSpeed;
-            }else{
-                this.projectileX = this.hitbox.x + 20 + 20;
-            }
-        }else if(this.bulletFlipState === false){
-            if(this.bulletActive === true){
-                this.projectileX += this.projectileSpeed;
-            }else{
-                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
-            }
-        }
-
-
-        if(this.health <= 0){
-            if(this.dead === false){
-                this.dead = true;
-                //here make 1 time use property changes if die
-            }
-        }
     }
     draw(ctx){
         ctx.fillStyle = "yellow";
 
-        if(this.bulletActive){
+        if(this.bulletActive &&
+            this.abortPlayer === true
+        ){
             if(this.bulletFlipState === true){
                 ctx.drawImage(
-                    this.bulletL,
+                    document.getElementById("bulletL"),
                     0, 
                     0, 
                     977,
@@ -269,7 +270,7 @@ export class Player{
                 );
             }else if(this.bulletFlipState === false){
                 ctx.drawImage(
-                    this.bulletR,
+                    document.getElementById("bulletR"),
                     0, 
                     0, 
                     977,
@@ -312,6 +313,10 @@ export class Player{
             );
         }
 
+        if(this.abortPlayer === true){
+            return;
+        }
+
         if(this.game.debugMode === true){
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.w, this.hitbox.h);
             
@@ -320,6 +325,42 @@ export class Player{
             ctx.strokeStyle = "grey";
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
             ctx.restore();
+        }
+    }
+
+    #increaseFrames(dt){
+        if(this.frameTimer < this.frameInterval){
+            this.frameTimer += (dt * this.frameAccelerator);
+        }else{
+            this.frameX += 1;
+            if(this.frameX > this.maxFrameX){
+                this.frameX = 0;
+            }
+            this.frameTimer = 0;
+        }
+    }
+    #runBulletOperations(){
+        if(this.bulletActive === false){
+            this.bulletFlipState = this.flipImage;
+            this.gunHeight = this.y + 175 + this.groundMargin;
+        }else if(this.bulletActive === true){
+            if( this.projectileX + 20 < 0 ||
+                this.projectileX > this.game.canvasWidth){
+                    this.bulletActive = false;
+            }
+        }
+        if(this.bulletFlipState === true){
+            if(this.bulletActive === true){
+                this.projectileX -= this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + 20 + 20;
+            }
+        }else if(this.bulletFlipState === false){
+            if(this.bulletActive === true){
+                this.projectileX += this.projectileSpeed;
+            }else{
+                this.projectileX = this.hitbox.x + this.spriteWidth / 2 - 20 - 20;
+            }
         }
     }
     #playAudio(audio){

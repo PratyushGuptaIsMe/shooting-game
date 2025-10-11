@@ -45,7 +45,7 @@ class Enemies{
             w: this.spriteWidth * 2 - 150,
             h: this.spriteHeight * 2 - 35
         }
-    
+
         if(this.frameTimer < this.frameInterval){
             this.frameTimer += dt * this.frameAccelerator;
         }else{
@@ -79,6 +79,14 @@ class Enemies{
             this.image = this.deathAnimationSprites;
         }
 
+        if(this.game.gameOver === true){
+            if(this.dead === true){
+                this.image = this.deathAnimationSprites;
+            }
+            this.attackAnimationRunning = false;
+            return;
+        }
+
         this.#moveEnemy(dt);
 
         if(this.attackAnimationRunning === true &&
@@ -99,7 +107,8 @@ class Enemies{
             this.y = -35;
         }
         if((this.hitbox.x) + (this.hitbox.w) > this.game.canvasWidth){
-            this.x = this.game.canvasWidth - this.hitbox.w - 70;        }
+            this.x = this.game.canvasWidth - this.hitbox.w - 70;        
+        }
         if(this.hitbox.y + this.hitbox.h > this.game.canvasHeight){
             this.y = this.game.canvasHeight - this.hitbox.h - 35;        
         }
@@ -153,7 +162,10 @@ class Enemies{
         }
     }
     #moveEnemy(dt){
-        if(this.attackAnimationRunning === false) {
+        if(this.game.gameOver === true){
+            return;
+        }
+        if(this.attackAnimationRunning === false){
             switch(true) {
                 case(this.movementRand <= 0.20):
                     this.x -= this.walkLength;
@@ -235,12 +247,16 @@ export class WhiteSkeleton extends Enemies{
         this.spriteHeight = 64;
         this.attackDmg = 6;
         this.scoreValue = 10;
-        
         this.deathAnimationSpriteID = "WhiteSkeletonDie";
         this.deathAnimationSprites = document.getElementById(this.deathAnimationSpriteID);
     }
     update(dt){
         super.update(dt);
+        if(this.game.gameOver) {
+            this.image = document.getElementById("WhiteSkeletonIdle");
+            this.frameAccelerator = 1;
+            return;
+        }
         if(this.dead === false){
             this.updateSkeleton();
         }else{
@@ -275,12 +291,16 @@ export class YellowSkeleton extends Enemies{
         this.spriteHeight = 64;
         this.attackDmg = 10;
         this.scoreValue = 20;
-
         this.deathAnimationSpriteID = "YellowSkeletonDie";
         this.deathAnimationSprites = document.getElementById(this.deathAnimationSpriteID);
     }
     update(dt){
         super.update(dt);
+        if(this.game.gameOver) {
+            this.image = document.getElementById("YellowSkeletonIdle");
+            this.frameAccelerator = 1;
+            return;
+        }
         if(this.dead === false){
             this.updateSkeleton();
         }else{

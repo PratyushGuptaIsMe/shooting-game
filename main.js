@@ -10,6 +10,7 @@ class GAME{
             SUMMER: 3
         }
 
+        this.gameOver = false;
         this.canvasWidth = width;
         this.canvasHeight = height;
         this.fps = 20;
@@ -28,10 +29,13 @@ class GAME{
         this.enemyTimer = 0;
         this.enemyInterval = 1000;  //time which enemy spawns
 
-        this.score = 0;
+        this.score = 0;    
     }
 
     updateText(text){
+        if(this.Player.health < 0){
+            this.Player.health = 0;
+        }
         text.health.textContent = "health : " + this.Player.health;
         text.ammo.textContent = "ammo : " + this.Player.ammunition;
         text.score.textContent = "score : " + this.score;
@@ -141,6 +145,7 @@ class GAME{
 
     hurtPlayer(dmg){
         if(this.Player.hurt === false){
+            this.Player.frameX = 0;
             this.Player.hurt = true;
             setTimeout(() => {
                 this.Player.hurt = false;
@@ -199,14 +204,20 @@ class GAME{
     }
 
     update(dt){
-        if(this.Player.dead === true){
-            return;
-        }
-        this.backgrounds.update();
         this.Player.update(dt);
+        this.backgrounds.update();
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.update(dt);
         });
+        if(this.Player.dead === true){
+            this.gameOver = true;
+            return;
+        }
+        if(this.gameOver === true){
+            this.debugMode = false;
+            return;
+            //play gameover audio
+        }
         this.#enemyCollisionChecks();
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);
@@ -214,15 +225,11 @@ class GAME{
         this.playAudio(this.audio.miscellaneous.background_music);
     }
     draw(ctx){
-        if(this.Player.dead === true){
-            //if dead
-        }else if(this.Player.dead === false){
-            this.backgrounds.draw(ctx);
-            this.Player.draw(ctx);
-            this.allCurrentEnemies.forEach((enemy) => {
-                enemy.draw(ctx);
-            });
-        }
+        this.backgrounds.draw(ctx);
+        this.Player.draw(ctx);
+        this.allCurrentEnemies.forEach((enemy) => {
+            enemy.draw(ctx);
+        });
     }
 }
 

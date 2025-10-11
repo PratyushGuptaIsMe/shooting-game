@@ -83,23 +83,35 @@ class GameStart{
             msg1: {
                 text: "Click to start Game.",
                 x: 0,
-                y: 0
+                y: 0,
+                fontsize: "40px",
+                fontfamily: "sans-serif"
             }
         }
+        this.fillStyle = "black";
+
+        const space = " ";
+        const s = space;
         const _canvas = document.getElementById("mainCanvas");
         const ctx = _canvas.getContext('2d');
-        ctx.font = "40px sans-serif";
-        ctx.fillStyle = "black";
+        ctx.textBaseline = "top";
+        ctx.fillStyle = this.fillStyle;
+
+        ctx.font = this.INFO.msg1.fontsize + s + this.INFO.msg1.fontfamily;
         ctx.fillText(this.INFO.msg1.text, this.INFO.msg1.x, this.INFO.msg1.y);
-        document.addEventListener("click", () => {
-            this.#LoadMainScript();
-        })
+        
+        this.#clickToStartGameListener(_canvas, ctx);
     }
-    #LoadMainScript(){
-        const mainscript = document.createElement('script');
-        mainscript.type = 'module';
-        mainscript.src = 'main.js';
-        document.body.appendChild(mainscript);
+    #clickToStartGameListener(_canvas, ctx){
+        document.addEventListener("click", () => {
+            ctx.clearRect(0, 0, _canvas.width, _canvas.height);
+
+            //load main.js script
+            const mainscript = document.createElement('script');
+            mainscript.type = 'module';
+            mainscript.src = 'main.js';
+            document.body.appendChild(mainscript);
+        });
     }
 }
 new Preloading();

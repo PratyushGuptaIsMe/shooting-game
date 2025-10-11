@@ -1,5 +1,6 @@
 export class Player{
     constructor(game){
+        this.abortPlayer = false;
         this.game = game;
         this.audio = this.game.audio.player;
         this.x = 0;
@@ -47,7 +48,7 @@ export class Player{
         }
 
         this.hurt = false;
-        this.health = 100;
+        this.health = 1;
         this.invinsibilityFramesMS = 500;
         this.dead = false;
     }
@@ -59,6 +60,10 @@ export class Player{
             h: this.spriteHeight + 14
         }
         
+        if(this.abortPlayer === true){
+            return;
+        }
+
         this.#increaseFrames(dt);
 
         if(this.health < 0){
@@ -98,7 +103,7 @@ export class Player{
                 this.currentImage = document.getElementById("deadpng");
                 this.frameX = 0;
                 this.maxFrameX = 5;
-                this.frameAccelerator = 0.4;
+                this.frameAccelerator = 0.5;
             }
         }
         
@@ -106,6 +111,9 @@ export class Player{
 
         if(this.dead){
             this.currentImage = document.getElementById("deadpng");
+            if(this.frameX >= this.maxFrameX){
+                this.abortPlayer = true;
+            }
             return;
         }
         
@@ -243,6 +251,10 @@ export class Player{
     }
     draw(ctx){
         ctx.fillStyle = "yellow";
+
+        if(this.abortPlayer === true){
+            return;
+        }
 
         if(this.bulletActive){
             if(this.bulletFlipState === true){

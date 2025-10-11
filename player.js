@@ -49,7 +49,7 @@ export class Player{
 
         this.hurt = false;
         this.health = 100;
-        this.invinsibilityFramesMS = 500;
+        this.invinsibilityFramesMS = 250;
         this.dead = false;
     }
     update(dt){
@@ -91,7 +91,7 @@ export class Player{
             this.currentImage = document.getElementById("hurtpng");
             this.maxFrameX = 3;
             
-            this.frameAccelerator = 0.5;
+            this.frameAccelerator = 1;
             return;
         }else{
             this.frameAccelerator = 1;
@@ -254,7 +254,7 @@ export class Player{
         ctx.fillStyle = "yellow";
 
         if(this.bulletActive &&
-            this.abortPlayer === true
+            this.abortPlayer === false
         ){
             if(this.bulletFlipState === true){
                 ctx.drawImage(

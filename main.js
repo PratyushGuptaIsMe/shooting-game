@@ -5,8 +5,8 @@ import { Background, LoadAudio, Particles } from "./aesthetics.js";
 class GAME{
     constructor(width, height){
         this.ALLSEASONS = {
-            AUTUMN: 1,
-            WINTER: 2,
+            MORNING: 1,
+            NIGHT: 2,
             SUMMER: 3
         }
 
@@ -17,7 +17,7 @@ class GAME{
         this.keysArray = [];
         this.groundArea = 200;
         this.debugMode = false;
-        this.season = this.ALLSEASONS.AUTUMN;
+        this.season = this.ALLSEASONS.SUMMER;
 
         this.audio = new LoadAudio();
 

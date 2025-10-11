@@ -118,6 +118,7 @@ export class Background{
 
         this.ALLSEASONS = this.game.ALLSEASONS;
         this.season = this.game.season;
+        this.currentBlockSet = this.MORNINGGRASSBLOCKS;
         this.indexX = 0;    //between 0-this.scaleFactor
         this.indexY = 0;    //between 0-this.scaleFactor
         this.tempX = this.spriteWidth * this.ZOOM.grass * this.indexX;
@@ -125,8 +126,25 @@ export class Background{
     }
     update(){
         this.season = this.game.season;
+        switch(this.season){
+            case this.ALLSEASONS.MORNING:
+                this.currentBlockSet = this.MORNINGGRASSBLOCKS;
+                break;
+        
+            case this.ALLSEASONS.NIGHT:
+                this.currentBlockSet = this.NIGHTGRASSBLOCKS;
+                break;
+
+            case this.ALLSEASONS.SUMMER:
+                this.currentBlockSet = this.SUMMERGRASSBLOCKS;
+                break;
+
+            default:
+                throw new Error("Undefined season");
+                
+        }
     }
-    #drawGrassTile(blockId){
+    #drawBlock(blockId){
         this.ctx.drawImage(this.grassImg,
             blockId.indexX * this.spriteWidth,
             blockId.indexY * this.spriteHeight,
@@ -173,16 +191,33 @@ export class Background{
             this.drawGrid();
         }
     }
-    #drawBackground(){
-        this.#recalcIndex(0, 0);
-        this.#drawGrassTile(this.OBJECTS.sign);
-        this.#recalcIndex(1, 0)
-        this.#drawGrassTile(this.OBJECTS.sign);
+    #drawBackground(blockPalete){
+        for(let i = 0; i < this.scaleFactor/4; i++){
+            for (let j = 0; j < this.scaleFactor/4; j++) {
+                this.#drawBlock(blockPalete.id1);
+                this.#recalcIndex(0, 1);
+            }
+            this.#recalcIndex(1, -this.indexY);
+        }
+        for(let i = 0; i < this.scaleFactor/4; i++){
+            for (let j = 0; j < this.scaleFactor/4; j++) {
+                this.#drawBlock(blockPalete.id2);
+                this.#recalcIndex(0, 1);
+            }
+            this.#recalcIndex(1, -this.indexY);
+        }
+        for(let i = 0; i < this.scaleFactor/4; i++){
+            for (let j = 0; j < this.scaleFactor/4; j++) {
+                this.#drawBlock(blockPalete.id3);
+                this.#recalcIndex(0, 1);
+            }
+            this.#recalcIndex(1, -this.indexY);
+        }
     }
 
     draw(ctx){
         this.ctx = ctx;
-        this.#drawBackground();
+        this.#drawBackground(this.currentBlockSet);
         this.#drawGridBased();
         this.#recalcIndex(-this.indexX, -this.indexY);
     }

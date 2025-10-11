@@ -6,15 +6,9 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 ### NEW FEATURES/WORKS:
 
-- Add player hurt and dying states
-
 - Add sounds for player hurt, dying & gameover.
 
-- Add a proper start screen.
-
 - Add a proper GAME OVER SCREEN.
-
-- **Add jiggles and moves in the text/warnings if player runs out of ammo**
 
 - Add backgrounds and start using backgrounds class.
 

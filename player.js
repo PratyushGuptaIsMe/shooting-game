@@ -48,7 +48,7 @@ export class Player{
         }
 
         this.hurt = false;
-        this.health = 1;
+        this.health = 100;
         this.invinsibilityFramesMS = 500;
         this.dead = false;
     }
@@ -61,6 +61,7 @@ export class Player{
         }
         
         if(this.abortPlayer === true){
+            this.frameX = this.maxFrameX - 1;
             return;
         }
 
@@ -252,11 +253,9 @@ export class Player{
     draw(ctx){
         ctx.fillStyle = "yellow";
 
-        if(this.abortPlayer === true){
-            return;
-        }
-
-        if(this.bulletActive){
+        if(this.bulletActive &&
+            this.abortPlayer === true
+        ){
             if(this.bulletFlipState === true){
                 ctx.drawImage(
                     document.getElementById("bulletL"),
@@ -312,6 +311,10 @@ export class Player{
                         this.spriteWidth*2,
                         this.spriteHeight*2
             );
+        }
+
+        if(this.abortPlayer === true){
+            return;
         }
 
         if(this.game.debugMode === true){

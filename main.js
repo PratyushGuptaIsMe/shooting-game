@@ -145,6 +145,7 @@ class GAME{
 
     hurtPlayer(dmg){
         if(this.Player.hurt === false){
+            this.Player.frameX = 0;
             this.Player.hurt = true;
             setTimeout(() => {
                 this.Player.hurt = false;

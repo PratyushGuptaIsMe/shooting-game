@@ -34,7 +34,7 @@ export class Player{
         this.maxAmmo = 10;
         this.gunHeight = this.y + 175 + this.groundMargin;
 
-        this.walkingSpeed = 2;
+        this.walkingSpeed = 2.5;
         
         this.flipImage = false;
         this.bulletFlipState = false;
@@ -84,7 +84,8 @@ export class Player{
         if(this.hurt === true){
             this.currentImage = document.getElementById("hurtpng");
             this.maxFrameX = 3;
-            this.frameAccelerator = 0.4;
+            
+            this.frameAccelerator = 0.5;
             return;
         }else{
             this.frameAccelerator = 1;

@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
-import { Background, LoadAudio, Particles } from "./aesthetics.js";
+import { Background, LoadAudio } from "./aesthetics.js";
 
 class GAME{
     constructor(width, height){

@@ -336,17 +336,20 @@ export class LoadAudio{
             audio.a.playbackRate = 0.55;
         })
         Object.values(this.enemies.attacking).forEach((audio) => {
-            audio.a.volume = 0.3;
+            audio.a.volume = 0.2;
+        })
+        Object.values(this.player.hurt).forEach((audio) => {
+            audio.a.volume = 0.5;
         })
         this.miscellaneous.background_music.a.volume = 0.2;
         this.miscellaneous.pvz_gameover_sound_effect.a.volume = 0.2;
         this.miscellaneous.pvz_gameover_sound_effect.a.playbackRate = 0.9;
 
         try{
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const audioContext = new AudioContext();
+            const AUDIOCONTEXT = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AUDIOCONTEXT();
 
-            const dirtAudio = this.miscellaneous.body_hitting_dirt.a;
+            const dirtAudio = this.player.dying.body_hitting_dirt.a;
             const source = audioContext.createMediaElementSource(dirtAudio);
             const gainNode = audioContext.createGain();
 
@@ -361,6 +364,44 @@ export class LoadAudio{
         }catch(e){
             console.warn("Web Audio API gain boost failed:", e);
         }
+        try {
+            const AUDIOCONTEXT = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AUDIOCONTEXT();
+
+            const lowFilter = audioContext.createBiquadFilter();
+            lowFilter.type = "lowshelf";
+            lowFilter.frequency.value = 200;
+            lowFilter.gain.value = 1.5;
+            const midFilter = audioContext.createBiquadFilter();
+            midFilter.type = "peaking";
+            midFilter.frequency.value = 1200;
+            midFilter.Q.value = 1;
+            midFilter.gain.value = -3;
+            const highFilter = audioContext.createBiquadFilter();
+            highFilter.type = "highshelf";
+            highFilter.frequency.value = 500;
+            highFilter.gain.value = -5;
+
+            Object.values(this.player.hurt).forEach((audioObj) => {
+                const audioEl = audioObj.a;
+                const source = audioContext.createMediaElementSource(audioEl);
+
+                source
+                    .connect(lowFilter)
+                    .connect(midFilter)
+                    .connect(highFilter)
+                    .connect(audioContext.destination);
+
+                audioEl.addEventListener("play", async () => {
+                    if(audioContext.state === "suspended"){
+                        await audioContext.resume();
+                    }
+                });
+            });
+
+        }catch(e){
+            console.warn("Web Audio API EQ setup failed:", e);
+        }
     }
 }
 class CreateAudio{
@@ -369,14 +410,5 @@ class CreateAudio{
         this.l =  loop; //loop or not
         this.playing =  false;
         this.a.loop = this.l;
-    }
-}
-
-export class Particles{
-    constructor(){
-
-    }
-    draw(ctx){
-
     }
 }

@@ -24,6 +24,7 @@ class GAME{
 
         this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
+        this.maxAmmo = 10;
         this.Player = new Player(this);
 
         this.enemySpawning = true;  //enemy spawning switch
@@ -43,9 +44,9 @@ class GAME{
         if(this.Player.ammunition < 1){
             text.ammo.style.color = 'red';
             if(this.keysArray.includes(" ")){
-                text.ammo.classList.add("jiggle");
+                text.ammo.classList.add("jiggle1");
             }else{
-                text.ammo.classList.remove("jiggle")
+                text.ammo.classList.remove("jiggle1")
             }
         }else{
             text.ammo.style.color = 'black';

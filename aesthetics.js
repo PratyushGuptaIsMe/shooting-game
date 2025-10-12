@@ -236,7 +236,15 @@ export class LoadAudio{
                 Lthid3: new CreateAudio('audio/p-w/step_lth3.ogg', false),
                 Lthid4: new CreateAudio('audio/p-w/step_lth4.ogg', false),
             },
-            dying: {},
+            dying: {
+                body_hitting_dirt: new CreateAudio('audio/misc/body-fall-hitting-dirt.mp3', false)
+            },
+            hurt: {
+                id1: new CreateAudio('audio/p-h/Damage-grunt-1.wav', false),
+                id2: new CreateAudio('audio/p-h/Damage-grunt-2.wav', false),
+                id3: new CreateAudio('audio/p-h/Damage-grunt-3.wav', false),
+                id4: new CreateAudio('audio/p-h/Damage-grunt-4.wav', false),
+            },
             shooting: {
                 blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', false),
                 shoot: {
@@ -308,8 +316,7 @@ export class LoadAudio{
         };
         this.miscellaneous = {
             background_music: new CreateAudio('audio/misc/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true),
-            pvz_gameover_sound_effect: new CreateAudio('audio/misc/game-over-pvz.mp3', false),
-            body_hitting_dirt: new CreateAudio('audio/misc/body-fall-hitting-dirt.mp3', false),
+            pvz_gameover_sound_effect: new CreateAudio('audio/misc/game-over-pvz.mp3', false)
         };
         this.#setAudioPropertyValues();
     }
@@ -329,7 +336,7 @@ export class LoadAudio{
             audio.a.playbackRate = 0.55;
         })
         Object.values(this.enemies.attacking).forEach((audio) => {
-            audio.a.volume = 0.5;
+            audio.a.volume = 0.3;
         })
         this.miscellaneous.background_music.a.volume = 0.2;
         this.miscellaneous.pvz_gameover_sound_effect.a.volume = 0.2;

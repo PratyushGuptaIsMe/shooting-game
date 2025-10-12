@@ -238,7 +238,9 @@ class GAME{
             this.audio.miscellaneous.background_music.playing = false;
             this.musicStarted = false;
             //play pvz gameOver sound
-            this.playAudio(this.audio.miscellaneous.pvz_gameover_sound_effect);
+            setTimeout(() => {
+                this.playAudio(this.audio.miscellaneous.pvz_gameover_sound_effect);
+            }, 200);
             return;
         }
         if(this.gameOver === true){

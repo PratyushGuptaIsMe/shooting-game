@@ -90,7 +90,7 @@ export class Player{
         if(this.hurt === true){
             this.currentImage = document.getElementById("hurtpng");
             this.maxFrameX = 3;
-            
+            this.#playRandomAudio(this.audio.hurt);
             this.frameAccelerator = 1;
             return;
         }else{
@@ -113,7 +113,7 @@ export class Player{
         if(this.dead){
             this.currentImage = document.getElementById("deadpng");
             if(this.frameX >= this.maxFrameX){
-                this.#playAudio(this.game.audio.miscellaneous.body_hitting_dirt);
+                this.#playAudio(this.audio.dying.body_hitting_dirt);
                 this.abortPlayer = true;
             }
             return;

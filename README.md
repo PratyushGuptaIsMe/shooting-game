@@ -8,18 +8,10 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 
 - Add sounds for player hurt, dying & gameover.
 
-- Add a proper GAME OVER SCREEN.
-
 - Add backgrounds and start using backgrounds class.
-
-- Add particles and utilize them in player gun, blood, collisions, etc
 
 ---
 
 ### UPCOMING BUGFIXES:
 
 - Fix bullets duplicating when they go through the boundary
-
-- Fix players and enemies glitching/shaking when they contact the border
-
-- Get the timings for cooldowns and animations right

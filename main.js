@@ -22,16 +22,19 @@ class GAME{
         this.audio = new LoadAudio();
         this.musicStarted = false;
 
-        this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
         this.maxAmmo = 10;
         this.Player = new Player(this);
 
+        this.allCurrentEnemies = [];
         this.enemySpawning = true;  //enemy spawning switch
         this.enemyTimer = 0;
-        this.enemyInterval = 1000;  //time which enemy spawns
+        this.enemyInterval = 2000;  //time which enemy spawns
 
-        this.score = 0;    
+        this.score = 0;
+        
+        this.gameoverTextSize = 25;
+        this.maxGameoverTextSize = 120;
     }
 
     updateText(text){
@@ -51,6 +54,20 @@ class GAME{
         }else{
             text.ammo.style.color = 'black';
         }
+    }
+
+    #overlayGameOverText(ctx){
+        let gameoverText = "GAME OVER!";
+        ctx.save();
+        ctx.font = `bold ${this.gameoverTextSize}px "Jersey 15", sans-serif`;
+        ctx.fillStyle = "red";
+        ctx.strokeStyle = "orange";
+        ctx.lineWidth = 1;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
+        ctx.strokeText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
+        ctx.restore();
     }
 
     #spawnWhiteSkeleton(){
@@ -226,6 +243,9 @@ class GAME{
         }
         if(this.gameOver === true){
             this.debugMode = false;
+            if(this.gameoverTextSize < this.maxGameoverTextSize){
+                this.gameoverTextSize++;
+            }
             return;
         }
         this.#enemyCollisionChecks();
@@ -243,6 +263,9 @@ class GAME{
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.draw(ctx);
         });
+        if(this.gameOver === true){
+            this.#overlayGameOverText(ctx);
+        };
     }
 }
 

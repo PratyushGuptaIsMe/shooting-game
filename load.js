@@ -85,7 +85,7 @@ class GameStart{
                 x: 0,
                 y: 0,
                 fontsize: "40px",
-                fontfamily: "sans-serif"
+                fontfamily: "Hind Siliguri"
             }
         }
         this.fillStyle = "black";

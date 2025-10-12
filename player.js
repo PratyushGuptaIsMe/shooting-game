@@ -48,7 +48,7 @@ export class Player{
         }
 
         this.hurt = false;
-        this.health = 100;
+        this.health = 1;
         this.invinsibilityFramesMS = 250;
         this.dead = false;
     }
@@ -113,6 +113,7 @@ export class Player{
         if(this.dead){
             this.currentImage = document.getElementById("deadpng");
             if(this.frameX >= this.maxFrameX){
+                this.#playAudio(this.game.audio.miscellaneous.body_hitting_dirt);
                 this.abortPlayer = true;
             }
             return;

@@ -20,6 +20,7 @@ class GAME{
         this.season = this.ALLSEASONS.SUMMER;
 
         this.audio = new LoadAudio();
+        this.musicStarted = false;
 
         this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
@@ -209,20 +210,31 @@ class GAME{
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.update(dt);
         });
-        if(this.Player.dead === true){
+        if(this.Player.dead === true &&
+            this.gameOver === false
+        ){
             this.gameOver = true;
+            //stop background music
+            this.audio.miscellaneous.background_music.a.pause();
+            this.audio.miscellaneous.background_music.a.currentTime = 0;
+            this.audio.miscellaneous.background_music.playing = false;
+            this.musicStarted = false;
+            //play pvz gameOver sound
+            this.playAudio(this.audio.miscellaneous.pvz_gameover_sound_effect);
             return;
         }
         if(this.gameOver === true){
             this.debugMode = false;
             return;
-            //play gameover audio
         }
         this.#enemyCollisionChecks();
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);
         }
-        this.playAudio(this.audio.miscellaneous.background_music);
+        if (!this.musicStarted && this.gameOver === false) {
+            this.playAudio(this.audio.miscellaneous.background_music);
+            this.musicStarted = true;
+        }
     }
     draw(ctx){
         this.backgrounds.draw(ctx);

@@ -307,7 +307,9 @@ export class LoadAudio{
             }
         };
         this.miscellaneous = {
-            background_music: new CreateAudio('audio/music/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true)
+            background_music: new CreateAudio('audio/misc/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true),
+            pvz_gameover_sound_effect: new CreateAudio('audio/misc/game-over-pvz.mp3', false),
+            body_hitting_dirt: new CreateAudio('audio/misc/body-fall-hitting-dirt.mp3', false),
         };
         this.#setAudioPropertyValues();
     }
@@ -330,6 +332,28 @@ export class LoadAudio{
             audio.a.volume = 0.5;
         })
         this.miscellaneous.background_music.a.volume = 0.2;
+        this.miscellaneous.pvz_gameover_sound_effect.a.volume = 0.2;
+        this.miscellaneous.pvz_gameover_sound_effect.a.playbackRate = 0.9;
+
+        try{
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+
+            const dirtAudio = this.miscellaneous.body_hitting_dirt.a;
+            const source = audioContext.createMediaElementSource(dirtAudio);
+            const gainNode = audioContext.createGain();
+
+            gainNode.gain.value = 3.5;  //volume
+            source.connect(gainNode).connect(audioContext.destination);
+            
+            dirtAudio.addEventListener('play', async () => {
+                if(audioContext.state === 'suspended'){
+                    await audioContext.resume();
+                }
+            });
+        }catch(e){
+            console.warn("Web Audio API gain boost failed:", e);
+        }
     }
 }
 class CreateAudio{

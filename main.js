@@ -224,8 +224,15 @@ class GAME{
 
     playMainBackgroundMusic() {
         if(!this.musicStarted && !this.gameOver){
-            this.playAudio(this.audio.miscellaneous.background_music);
-            this.musicStarted = true;
+            if(window.gameAudioContext && window.gameAudioContext.state === 'suspended') {
+                window.gameAudioContext.resume().then(() => {
+                    this.playAudio(this.audio.miscellaneous.background_music);
+                    this.musicStarted = true;
+                });
+            } else {
+                this.playAudio(this.audio.miscellaneous.background_music);
+                this.musicStarted = true;
+            }
         }
     }
 

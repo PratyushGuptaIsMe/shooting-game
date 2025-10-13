@@ -225,6 +225,7 @@ export class Background{
 
 export class LoadAudio{
     constructor(){
+        this.allAudio = [];
         this.player = {
             walking: {
                 Cid1: new CreateAudio('audio/p-w/step_cloth1.ogg', false),
@@ -319,6 +320,84 @@ export class LoadAudio{
             pvz_gameover_sound_effect: new CreateAudio('audio/misc/game-over-pvz.mp3', false)
         };
         this.#setAudioPropertyValues();
+        this.#allAudioInArray();
+        allAudio = this.allAudio;
+    }
+    preloadAudio(callback){
+        let loadedCount = 0;
+        const totalAudio = this.allAudio.length;
+
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+        } catch (e) {}
+
+        this.allAudio.forEach((audioEl, index) => {
+            audioEl.preload = 'auto';
+            audioEl.volume = 0.1;
+            audioEl.muted = false;
+            
+            const isBackgroundMusic = audioEl.src && audioEl.src.includes('Pirate-orchestra');
+            
+            audioEl.addEventListener('canplaythrough', () => {
+                loadedCount++;
+                
+                try {
+                    audioEl.currentTime = 0;
+                } catch (e) {}
+                
+                if(isBackgroundMusic) {
+                    audioEl.addEventListener('loadeddata', () => {
+                        try {
+                            audioEl.currentTime = 0;
+                            setTimeout(() => {
+                                if(audioEl.duration > 10) {
+                                    audioEl.currentTime = 5;
+                                }
+                            }, 100);
+                            setTimeout(() => {
+                                if(audioEl.duration > 20) {
+                                    audioEl.currentTime = 10;
+                                }
+                            }, 200);
+                            setTimeout(() => {
+                                audioEl.currentTime = 0;
+                            }, 300);
+                        } catch (e) {}
+                    }, { once: true });
+                }
+                
+                if(loadedCount === totalAudio){
+                    this.#unlockAudioContext();
+                    callback();
+                }
+            }, { once: true });
+            audioEl.addEventListener('error', (e) => {
+                loadedCount++;
+                if(loadedCount === totalAudio){
+                    this.#unlockAudioContext();
+                    callback();
+                }
+            }, { once: true });
+            audioEl.load();
+        });
+    }
+
+    #unlockAudioContext() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+            
+            audioContext.resume().then(() => {
+                const buffer = audioContext.createBuffer(1, 1, 22050);
+                const source = audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.start();
+                
+                window.gameAudioContext = audioContext;
+            }).catch(e => {});
+        } catch (e) {}
     }
     #setAudioPropertyValues(){
         Object.keys(this.player.walking).forEach((key) => {
@@ -402,6 +481,23 @@ export class LoadAudio{
         }catch(e){
             console.warn("Web Audio API EQ setup failed:", e);
         }
+    }
+    #allAudioInArray(){
+        // Player audio
+        Object.values(this.player.walking).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.hurt).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.reloading).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.shooting.shoot).forEach(a => this.allAudio.push(a.a));
+        if (this.player.shooting.blank) this.allAudio.push(this.player.shooting.blank.a);
+        this.allAudio.push(this.player.dying.body_hitting_dirt.a);
+
+        // Enemies audio
+        Object.values(this.enemies.rattle.id2).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.enemies.attacking).forEach(a => this.allAudio.push(a.a));
+
+        // Miscellaneous audio
+        Object.values(this.miscellaneous).forEach(a => this.allAudio.push(a.a));
+
     }
 }
 class CreateAudio{

@@ -7,7 +7,7 @@ class Preloading{
 
         this.elementsToBeLoaded = document.getElementsByClassName(html_class);
         this.numberOfElements = this.elementsToBeLoaded.length;
-        this.percentLoadingProgress = 0;    //percent
+        this.percentLoadingProgress = 0;
         this.intervalID;
         this.#constructorSingleUseCode();
     }
@@ -111,7 +111,13 @@ class GameStart{
             mainscript.type = 'module';
             mainscript.src = 'main.js';
             document.body.appendChild(mainscript);
+            mainscript.onload = () => {
+                game.playMainBackgroundMusic();
+            };
+        }, {
+            once: true
         });
     }
 }
+let game;
 new Preloading();

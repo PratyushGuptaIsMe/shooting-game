@@ -222,6 +222,14 @@ class GAME{
         playNext();
     }
 
+    playMainBackgroundMusic() {
+        if(!this.musicStarted && !this.gameOver){
+            this.playAudio(this.audio.miscellaneous.background_music);
+            this.musicStarted = true;
+        }
+    }
+
+
     update(dt){
         this.Player.update(dt);
         this.backgrounds.update();
@@ -254,10 +262,7 @@ class GAME{
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);
         }
-        if (!this.musicStarted && this.gameOver === false) {
-            this.playAudio(this.audio.miscellaneous.background_music);
-            this.musicStarted = true;
-        }
+        this.playMainBackgroundMusic();
     }
     draw(ctx){
         this.backgrounds.draw(ctx);
@@ -275,7 +280,7 @@ const CANVAS = document.getElementById("mainCanvas");
 const ctx = CANVAS.getContext("2d");
 CANVAS.width = window.innerHeight;
 CANVAS.height = window.innerHeight;
-let game = new GAME(CANVAS.width, CANVAS.height);
+game = new GAME(CANVAS.width, CANVAS.height);
 let l = 0;
 const text = {
     health: document.getElementById("healthDisplay"),

@@ -6,8 +6,9 @@ class Preloading{
         this.percentageCounter = document.getElementById("loadingPercentageCounter");
 
         this.elementsToBeLoaded = document.getElementsByClassName(html_class);
-        this.numberOfElements = this.elementsToBeLoaded.length;
-        this.percentLoadingProgress = 0;    //percent
+        this.numberOfElements = this.elementsToBeLoaded.length + 1;
+        this.audioPreloaded = false;
+        this.percentLoadingProgress = 0;
         this.intervalID;
         this.#constructorSingleUseCode();
     }
@@ -34,13 +35,20 @@ class Preloading{
                 elementsComplete++;
             }
         })
+        if(this.audioPreloaded){
+            elementsComplete++;
+        }
         let currentPercentLoadingProgress = (elementsComplete / this.numberOfElements) * 100;
+        
         if(this.percentLoadingProgress < currentPercentLoadingProgress){
             this.percentLoadingProgress = currentPercentLoadingProgress;
             this.updateLoadingBar();
         }
+        if(this.audioPreloaded && elementsComplete >= this.elementsToBeLoaded.length){
+            this.percentLoadingProgress = 100;
+            this.updateLoadingBar();
+        }
         this.checkIfAllLoaded();
-        console.log(this.percentLoadingProgress);
     }
     allLoaded(){
         clearInterval(this.intervalID);
@@ -59,13 +67,27 @@ class Preloading{
         document.body.appendChild(mCanvas);
     }
     checkIfAllLoaded(){
-        if(this.percentLoadingProgress >= 100){
+        if(this.percentLoadingProgress >= 100 && this.audioPreloaded){
             this.allLoaded();
         }
     }
     #constructorSingleUseCode(){
         try{
             this.inscribeElements();
+            const startAudioPreload = () => {
+                if(window.__audioReady){
+                    window.__audioReady.then(() => {
+                        this.audioPreloaded = true;
+                        this.checkLoadingProgress();
+                    }).catch((error) => {
+                        this.audioPreloaded = true;
+                        this.checkLoadingProgress();
+                    });
+                } else {
+                    setTimeout(startAudioPreload, 50);
+                }
+            };
+            startAudioPreload();
             this.intervalID = setInterval(() => {
                 this.checkLoadingProgress();
             }, 10);
@@ -85,7 +107,7 @@ class GameStart{
                 x: 0,
                 y: 0,
                 fontsize: "40px",
-                fontfamily: "sans-serif"
+                fontfamily: "Hind Siliguri"
             }
         }
         this.fillStyle = "black";
@@ -106,12 +128,51 @@ class GameStart{
         document.addEventListener("click", () => {
             ctx.clearRect(0, 0, _canvas.width, _canvas.height);
 
-            //load main.js script
+            this.#unlockAudioOnClick();
+
             const mainscript = document.createElement('script');
             mainscript.type = 'module';
             mainscript.src = 'main.js';
             document.body.appendChild(mainscript);
+            mainscript.onload = () => {
+                game.playMainBackgroundMusic();
+            };
+        }, {
+            once: true
         });
     }
+
+    #unlockAudioOnClick() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+            
+            audioContext.resume().then(() => {
+                const buffer = audioContext.createBuffer(1, 1, 22050);
+                const source = audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.start();
+                
+                if(window.allAudio && window.allAudio.length > 0) {
+                    const backgroundMusic = window.allAudio.find(audio => 
+                        audio.src && audio.src.includes('Pirate-orchestra')
+                    );
+                    
+                    const testAudio = backgroundMusic || window.allAudio[0];
+                    if(testAudio) {
+                        testAudio.currentTime = 0;
+                        testAudio.volume = 0.01;
+                        testAudio.play().then(() => {
+                            testAudio.pause();
+                            testAudio.currentTime = 0;
+                        }).catch(e => {});
+                    }
+                }
+            });
+        } catch (e) {}
+    }
 }
+let game;
+let allAudio;
 new Preloading();

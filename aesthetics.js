@@ -225,6 +225,7 @@ export class Background{
 
 export class LoadAudio{
     constructor(){
+        this.allAudio = [];
         this.player = {
             walking: {
                 Cid1: new CreateAudio('audio/p-w/step_cloth1.ogg', false),
@@ -236,7 +237,15 @@ export class LoadAudio{
                 Lthid3: new CreateAudio('audio/p-w/step_lth3.ogg', false),
                 Lthid4: new CreateAudio('audio/p-w/step_lth4.ogg', false),
             },
-            dying: {},
+            dying: {
+                body_hitting_dirt: new CreateAudio('audio/misc/body-fall-hitting-dirt.mp3', false)
+            },
+            hurt: {
+                id1: new CreateAudio('audio/p-h/Damage-grunt-1.wav', false),
+                id2: new CreateAudio('audio/p-h/Damage-grunt-2.wav', false),
+                id3: new CreateAudio('audio/p-h/Damage-grunt-3.wav', false),
+                id4: new CreateAudio('audio/p-h/Damage-grunt-4.wav', false),
+            },
             shooting: {
                 blank: new CreateAudio('audio/p-s/empty-gun-shot.mp3', false),
                 shoot: {
@@ -307,9 +316,88 @@ export class LoadAudio{
             }
         };
         this.miscellaneous = {
-            background_music: new CreateAudio('audio/music/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true)
+            background_music: new CreateAudio('audio/misc/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3', true),
+            pvz_gameover_sound_effect: new CreateAudio('audio/misc/game-over-pvz.mp3', false)
         };
         this.#setAudioPropertyValues();
+        this.#allAudioInArray();
+        allAudio = this.allAudio;
+    }
+    preloadAudio(callback){
+        let loadedCount = 0;
+        const totalAudio = this.allAudio.length;
+
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+        } catch (e) {}
+
+        this.allAudio.forEach((audioEl, index) => {
+            audioEl.preload = 'auto';
+            audioEl.volume = 0.1;
+            audioEl.muted = false;
+            
+            const isBackgroundMusic = audioEl.src && audioEl.src.includes('Pirate-orchestra');
+            
+            audioEl.addEventListener('canplaythrough', () => {
+                loadedCount++;
+                
+                try {
+                    audioEl.currentTime = 0;
+                } catch (e) {}
+                
+                if(isBackgroundMusic) {
+                    audioEl.addEventListener('loadeddata', () => {
+                        try {
+                            audioEl.currentTime = 0;
+                            setTimeout(() => {
+                                if(audioEl.duration > 10) {
+                                    audioEl.currentTime = 5;
+                                }
+                            }, 100);
+                            setTimeout(() => {
+                                if(audioEl.duration > 20) {
+                                    audioEl.currentTime = 10;
+                                }
+                            }, 200);
+                            setTimeout(() => {
+                                audioEl.currentTime = 0;
+                            }, 300);
+                        } catch (e) {}
+                    }, { once: true });
+                }
+                
+                if(loadedCount === totalAudio){
+                    this.#unlockAudioContext();
+                    callback();
+                }
+            }, { once: true });
+            audioEl.addEventListener('error', (e) => {
+                loadedCount++;
+                if(loadedCount === totalAudio){
+                    this.#unlockAudioContext();
+                    callback();
+                }
+            }, { once: true });
+            audioEl.load();
+        });
+    }
+
+    #unlockAudioContext() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+            
+            audioContext.resume().then(() => {
+                const buffer = audioContext.createBuffer(1, 1, 22050);
+                const source = audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.start();
+                
+                window.gameAudioContext = audioContext;
+            }).catch(e => {});
+        } catch (e) {}
     }
     #setAudioPropertyValues(){
         Object.keys(this.player.walking).forEach((key) => {
@@ -327,9 +415,89 @@ export class LoadAudio{
             audio.a.playbackRate = 0.55;
         })
         Object.values(this.enemies.attacking).forEach((audio) => {
+            audio.a.volume = 0.2;
+        })
+        Object.values(this.player.hurt).forEach((audio) => {
             audio.a.volume = 0.5;
         })
         this.miscellaneous.background_music.a.volume = 0.2;
+        this.miscellaneous.pvz_gameover_sound_effect.a.volume = 0.2;
+        this.miscellaneous.pvz_gameover_sound_effect.a.playbackRate = 0.9;
+
+        try{
+            const AUDIOCONTEXT = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AUDIOCONTEXT();
+
+            const dirtAudio = this.player.dying.body_hitting_dirt.a;
+            const source = audioContext.createMediaElementSource(dirtAudio);
+            const gainNode = audioContext.createGain();
+
+            gainNode.gain.value = 3.5;  //volume
+            source.connect(gainNode).connect(audioContext.destination);
+            
+            dirtAudio.addEventListener('play', async () => {
+                if(audioContext.state === 'suspended'){
+                    await audioContext.resume();
+                }
+            });
+        }catch(e){
+            console.warn("Web Audio API gain boost failed:", e);
+        }
+        try {
+            const AUDIOCONTEXT = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AUDIOCONTEXT();
+
+            const lowFilter = audioContext.createBiquadFilter();
+            lowFilter.type = "lowshelf";
+            lowFilter.frequency.value = 200;
+            lowFilter.gain.value = 1.5;
+            const midFilter = audioContext.createBiquadFilter();
+            midFilter.type = "peaking";
+            midFilter.frequency.value = 1200;
+            midFilter.Q.value = 1;
+            midFilter.gain.value = -3;
+            const highFilter = audioContext.createBiquadFilter();
+            highFilter.type = "highshelf";
+            highFilter.frequency.value = 500;
+            highFilter.gain.value = -5;
+
+            Object.values(this.player.hurt).forEach((audioObj) => {
+                const audioEl = audioObj.a;
+                const source = audioContext.createMediaElementSource(audioEl);
+
+                source
+                    .connect(lowFilter)
+                    .connect(midFilter)
+                    .connect(highFilter)
+                    .connect(audioContext.destination);
+
+                audioEl.addEventListener("play", async () => {
+                    if(audioContext.state === "suspended"){
+                        await audioContext.resume();
+                    }
+                });
+            });
+
+        }catch(e){
+            console.warn("Web Audio API EQ setup failed:", e);
+        }
+    }
+    #allAudioInArray(){
+        // Player audio
+        Object.values(this.player.walking).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.hurt).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.reloading).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.player.shooting.shoot).forEach(a => this.allAudio.push(a.a));
+        if (this.player.shooting.blank) this.allAudio.push(this.player.shooting.blank.a);
+        this.allAudio.push(this.player.dying.body_hitting_dirt.a);
+
+        // Enemies audio
+        Object.values(this.enemies.rattle.id2).forEach(a => this.allAudio.push(a.a));
+        Object.values(this.enemies.attacking).forEach(a => this.allAudio.push(a.a));
+
+        // Miscellaneous audio
+        Object.values(this.miscellaneous).forEach(a => this.allAudio.push(a.a));
+
     }
 }
 class CreateAudio{
@@ -338,14 +506,5 @@ class CreateAudio{
         this.l =  loop; //loop or not
         this.playing =  false;
         this.a.loop = this.l;
-    }
-}
-
-export class Particles{
-    constructor(){
-
-    }
-    draw(ctx){
-
     }
 }

@@ -17,7 +17,9 @@ export class Player{
         this.keysPressed = this.game.keysArray;
         this.groundMargin = this.game.groundArea;
         
-        this.ammunition = 10;
+        this.maxAmmo = this.game.maxAmmo;
+        this.ammunition = this.maxAmmo;
+        this.replenishThisValueOfAmmo = 2;  //how much ammo is reloaded
         this.canShoot = true;
         this.canReload = true;
         this.shootingAnimationRunning = false;
@@ -28,11 +30,9 @@ export class Player{
         this.shootTimer = 0;
         this.reloadInterval = 1000;  //shooting cooldown
         this.reloadTimer = 0;
-        this.replenishThisValueOfAmmo = 2;
         this.projectileX = 200;
         this.projectileSpeed = 9;
         this.bulletActive = false;
-        this.maxAmmo = 10;
         this.gunHeight = this.y + 175 + this.groundMargin;
 
         this.walkingSpeed = 2.5;
@@ -90,7 +90,7 @@ export class Player{
         if(this.hurt === true){
             this.currentImage = document.getElementById("hurtpng");
             this.maxFrameX = 3;
-            
+            this.#playRandomAudio(this.audio.hurt);
             this.frameAccelerator = 1;
             return;
         }else{
@@ -113,6 +113,7 @@ export class Player{
         if(this.dead){
             this.currentImage = document.getElementById("deadpng");
             if(this.frameX >= this.maxFrameX){
+                this.#playAudio(this.audio.dying.body_hitting_dirt);
                 this.abortPlayer = true;
             }
             return;

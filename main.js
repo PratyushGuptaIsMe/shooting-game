@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { YellowSkeleton, WhiteSkeleton } from "./enemies.js";
-import { Background, LoadAudio, Particles } from "./aesthetics.js";
+import { Background, LoadAudio } from "./aesthetics.js";
 
 class GAME{
     constructor(width, height){
@@ -20,16 +20,21 @@ class GAME{
         this.season = this.ALLSEASONS.SUMMER;
 
         this.audio = new LoadAudio();
+        this.musicStarted = false;
 
-        this.allCurrentEnemies = [];
         this.backgrounds = new Background(this);
+        this.maxAmmo = 10;
         this.Player = new Player(this);
 
+        this.allCurrentEnemies = [];
         this.enemySpawning = true;  //enemy spawning switch
         this.enemyTimer = 0;
-        this.enemyInterval = 1000;  //time which enemy spawns
+        this.enemyInterval = 2000;  //time which enemy spawns
 
-        this.score = 0;    
+        this.score = 0;
+        
+        this.gameoverTextSize = 25;
+        this.maxGameoverTextSize = 120;
     }
 
     updateText(text){
@@ -42,13 +47,27 @@ class GAME{
         if(this.Player.ammunition < 1){
             text.ammo.style.color = 'red';
             if(this.keysArray.includes(" ")){
-                text.ammo.classList.add("jiggle");
+                text.ammo.classList.add("jiggle1");
             }else{
-                text.ammo.classList.remove("jiggle")
+                text.ammo.classList.remove("jiggle1")
             }
         }else{
             text.ammo.style.color = 'black';
         }
+    }
+
+    #overlayGameOverText(ctx){
+        let gameoverText = "GAME OVER!";
+        ctx.save();
+        ctx.font = `bold ${this.gameoverTextSize}px "Jersey 15", sans-serif`;
+        ctx.fillStyle = "red";
+        ctx.strokeStyle = "orange";
+        ctx.lineWidth = 1;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
+        ctx.strokeText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
+        ctx.restore();
     }
 
     #spawnWhiteSkeleton(){
@@ -203,26 +222,54 @@ class GAME{
         playNext();
     }
 
+    playMainBackgroundMusic() {
+        if(!this.musicStarted && !this.gameOver){
+            if(window.gameAudioContext && window.gameAudioContext.state === 'suspended') {
+                window.gameAudioContext.resume().then(() => {
+                    this.playAudio(this.audio.miscellaneous.background_music);
+                    this.musicStarted = true;
+                });
+            } else {
+                this.playAudio(this.audio.miscellaneous.background_music);
+                this.musicStarted = true;
+            }
+        }
+    }
+
+
     update(dt){
         this.Player.update(dt);
         this.backgrounds.update();
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.update(dt);
         });
-        if(this.Player.dead === true){
+        if(this.Player.dead === true &&
+            this.gameOver === false
+        ){
             this.gameOver = true;
+            //stop background music
+            this.audio.miscellaneous.background_music.a.pause();
+            this.audio.miscellaneous.background_music.a.currentTime = 0;
+            this.audio.miscellaneous.background_music.playing = false;
+            this.musicStarted = false;
+            //play pvz gameOver sound
+            setTimeout(() => {
+                this.playAudio(this.audio.miscellaneous.pvz_gameover_sound_effect);
+            }, 200);
             return;
         }
         if(this.gameOver === true){
             this.debugMode = false;
+            if(this.gameoverTextSize < this.maxGameoverTextSize){
+                this.gameoverTextSize++;
+            }
             return;
-            //play gameover audio
         }
         this.#enemyCollisionChecks();
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);
         }
-        this.playAudio(this.audio.miscellaneous.background_music);
+        this.playMainBackgroundMusic();
     }
     draw(ctx){
         this.backgrounds.draw(ctx);
@@ -230,6 +277,9 @@ class GAME{
         this.allCurrentEnemies.forEach((enemy) => {
             enemy.draw(ctx);
         });
+        if(this.gameOver === true){
+            this.#overlayGameOverText(ctx);
+        };
     }
 }
 
@@ -237,7 +287,7 @@ const CANVAS = document.getElementById("mainCanvas");
 const ctx = CANVAS.getContext("2d");
 CANVAS.width = window.innerHeight;
 CANVAS.height = window.innerHeight;
-let game = new GAME(CANVAS.width, CANVAS.height);
+game = new GAME(CANVAS.width, CANVAS.height);
 let l = 0;
 const text = {
     health: document.getElementById("healthDisplay"),

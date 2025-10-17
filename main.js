@@ -17,12 +17,13 @@ class GAME{
         this.keysArray = [];
         this.groundArea = 200;
         this.debugMode = false;
-        this.season = this.ALLSEASONS.SUMMER;
 
         this.audio = new LoadAudio();
         this.musicStarted = false;
-
+        
+        this.season = this.ALLSEASONS.SUMMER;
         this.backgrounds = new Background(this);
+
         this.maxAmmo = 10;
         this.Player = new Player(this);
 
@@ -41,9 +42,9 @@ class GAME{
         if(this.Player.health < 0){
             this.Player.health = 0;
         }
-        text.health.textContent = "health : " + this.Player.health;
-        text.ammo.textContent = "ammo : " + this.Player.ammunition;
-        text.score.textContent = "score : " + this.score;
+        text.health.textContent = "Health : " + this.Player.health;
+        text.ammo.textContent = "Ammo : " + this.Player.ammunition;
+        text.score.textContent = "Score : " + this.score;
         if(this.Player.ammunition < 1){
             text.ammo.style.color = 'red';
             if(this.keysArray.includes(" ")){
@@ -56,19 +57,29 @@ class GAME{
         }
     }
 
-    #overlayGameOverText(ctx){
-        let gameoverText = "GAME OVER!";
+    #overlayGameOverText(ctx) {
+        const gameoverText = "GAME OVER!";
+        const scoreText = "Score: " + this.score;
+        const gtx = 0;
+        const gty = -this.canvasHeight * 0.08;
+        const stx = 0;
+        const sty = this.canvasHeight * 0.08;
         ctx.save();
         ctx.font = `bold ${this.gameoverTextSize}px "Jersey 15", sans-serif`;
-        ctx.fillStyle = "red";
-        ctx.strokeStyle = "orange";
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
-        ctx.strokeText(gameoverText, this.canvasWidth / 2, this.canvasHeight / 2);
+        ctx.fillStyle = "rgb(255, 0, 0)";
+        ctx.strokeStyle = "rgb(255, 165, 0)";
+        ctx.fillText(gameoverText, this.canvasWidth / 2 + gtx, this.canvasHeight / 2 + gty);
+        ctx.strokeText(gameoverText, this.canvasWidth / 2 + gtx, this.canvasHeight / 2 + gty);
+        ctx.fillStyle = "#ffd700";
+        ctx.strokeStyle = "#ff8c00";
+        ctx.fillText(scoreText, this.canvasWidth / 2 + stx, this.canvasHeight / 2 + sty);
+        ctx.strokeText(scoreText, this.canvasWidth / 2 + stx, this.canvasHeight / 2 + sty);
         ctx.restore();
     }
+
 
     #spawnWhiteSkeleton(){
         let newSkelly = new WhiteSkeleton(this);

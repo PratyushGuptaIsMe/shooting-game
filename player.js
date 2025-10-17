@@ -59,6 +59,14 @@ export class Player{
             w: this.spriteWidth/2 - 18,
             h: this.spriteHeight + 14
         }
+
+        if(this.health < 0){
+            this.health = 0;
+        }
+                    
+        if(this.ammunition > this.maxAmmo){
+            this.ammunition = this.maxAmmo;
+        }
         
         if(this.abortPlayer === true){
             this.frameX = this.maxFrameX - 1;
@@ -66,13 +74,6 @@ export class Player{
         }
 
         this.#increaseFrames(dt);
-
-        if(this.health < 0){
-            this.health = 0;
-        }        
-        if(this.ammunition > this.maxAmmo){
-            this.ammunition = this.maxAmmo;
-        }
 
         if(this.hitbox.x < 0){
             this.x = -100;

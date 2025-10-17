@@ -1,10 +1,10 @@
-/* ||   CSS IMPORTS   || */
+/* ||   CSS IMPORTS || */
 
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
 
-/* ||   RESET   || */
+/* ||   RESET || */
 
 * {
     margin: 0;
@@ -14,75 +14,67 @@
 
 body, html {
     height: 100vh;
-    margin: 0;
-    padding: 0;
+    width: 100vw;
     overflow: hidden;
 }
 
-img {
-    display:none;
-}
+img { display: none; }
 
-h1, h2,h3, h4, h5, h6 {
-    margin-top: 0;
-}
+h1, h2, h3, h4, h5, h6 { margin-top: 0; }
 
 @keyframes jiggle1 {
-    0%    { transform: translateX(0);}
-    10%   { transform: translateX(4px);}
-    20%   { transform: translateX(-4px);}
-    30%   { transform: translateX(4px);}
-    40%  { transform: translateX(-4px);}
-    50%  { transform: translateX(4px);}
-    60%  { transform: translateX(-4px);}
-    70%  { transform: translateX(4px);}
-    80%  { transform: translateX(-4px);}
-    90%  { transform: translateX(4px);}
+    0%   { transform: translateX(0); }
+    10%  { transform: translateX(4px); }
+    20%  { transform: translateX(-4px); }
+    30%  { transform: translateX(4px); }
+    40%  { transform: translateX(-4px); }
+    50%  { transform: translateX(4px); }
+    60%  { transform: translateX(-4px); }
+    70%  { transform: translateX(4px); }
+    80%  { transform: translateX(-4px); }
+    90%  { transform: translateX(4px); }
 }
 
-/* ||   VARIABLES   || */
-
+/* ||   VARIABLES || */
 :root {
     --MAIN-CANVAS-COLOR: rgba(220, 64, 17, 0.195);
     --TEXT-CANVAS-COLOR: rgba(195, 255, 0, 0.195);
     --LOADING-BAR-COLOR: rgb(4, 154, 154);
-    
+
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
-    --CANVAS-GAP: -3.5vw;
 
     --HIND-SILIGURI: "Hind Siliguri", sans-serif;
     --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
     --JERSEY-15: "Jersey 15", sans-serif;
 }
 
-/* ||   STYLES   || */
+/* ||   STYLES || */
 
-.attributionArea {
-    font-family: var(--HIND-SILIGURI);
-}
+.attributionArea { font-family: var(--HIND-SILIGURI); }
 
+/* Main game canvas: square, side = window height, horizontally centered */
 #mainCanvas {
-    width: 100vh;
-    height: 100vh;
-    border: 3px solid black;
     position: absolute;
     top: 0;
     left: 50%;
-    background-color: var(--MAIN-CANVAS-COLOR);
     transform: translateX(-50%);
-    max-width: 100%;
-    max-height: 100%;
+    width: 100vh;
+    height: 100vh;
+    border: 3px solid black;
+    background-color: var(--MAIN-CANVAS-COLOR);
 }
 
+/* Text area: rectangular (width > height), top-aligned with canvas, touches right edge */
 .textArea {
     position: absolute;
-    width: 300px;
-    height: 250px;
+    top: 0;
+    left: calc(50% + 50vh); /* right next to canvas */
+    width: 250px;            /* wider than height */
+    height: 200px;           /* ~80% of width */
     border: 3px solid black;
     background-color: var(--TEXT-CANVAS-COLOR);
-    top: 0;
-    right: calc(75vw + var(--CANVAS-GAP));
+    box-sizing: border-box;
 }
 
 .counters {
@@ -91,9 +83,7 @@ h1, h2,h3, h4, h5, h6 {
     margin-left: 1rem;
 }
 
-.loadingScreen {
-    margin-top: 30vh;
-}
+.loadingScreen { margin-top: 30vh; }
 
 .loadingBar {
     margin: auto;
@@ -121,16 +111,27 @@ h1, h2,h3, h4, h5, h6 {
     font-weight: 500;
 }
 
-/* ||   UTILITY CLASSES   || */
+/* ||   RESPONSIVE ADJUSTMENTS || */
 
-.displaynone {
-    display: none;
+/* 1366x768 */
+@media screen and (max-width: 1400px) and (max-height: 800px) {
+    #mainCanvas { width: 100vh; height: 100vh; left: 50%; transform: translateX(-50%); }
+    .textArea { width: 225px; height: 180px; left: calc(50% + 50vh); } /* width > height */
+    .counters { font-size: 2.2em; margin-left: 0.7rem; }
+    .loadingBar { width: 50%; }
+    .loadingPercentageCounter { font-size: 42px; }
 }
 
-.displayblock {
-    display: block;
+/* 1920x1080 */
+@media screen and (min-width: 1600px) and (min-height: 900px) {
+    #mainCanvas { width: 100vh; height: 100vh; left: 50%; transform: translateX(-50%); }
+    .textArea { width: 275px; height: 220px; left: calc(50% + 50vh); } /* width > height */
+    .counters { font-size: 3.2em; margin-left: 1.2rem; }
+    .loadingBar { width: 40%; }
+    .loadingPercentageCounter { font-size: 60px; }
 }
 
-.jiggle1 {
-    animation: jiggle1 0.8s ease-in-out infinite;
-}
+/* ||   UTILITY CLASSES || */
+.displaynone { display: none; }
+.displayblock { display: block; }
+.jiggle1 { animation: jiggle1 0.8s ease-in-out infinite; }

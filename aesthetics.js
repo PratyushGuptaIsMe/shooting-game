@@ -170,7 +170,7 @@ export class Background{
     }
     drawGrid(){
         this.ctx.save();
-        this.ctx.strokeStyle = "rgba(0, 0, 0, 1)";
+        this.ctx.strokeStyle = "black";
         this.ctx.lineWidth = 1;
         for (let x = 0; x <= this.scaleFactor; x++) {
             this.ctx.beginPath();
@@ -191,29 +191,25 @@ export class Background{
             this.drawGrid();
         }
     }
-    #drawBackground(blockPalete){
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id1);
-                this.#recalcIndex(0, 1);
+    #drawBackground(blockPalette) {
+        const layout = [
+            [blockPalette.id1, blockPalette.id4],
+            [blockPalette.id3, blockPalette.id2]
+        ];
+
+        for (let y = 0; y < this.scaleFactor; y++) {
+            for (let x = 0; x < this.scaleFactor; x++) {
+                const blockId = layout[y % 2][x % 2];
+
+                this.tempX = x * this.spriteWidth * this.ZOOM.grass;
+                this.tempY = y * this.spriteHeight * this.ZOOM.grass;
+
+                this.#drawBlock(blockId);
             }
-            this.#recalcIndex(1, -this.indexY);
-        }
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id2);
-                this.#recalcIndex(0, 1);
-            }
-            this.#recalcIndex(1, -this.indexY);
-        }
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id3);
-                this.#recalcIndex(0, 1);
-            }
-            this.#recalcIndex(1, -this.indexY);
         }
     }
+
+
 
     draw(ctx){
         this.ctx = ctx;

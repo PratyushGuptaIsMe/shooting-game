@@ -4,6 +4,7 @@ import { Background, LoadAudio } from "./aesthetics.js";
 
 class GAME{
     constructor(width, height){
+        let temporaryRandomVariable = Math.random();
         this.ALLSEASONS = {
             MORNING: 1,
             NIGHT: 2,
@@ -21,8 +22,17 @@ class GAME{
         this.audio = new LoadAudio();
         this.musicStarted = false;
         
-        this.season = this.ALLSEASONS.SUMMER;
+
+        if(temporaryRandomVariable < 0.33){
+            this.season = this.ALLSEASONS.SUMMER;
+        }else if(temporaryRandomVariable < 0.66){
+            this.season = this.ALLSEASONS.NIGHT;
+        }else{
+            this.season = this.ALLSEASONS.MORNING;
+        }
         this.backgrounds = new Background(this);
+        this.seasonChangeInterval = 10000;
+        this.seasonTimer = 0;
 
         this.maxAmmo = 10;
         this.Player = new Player(this);
@@ -36,6 +46,26 @@ class GAME{
         
         this.gameoverTextSize = 25;
         this.maxGameoverTextSize = 120;
+    }
+
+    #runSeasonTimer(dt){
+        if(this.seasonTimer < this.seasonChangeInterval){
+            this.seasonTimer += dt;
+        }else if(this.seasonTimer >= this.seasonChangeInterval){
+            this.#gotoNextSeason();
+            this.seasonTimer = 0;
+        }
+    }
+    #gotoNextSeason(){
+        if(this.season === this.ALLSEASONS.MORNING){
+            this.season = this.ALLSEASONS.NIGHT;
+        } 
+        else if(this.season === this.ALLSEASONS.NIGHT){
+            this.season = this.ALLSEASONS.SUMMER;
+        } 
+        else if(this.season === this.ALLSEASONS.SUMMER){
+            this.season = this.ALLSEASONS.MORNING;
+        }
     }
 
     updateText(text){
@@ -56,7 +86,6 @@ class GAME{
             text.ammo.style.color = 'black';
         }
     }
-
     #overlayGameOverText(ctx) {
         const gameoverText = "GAME OVER!";
         const scoreText = "Score: " + this.score;
@@ -248,7 +277,7 @@ class GAME{
     }
 
 
-    update(dt){
+    update(dt){  
         this.Player.update(dt);
         this.backgrounds.update();
         this.allCurrentEnemies.forEach((enemy) => {
@@ -276,6 +305,7 @@ class GAME{
             }
             return;
         }
+        this.#runSeasonTimer(dt);
         this.#enemyCollisionChecks();
         if(this.enemySpawning === true){
             this.#enemySpawnCheck(dt);

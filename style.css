@@ -19,6 +19,10 @@ html, body {
     overflow: hidden;
 }
 
+ul {
+  list-style-type: none;
+}
+
 img {
     display: none;
 }
@@ -26,6 +30,7 @@ img {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
 }
+
 
 /* ||   VARIABLES || */
 
@@ -40,8 +45,13 @@ h1, h2, h3, h4, h5, h6 {
     --HIND-SILIGURI: "Hind Siliguri", sans-serif;
     --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
     --JERSEY-15: "Jersey 15", sans-serif;
+
+    /* default text-area height */
+    --text-area-height: 200px;
 }
 
+
+/* ||   ANIMATIONS || */
 
 @keyframes jiggle1 {
     0%   { transform: translateX(0); }
@@ -56,11 +66,8 @@ h1, h2, h3, h4, h5, h6 {
     90%  { transform: translateX(4px); }
 }
 
-/* ||   STYLES || */
 
-.attributionArea {
-    font-family: var(--HIND-SILIGURI);
-}
+/* ||   MAIN LAYOUT || */
 
 #mainCanvas {
     position: absolute;
@@ -76,38 +83,36 @@ h1, h2, h3, h4, h5, h6 {
 .textArea {
     position: absolute;
     top: 0;
-    /* start at the main canvas right edge (50% + 50vh) and extend to screen right */
     left: calc(50% + 50vh);
     right: 0;
     width: auto;
-    min-width: 180px; /* in case viewport is narrow */
-    height: 200px;
-    border: 3px solid black;
+    min-width: 180px;
+    height: var(--text-area-height);
+    border: none;
     background-color: var(--TEXT-CANVAS-COLOR);
     box-sizing: border-box;
 }
 
-/* Side column placed below the textArea; contains restart button and attribution */
+/* Side column (restart + attribution) */
 #sideColumn {
     position: absolute;
-    /* start at the main canvas right edge (50% + 50vh) and extend to screen right */
     left: calc(50% + 50vh);
     right: 0;
+    bottom: 0; /* reach bottom of viewport */
     width: auto;
     min-width: 180px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 0; /* no gap between children */
+    justify-content: space-between; /* push attribution to bottom */
     align-items: stretch;
-    /* take remaining viewport height so attribution bottom border is visible */
-    height: calc(100vh - var(--text-area-height, 250px));
+    top: var(--text-area-height, 200px); /* start below textArea */
 }
 
 .restartPanel {
     border: 3px solid black;
     background-color: var(--TEXT-CANVAS-COLOR);
-    padding: 0; /* remove inner padding so button can touch edges */
+    padding: 0;
     box-sizing: border-box;
     display: flex;
 }
@@ -118,25 +123,27 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.9rem 1rem;
     background-color: #ffffff;
     border: none;
-    border-left: 3px solid black; /* keep left border to match panel */
+    border-left: 3px solid black;
     border-right: 3px solid black;
     border-top: 3px solid black;
     border-bottom: 3px solid black;
     cursor: pointer;
-    width: 100%; /* fill panel width */
+    width: 100%;
     box-sizing: border-box;
 }
 
 .attributionArea {
     font-family: var(--HIND-SILIGURI);
-    border: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black; /* touches bottom of screen */
     background-color: var(--TEXT-CANVAS-COLOR);
-    padding: 0.4rem 0.4rem 0.6rem 0.4rem; /* smaller top padding so top border is visible flush */
+    padding: 0.4rem 0.4rem 0.6rem 0.4rem;
     box-sizing: border-box;
-    flex: 1 1 auto; /* take remaining space in sideColumn */
-    overflow: auto;
     width: 100%;
 }
+
+
+/* ||   OTHER ELEMENTS || */
 
 .counters {
     font-family: var(--PIXELIFY-SANS);
@@ -178,6 +185,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 1366x768 */
 @media screen and (max-width: 1400px) and (max-height: 800px) {
+    :root { --text-area-height: 180px; }
+
     #mainCanvas {
         width: 100vh;
         height: 100vh;
@@ -187,15 +196,14 @@ h1, h2, h3, h4, h5, h6 {
         left: calc(50% + 50vh);
         right: 0;
         min-width: 160px;
-        height: 180px;
+        height: var(--text-area-height);
     }
 
     #sideColumn {
         left: calc(50% + 50vh);
         right: 0;
         min-width: 160px;
-        top: calc(var(--text-area-height, 250px) * 0.72);
-        height: calc(100vh - var(--text-area-height, 225px));
+        top: var(--text-area-height);
     }
 
     .counters {
@@ -214,6 +222,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 1920x1080 */
 @media screen and (min-width: 1600px) and (min-height: 900px) {
+    :root { --text-area-height: 220px; }
+
     #mainCanvas {
         width: 100vh;
         height: 100vh;
@@ -223,30 +233,15 @@ h1, h2, h3, h4, h5, h6 {
         left: calc(50% + 50vh);
         right: 0;
         min-width: 200px;
-        height: 220px;
+        height: var(--text-area-height);
     }
 
     #sideColumn {
         left: calc(50% + 50vh);
         right: 0;
         min-width: 200px;
-        top: calc(var(--text-area-height, 250px));
-        height: calc(100vh - var(--text-area-height, 275px));
+        top: var(--text-area-height);
     }
-
-/* set a CSS variable for default text-area height so top and heights stay in sync */
-:root {
-    --text-area-height: 250px;
-}
-
-/* Update variable for the media queries */
-@media screen and (max-width: 1400px) and (max-height: 800px) {
-    :root { --text-area-height: 180px; }
-}
-
-@media screen and (min-width: 1600px) and (min-height: 900px) {
-    :root { --text-area-height: 220px; }
-}
 
     .counters {
         font-size: 3.2em;
@@ -266,7 +261,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ||   UTILITY CLASSES || */
 
 .displaynone {
-    display: none;
+    display: none !important;
 }
 
 .displayblock {

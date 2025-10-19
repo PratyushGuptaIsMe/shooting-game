@@ -42,15 +42,6 @@
         <h1 id="loadingPercentageCounter" class="loadingPercentageCounter">0%</h1>
     </div>
 
-    <script type="module">
-        import { LoadAudio } from './aesthetics.js';
-        window.__audioReady = new Promise(resolve => {
-            const loader = new LoadAudio();
-            loader.preloadAudio(resolve);
-        });
-    </script>
-    <script src="load.js"></script>
-
     <div id="textArea" class="textArea displaynone">
         <h1 id="healthDisplay" class="counters"></h1>
         <h1 id="ammoDisplay" class="counters"></h1>
@@ -116,5 +107,15 @@
             </ul>
         </div>
     </div>
+
+    
+    <script type="module">
+        import { LoadAudio } from './aesthetics.js';
+        window.__audioReady = new Promise(resolve => {
+            const loader = new LoadAudio();
+            loader.preloadAudio(resolve);
+        });
+    </script>
+    <script src="load.js"></script>
 </body>
 </html>

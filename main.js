@@ -287,12 +287,10 @@ class GAME{
             this.gameOver === false
         ){
             this.gameOver = true;
-            //stop background music
             this.audio.miscellaneous.background_music.a.pause();
             this.audio.miscellaneous.background_music.a.currentTime = 0;
             this.audio.miscellaneous.background_music.playing = false;
             this.musicStarted = false;
-            //play pvz gameOver sound
             setTimeout(() => {
                 this.playAudio(this.audio.miscellaneous.pvz_gameover_sound_effect);
             }, 200);

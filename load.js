@@ -172,9 +172,16 @@ class GameStart{
                     }
                 }
             });
-        } catch (e) {}
+        }catch(e){}
     }
+}
+function restartGame(){
+    console.log("restarted game");
 }
 let game;
 let allAudio;
 new Preloading();
+let restartBtn = document.getElementById("restartBtn");
+if (restartBtn) {
+    restartBtn.addEventListener("click", restartGame);
+}

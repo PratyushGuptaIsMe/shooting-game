@@ -170,7 +170,7 @@ export class Background{
     }
     drawGrid(){
         this.ctx.save();
-        this.ctx.strokeStyle = "rgba(0, 0, 0, 1)";
+        this.ctx.strokeStyle = "black";
         this.ctx.lineWidth = 1;
         for (let x = 0; x <= this.scaleFactor; x++) {
             this.ctx.beginPath();
@@ -191,29 +191,40 @@ export class Background{
             this.drawGrid();
         }
     }
-    #drawBackground(blockPalete){
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id1);
-                this.#recalcIndex(0, 1);
+    #drawBackground(blockPalette) {
+        let a = blockPalette.id1;
+        let b = blockPalette.id2;
+        let c = blockPalette.id3;
+        let d = blockPalette.id4;
+        const LAYOUT = [
+            [d, d, d, d, d, a, a, a, a, a, a, a, a, a, d],
+            [d, d, d, a, a, a, a, a, a, a, d, d, d, d, d],
+            [d, d, a, a, a, a, a, a, a, d, d, d, d, d, d],
+            [d, a, a, a, a, a, a, a, d, d, d, d, d, c, c],
+            [a, a, a, a, a, a, a, d, d, d, d, d, d, c, c],
+            [a, a, a, a, a, a, a, d, d, d, d, d, d, c, c],
+            [a, a, a, a, a, d, d, d, d, d, c, c, c, c, c],
+            [a, a, a, a, a, d, d, d, d, d, c, c, c, c, c],
+            [a, a, a, a, a, d, d, d, d, c, c, c, b, c, b],
+            [a, a, a, a, a, d, d, d, d, c, c, c, c, b, b],
+            [a, a, a, a, a, d, d, d, c, c, c, b, c, b, b],
+            [a, a, a, a, d, d, d, d, c, b, c, c, b, b, b],
+            [a, a, d, d, d, d, b, d, c, c, c, b, b, b, b],
+            [d, d, d, d, d, b, b, b, b, b, b, b, b, b, b],
+            [d, d, d, d, b, c, b, b, b, b, b, b, b, b, b]
+        ];
+
+        for (let y = 0; y < this.scaleFactor; y++) {
+            for (let x = 0; x < this.scaleFactor; x++) {
+                const blockId = LAYOUT[y % LAYOUT.length][x % LAYOUT[0].length];
+                this.tempX = x * this.spriteWidth * this.ZOOM.grass;
+                this.tempY = y * this.spriteHeight * this.ZOOM.grass;
+                this.#drawBlock(blockId);
             }
-            this.#recalcIndex(1, -this.indexY);
-        }
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id2);
-                this.#recalcIndex(0, 1);
-            }
-            this.#recalcIndex(1, -this.indexY);
-        }
-        for(let i = 0; i < this.scaleFactor/4; i++){
-            for (let j = 0; j < this.scaleFactor/4; j++) {
-                this.#drawBlock(blockPalete.id3);
-                this.#recalcIndex(0, 1);
-            }
-            this.#recalcIndex(1, -this.indexY);
         }
     }
+
+
 
     draw(ctx){
         this.ctx = ctx;

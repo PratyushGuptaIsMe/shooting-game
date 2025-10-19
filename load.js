@@ -56,6 +56,8 @@ class Preloading{
         this.#addMainCanvas();
         document.getElementById("textArea").classList.remove("displaynone");
         document.getElementById("textArea").style.display = "block";
+        document.getElementById("sideColumn").classList.remove("displaynone");
+        document.getElementById("sideColumn").style.display = "block";
         new GameStart();
     }
     #addMainCanvas(){
@@ -104,9 +106,9 @@ class GameStart{
         this.INFO = {
             msg1: {
                 text: "Click to start Game.",
-                x: 0,
-                y: 0,
-                fontsize: "40px",
+                x: 50,
+                y: 50,
+                fontsize: "50px",
                 fontfamily: "Hind Siliguri"
             }
         }
@@ -170,9 +172,16 @@ class GameStart{
                     }
                 }
             });
-        } catch (e) {}
+        }catch(e){}
     }
+}
+function restartGame(){
+    console.log("restarted game");
 }
 let game;
 let allAudio;
 new Preloading();
+let restartBtn = document.getElementById("restartBtn");
+if (restartBtn) {
+    restartBtn.addEventListener("click", restartGame);
+}

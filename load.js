@@ -104,9 +104,9 @@ class GameStart{
         this.INFO = {
             msg1: {
                 text: "Click to start Game.",
-                x: 0,
-                y: 0,
-                fontsize: "40px",
+                x: 50,
+                y: 50,
+                fontsize: "50px",
                 fontfamily: "Hind Siliguri"
             }
         }

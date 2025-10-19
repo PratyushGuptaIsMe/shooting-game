@@ -205,13 +205,13 @@ export class Background{
             [a, a, a, a, a, a, a, d, d, d, d, d, d, c, c],
             [a, a, a, a, a, d, d, d, d, d, c, c, c, c, c],
             [a, a, a, a, a, d, d, d, d, d, c, c, c, c, c],
-            [a, a, a, a, a, d, d, d, d, c, c, c, b, c, c],
-            [a, a, a, a, a, d, d, d, d, c, c, c, c, c, c],
+            [a, a, a, a, a, d, d, d, d, c, c, c, b, c, b],
+            [a, a, a, a, a, d, d, d, d, c, c, c, c, b, b],
             [a, a, a, a, a, d, d, d, c, c, c, b, c, b, b],
-            [a, a, a, a, d, d, d, d, c, b, c, c, c, b, b],
-            [a, a, d, d, d, d, d, d, c, c, c, c, b, b, b],
+            [a, a, a, a, d, d, d, d, c, b, c, c, b, b, b],
+            [a, a, d, d, d, d, b, d, c, c, c, b, b, b, b],
             [d, d, d, d, d, b, b, b, b, b, b, b, b, b, b],
-            [d, d, d, d, c, c, b, b, b, b, b, b, b, b, b]
+            [d, d, d, d, b, c, b, b, b, b, b, b, b, b, b]
         ];
 
         for (let y = 0; y < this.scaleFactor; y++) {

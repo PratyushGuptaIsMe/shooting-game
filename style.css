@@ -36,8 +36,9 @@ h1, h2, h3, h4, h5, h6 {
 
 :root {
     --MAIN-CANVAS-COLOR: rgb(0, 162, 255);
-    --TEXT-CANVAS-COLOR: rgb(255, 213, 0);
+    --TEXT-CANVAS-COLOR: rgb(255, 204, 0);
     --LOADING-BAR-COLOR: rgb(5, 165, 165);
+    --LINK-HOVER-COLOR: rgb(70, 161, 170);
 
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
@@ -46,7 +47,6 @@ h1, h2, h3, h4, h5, h6 {
     --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
     --JERSEY-15: "Jersey 15", sans-serif;
 
-    /* default text-area height */
     --text-area-height: 200px;
 }
 
@@ -93,7 +93,6 @@ h1, h2, h3, h4, h5, h6 {
     box-sizing: border-box;
 }
 
-/* Side column (restart + attribution) */
 #sideColumn {
     position: absolute;
     left: calc(50% + 50vh);
@@ -138,7 +137,6 @@ h1, h2, h3, h4, h5, h6 {
     max-height: calc(100vh - var(--text-area-height) - 3px);
 }
 
-/* Styled scrollbar for attribution area */
 .attributionArea::-webkit-scrollbar {
     width: 10px;
 }
@@ -178,11 +176,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .attributionArea li a {
-    text-decoration: none;
+    text-decoration: underline;
     color: inherit;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .attributionArea li a:hover {
+    color: var(--LINK-HOVER-COLOR);
+    transform: scale(1.05);
     text-decoration: underline;
 }
 
@@ -191,9 +192,6 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0.3rem;
     margin-bottom: 0.3rem;
 }
-
-
-/* ||   OTHER ELEMENTS || */
 
 .counters {
     font-family: var(--PIXELIFY-SANS);

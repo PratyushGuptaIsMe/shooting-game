@@ -20,7 +20,7 @@ html, body {
 }
 
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 img {
@@ -36,8 +36,9 @@ h1, h2, h3, h4, h5, h6 {
 
 :root {
     --MAIN-CANVAS-COLOR: rgb(0, 162, 255);
-    --TEXT-CANVAS-COLOR: rgb(255, 213, 0);
+    --TEXT-CANVAS-COLOR: rgb(255, 204, 0);
     --LOADING-BAR-COLOR: rgb(5, 165, 165);
+    --LINK-HOVER-COLOR: rgb(70, 161, 170);
 
     --LOADING-BAR-SIZE: 10px;
     --LOADING-BAR-PROGRESS-NUM: 0%;
@@ -46,7 +47,6 @@ h1, h2, h3, h4, h5, h6 {
     --PIXELIFY-SANS: "Pixelify Sans", sans-serif;
     --JERSEY-15: "Jersey 15", sans-serif;
 
-    /* default text-area height */
     --text-area-height: 200px;
 }
 
@@ -93,20 +93,15 @@ h1, h2, h3, h4, h5, h6 {
     box-sizing: border-box;
 }
 
-/* Side column (restart + attribution) */
 #sideColumn {
     position: absolute;
     left: calc(50% + 50vh);
     right: 0;
-    bottom: 0; /* reach bottom of viewport */
-    width: auto;
-    min-width: 180px;
-    box-sizing: border-box;
+    top: var(--text-area-height, 200px);
+    bottom: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* push attribution to bottom */
     align-items: stretch;
-    top: var(--text-area-height, 200px); /* start below textArea */
 }
 
 .restartPanel {
@@ -115,6 +110,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     box-sizing: border-box;
     display: flex;
+    flex: 0 0 auto;
 }
 
 .restartButton {
@@ -122,11 +118,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.4rem;
     padding: 0.9rem 1rem;
     background-color: #ffffff;
-    border: none;
-    border-left: 3px solid black;
-    border-right: 3px solid black;
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
+    border: 3px solid black;
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
@@ -135,15 +127,71 @@ h1, h2, h3, h4, h5, h6 {
 .attributionArea {
     font-family: var(--HIND-SILIGURI);
     border-top: 3px solid black;
-    border-bottom: 3px solid black; /* touches bottom of screen */
+    border-bottom: 3px solid black;
     background-color: var(--TEXT-CANVAS-COLOR);
     padding: 0.4rem 0.4rem 0.6rem 0.4rem;
     box-sizing: border-box;
     width: 100%;
+    overflow-y: auto;
+    flex: 0 0 auto;
+    max-height: calc(100vh - var(--text-area-height) - 3px);
 }
 
+.attributionArea::-webkit-scrollbar {
+    width: 10px;
+}
 
-/* ||   OTHER ELEMENTS || */
+.attributionArea::-webkit-scrollbar-track {
+    background: var(--TEXT-CANVAS-COLOR);
+}
+
+.attributionArea::-webkit-scrollbar-thumb {
+    background-color: #000;
+    border: 2px solid var(--TEXT-CANVAS-COLOR);
+    border-radius: 5px;
+}
+
+.attributionArea > ul {
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.attributionArea li {
+    margin-bottom: 0.4rem;
+}
+
+.attributionArea li h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.attributionArea li ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.attributionArea li ul li {
+    margin-bottom: 0.2rem;
+}
+
+.attributionArea li a {
+    text-decoration: underline;
+    color: inherit;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.attributionArea li a:hover {
+    color: var(--LINK-HOVER-COLOR);
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+.attributionArea > ul > li:not(:last-child) {
+    border-bottom: 1px dashed black;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.3rem;
+}
 
 .counters {
     font-family: var(--PIXELIFY-SANS);

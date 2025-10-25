@@ -53,6 +53,15 @@
             <button id="restartButton" class="restartButton">Restart</button>
         </div>
 
+        <script>
+            const restartBtn = document.getElementById("restartButton");
+            restartBtn.addEventListener("keydown", (e) => {
+                if(e.code === "Space" || e.code === "Enter"){
+                    e.preventDefault();
+                }
+            })
+        </script>
+
         <div class="attributionArea">
             <ul>
                 <li>

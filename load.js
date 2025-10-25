@@ -181,7 +181,3 @@ function restartGame(){
 let game;
 let allAudio;
 new Preloading();
-let restartBtn = document.getElementById("restartBtn");
-if (restartBtn) {
-    restartBtn.addEventListener("click", restartGame);
-}

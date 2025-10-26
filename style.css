@@ -48,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
     --JERSEY-15: "Jersey 15", sans-serif;
 
     --text-area-height: 200px;
+    --control-square-width-and-height: 250px;
 }
 
 
@@ -259,11 +260,11 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     top: 0;
     left: 0;
-    margin-left: 5vw;
+    margin-left: 2vw;
     margin-top: 2vw;
+    width: var(--control-square-width-and-height);
+    aspect-ratio: 1 / 1;
     border-radius: 20px;
-    width: 18.35vw;
-    height: 18.35vw;
     background-color: rgb(200, 200, 200);
     z-index: 10;
 }

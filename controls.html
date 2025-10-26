@@ -1,24 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WASD Control Display</title>
+<style>
+  :root {
+    --move-left-offset: -20px;  /* adjust this to move "Move Left" text */
+    --move-right-offset: 177px; /* adjust this to move "Move Right" text */
+    --move-up-offest: 65px;
+  }
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Simple iframe for WASD, shoot, and reload controls for my game.">
-    <meta name="author" content="pratyushguptaisme">
-    <meta name="keywords" content="game, controls, WASD, movement, HTML, tutorial, shooting, reloading, games">
-    <meta property="og:title" content="Controls">
-    <meta property="og:description" content="Simple iframe for WASD, shoot, and reload controls for my game.">
-    <meta property="og:type" content="website">
+  * { box-sizing: border-box; }
+  body {
+    background-color: #0d1117;
+    color: #fff;
+    font-family: 'Pixelify Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    width: 250px;
+    margin: 0;
+  }
+  .container {
+    position: relative;
+    width: 200px;
+    height: 220px;
+  }
+  .key {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #222;
+    border: 2px solid #555;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+  .key.active {
+    background: #2f81f7;
+    border-color: #58a6ff;
+  }
+  .key[data-key="W"] { top: 10px; left: 80px; }
+  .key[data-key="A"] { top: 60px; left: 30px; }
+  .key[data-key="S"] { top: 60px; left: 80px; }
+  .key[data-key="D"] { top: 60px; left: 130px; }
 
-    <title>Controls</title>
-    <style>
-        body{
-            background-color: aqua;
-        }
-    </style>
+  .label {
+    position: absolute;
+    font-size: 10px;
+    color: #aaa;
+    text-align: center;
+  }
+  .label[data-key="W"] { top: -5px; left: 90px; }
+  .label[data-key="A"] { top: var(--move-up-offest); left: var(--move-left-offset); }   /* variable */
+  .label[data-key="S"] { top: 105px; left: 90px; }
+  .label[data-key="D"] { top: 70px; left: var(--move-right-offset); }  /* variable */
+
+  .line {
+    position: absolute;
+    background: #58a6ff;
+    transform-origin: top left;
+    height: 2px;
+    transition: opacity 0.2s;
+    opacity: 0.7;
+  }
+
+  /* Direction lines */
+  #lineW { top: 20px; left: 100px; width: 15px; transform: rotate(270deg); }
+  #lineA { top: 80px; left: 40px; width: 30px; transform: rotate(180deg); }
+  #lineS { top: 90px; left: 102px; width: 15px; transform: rotate(90deg); }
+  #lineD { top: 80px; left: 160px; width: 15px; transform: rotate(0deg); }
+
+  /* Bottom instructions */
+  .bottom-instructions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #ddd;
+    line-height: 1.2;
+  }
+  .bottom-key {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 2px 4px;
+    background: #222;
+    border: 2px solid #555;
+    border-radius: 6px;
+    transition: 0.2s;
+  }
+  .bottom-key.active {
+    background: #2f81f7;
+    border-color: #58a6ff;
+  }
+</style>
 </head>
 <body>
-    <h2>hi</h2>
+  <div class="container">
+    <!-- WASD Keys -->
+    <div class="key" data-key="W">W</div>
+    <div class="key" data-key="A">A</div>
+    <div class="key" data-key="S">S</div>
+    <div class="key" data-key="D">D</div>
+
+    <!-- Labels -->
+    <div class="label" data-key="W">Move Up</div>
+    <div class="label" data-key="A">Move Left</div>
+    <div class="label" data-key="S">Move Down</div>
+    <div class="label" data-key="D">Move Right</div>
+
+    <!-- Lines -->
+    <div class="line" id="lineW"></div>
+    <div class="line" id="lineA"></div>
+    <div class="line" id="lineS"></div>
+    <div class="line" id="lineD"></div>
+
+    <!-- Bottom Instructions -->
+    <div class="bottom-instructions">
+      <div><span class="bottom-key" data-key=" ">SPACE</span> to Shoot</div>
+      <div><span class="bottom-key" data-key="R">R</span> to Reload</div>
+    </div>
+  </div>
+
+  <script>
+    const keys = document.querySelectorAll('.key');
+    const bottomKeys = document.querySelectorAll('.bottom-key');
+    const lines = {
+      W: document.getElementById('lineW'),
+      A: document.getElementById('lineA'),
+      S: document.getElementById('lineS'),
+      D: document.getElementById('lineD')
+    };
+
+    document.addEventListener('keydown', e => {
+      const key = e.key.toUpperCase();
+      const el = document.querySelector(`.key[data-key='${key}']`);
+      const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
+      if (el) {
+        el.classList.add('active');
+        if (lines[key]) lines[key].style.opacity = '1';
+      }
+      if (bottomEl) bottomEl.classList.add('active');
+    });
+
+    document.addEventListener('keyup', e => {
+      const key = e.key.toUpperCase();
+      const el = document.querySelector(`.key[data-key='${key}']`);
+      const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
+      if (el) {
+        el.classList.remove('active');
+        if (lines[key]) lines[key].style.opacity = '0.7';
+      }
+      if (bottomEl) bottomEl.classList.remove('active');
+    });
+  </script>
 </body>
 </html>

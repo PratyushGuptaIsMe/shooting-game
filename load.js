@@ -175,9 +175,7 @@ class GameStart{
         }catch(e){}
     }
 }
-function restartGame(){
-    console.log("restarted game");
-}
+
 let game;
 let allAudio;
 new Preloading();

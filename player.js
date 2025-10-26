@@ -26,16 +26,16 @@ export class Player{
         this.reloadAnimationRunning = false;
         this.howLongShouldShootingLast = 300; //ms how long is animation
         this.howLongShouldReloadingLast = 650; //ms how long is animation
-        this.shootInterval = 1000;  //shooting cooldown
+        this.shootInterval = 500;  //shooting cooldown
         this.shootTimer = 0;
-        this.reloadInterval = 1000;  //shooting cooldown
+        this.reloadInterval = 1000;  //reload cooldown
         this.reloadTimer = 0;
         this.projectileX = 200;
         this.projectileSpeed = 9;
         this.bulletActive = false;
         this.gunHeight = this.y + 175 + this.groundMargin;
 
-        this.walkingSpeed = 2.5;
+        this.walkingSpeed = 2.3;
         
         this.flipImage = false;
         this.bulletFlipState = false;

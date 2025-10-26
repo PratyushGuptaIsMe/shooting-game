@@ -30,8 +30,9 @@ class GAME{
         }else{
             this.season = this.ALLSEASONS.MORNING;
         }
+
         this.backgrounds = new Background(this);
-        this.seasonChangeInterval = 10000;
+        this.seasonChangeInterval = 15000;  //ms
         this.seasonTimer = 0;
 
         this.maxAmmo = 10;

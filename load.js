@@ -127,7 +127,7 @@ class GameStart{
         this.#clickToStartGameListener(_canvas, ctx);
     }
     #clickToStartGameListener(_canvas, ctx){
-        document.addEventListener("click", () => {
+        _canvas.addEventListener("click", () => {
             ctx.clearRect(0, 0, _canvas.width, _canvas.height);
 
             this.#unlockAudioOnClick();

@@ -160,7 +160,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     overflow-y: auto;
     flex: 0 0 auto;
-    max-height: calc(100vh - var(--text-area-height) - 3px);
+    max-height: calc(100vh - var(--text-area-height) - 3px - 4.55rem);
 }
 
 .attributionArea::-webkit-scrollbar {

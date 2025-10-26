@@ -187,7 +187,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .attributionArea li h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 0.2rem;
     font-weight: 600;
 }
@@ -198,6 +198,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .attributionArea li ul li {
+    font-size: 0.9rem;
     margin-bottom: 0.2rem;
 }
 
@@ -252,6 +253,19 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--PIXELIFY-SANS);
     font-size: 56px;
     font-weight: 500;
+}
+
+.controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 5vw;
+    margin-top: 2vw;
+    border-radius: 20px;
+    width: 18.35vw;
+    height: 18.35vw;
+    background-color: rgb(200, 200, 200);
+    z-index: 10;
 }
 
 /* ||   UTILITY CLASSES || */

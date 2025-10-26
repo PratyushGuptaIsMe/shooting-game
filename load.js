@@ -58,6 +58,8 @@ class Preloading{
         document.getElementById("textArea").style.display = "block";
         document.getElementById("sideColumn").classList.remove("displaynone");
         document.getElementById("sideColumn").style.display = "block";
+        document.getElementById("controlsIframe").classList.remove("displaynone");
+        document.getElementById("controlsIframe").style.display = "block";
         new GameStart();
     }
     #addMainCanvas(){

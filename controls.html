@@ -6,9 +6,16 @@
 <title>WASD Control Display</title>
 <style>
   :root {
-    --move-left-offset: -20px;  /* adjust this to move "Move Left" text */
-    --move-right-offset: 177px; /* adjust this to move "Move Right" text */
+    --move-left-offset: -20px;
+    --move-right-offset: 177px;
     --move-up-offest: 65px;
+
+    /* Vertical line variables */
+    --vline-top: 75px;
+    --vline-left: 10px;
+    --vline-height: 2.5px;
+    --vline-width: 2px;
+    --vline-color: #58a6ff;
   }
 
   * { box-sizing: border-box; }
@@ -56,9 +63,9 @@
     text-align: center;
   }
   .label[data-key="W"] { top: -5px; left: 90px; }
-  .label[data-key="A"] { top: var(--move-up-offest); left: var(--move-left-offset); }   /* variable */
+  .label[data-key="A"] { top: var(--move-up-offest); left: var(--move-left-offset); }
   .label[data-key="S"] { top: 105px; left: 90px; }
-  .label[data-key="D"] { top: 70px; left: var(--move-right-offset); }  /* variable */
+  .label[data-key="D"] { top: 70px; left: var(--move-right-offset); }
 
   .line {
     position: absolute;
@@ -74,6 +81,17 @@
   #lineA { top: 80px; left: 40px; width: 30px; transform: rotate(180deg); }
   #lineS { top: 90px; left: 102px; width: 15px; transform: rotate(90deg); }
   #lineD { top: 80px; left: 160px; width: 15px; transform: rotate(0deg); }
+
+  /* Vertical line (fully customizable via variables) */
+  #vline {
+    opacity: 0.7;
+    position: absolute;
+    top: var(--vline-top);
+    left: var(--vline-left);
+    width: var(--vline-width);
+    height: var(--vline-height);
+    background: var(--vline-color);
+  }
 
   /* Bottom instructions */
   .bottom-instructions {
@@ -121,10 +139,13 @@
     <div class="line" id="lineS"></div>
     <div class="line" id="lineD"></div>
 
+    <!-- Vertical line -->
+    <div id="vline"></div>
+
     <!-- Bottom Instructions -->
     <div class="bottom-instructions">
       <div><span class="bottom-key" data-key=" ">SPACE</span> to Shoot</div>
-      <div><span class="bottom-key" data-key="R">R</span> to Reload</div>
+      <div><span class="bottom-key" data-key="r">R</span> to Reload</div>
     </div>
   </div>
 

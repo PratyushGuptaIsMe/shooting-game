@@ -341,6 +341,7 @@ animationLoop(l);
 window.addEventListener("keydown", (event) => {
     if(!game.keysArray.includes(event.key)){
         game.keysArray.push(event.key);
+        syncKeysToIframe();
     }
     if(event.key === activateDebugPassKey){
         game.debugMode = !game.debugMode;
@@ -360,4 +361,14 @@ function animationLoop(t){
     game.draw(ctx);
     game.updateText(text);
     requestAnimationFrame(animationLoop);
+}
+
+function syncKeysToIframe(){
+    const iframe = document.getElementById("controlsIframe");
+    if(iframe && iframe.contentWindow){
+        iframe.contentWindow.postMessage({
+            type: 'syncKeys',
+            keys: [...game.keysArray]
+        }, '*');
+    }
 }

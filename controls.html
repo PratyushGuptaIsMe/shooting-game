@@ -1,185 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WASD Control Display</title>
-<style>
-  :root {
-    --move-left-offset: -20px;
-    --move-right-offset: 177px;
-    --move-up-offest: 65px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASD Control Display</title>
+    <style>
+        .displaynone{
+            display: none !important;
+        }
 
-    /* Vertical line variables */
-    --vline-top: 75px;
-    --vline-left: 10px;
-    --vline-height: 2.5px;
-    --vline-width: 2px;
-    --vline-color: #58a6ff;
-  }
+        :root {
+            --move-left-offset: -20px;
+            --move-right-offset: 177px;
+            --move-up-offset: 65px;
 
-  * { box-sizing: border-box; }
-  body {
-    background-color: #0d1117;
-    color: #fff;
-    font-family: 'Pixelify Sans', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 250px;
-    width: 250px;
-    margin: 0;
-  }
-  .container {
-    position: relative;
-    width: 200px;
-    height: 220px;
-  }
-  .key {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: #222;
-    border: 2px solid #555;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-  }
-  .key.active {
-    background: #2f81f7;
-    border-color: #58a6ff;
-  }
-  .key[data-key="W"] { top: 10px; left: 80px; }
-  .key[data-key="A"] { top: 60px; left: 30px; }
-  .key[data-key="S"] { top: 60px; left: 80px; }
-  .key[data-key="D"] { top: 60px; left: 130px; }
+            --vline-top: 75px;
+            --vline-left: 10px;
+            --vline-height: 2.5px;
+            --vline-width: 2px;
+            --vline-color: #58a6ff;
+        }
 
-  .label {
-    position: absolute;
-    font-size: 10px;
-    color: #aaa;
-    text-align: center;
-  }
-  .label[data-key="W"] { top: -5px; left: 90px; }
-  .label[data-key="A"] { top: var(--move-up-offest); left: var(--move-left-offset); }
-  .label[data-key="S"] { top: 105px; left: 90px; }
-  .label[data-key="D"] { top: 70px; left: var(--move-right-offset); }
+        * {
+            box-sizing: border-box;
+        }
 
-  .line {
-    position: absolute;
-    background: #58a6ff;
-    transform-origin: top left;
-    height: 2px;
-    transition: opacity 0.2s;
-    opacity: 0.7;
-  }
+        body {
+            background-color: #0d1117;
+            color: #fff;
+            font-family: 'Pixelify Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            width: 250px;
+            margin: 0;
+        }
 
-  /* Direction lines */
-  #lineW { top: 20px; left: 100px; width: 15px; transform: rotate(270deg); }
-  #lineA { top: 80px; left: 40px; width: 30px; transform: rotate(180deg); }
-  #lineS { top: 90px; left: 102px; width: 15px; transform: rotate(90deg); }
-  #lineD { top: 80px; left: 160px; width: 15px; transform: rotate(0deg); }
+        .container {
+            position: relative;
+            width: 200px;
+            height: 220px;
+        }
 
-  /* Vertical line (fully customizable via variables) */
-  #vline {
-    opacity: 0.7;
-    position: absolute;
-    top: var(--vline-top);
-    left: var(--vline-left);
-    width: var(--vline-width);
-    height: var(--vline-height);
-    background: var(--vline-color);
-  }
+        .key {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #222;
+            border: 2px solid #555;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
 
-  /* Bottom instructions */
-  .bottom-instructions {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: #ddd;
-    line-height: 1.2;
-  }
-  .bottom-key {
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 2px 4px;
-    background: #222;
-    border: 2px solid #555;
-    border-radius: 6px;
-    transition: 0.2s;
-  }
-  .bottom-key.active {
-    background: #2f81f7;
-    border-color: #58a6ff;
-  }
-</style>
+        .key.active {
+            background: #2f81f7;
+            border-color: #58a6ff;
+        }
+
+        .key[data-key="W"] {
+            top: 10px;
+            left: 80px;
+        }
+
+        .key[data-key="A"] {
+            top: 60px;
+            left: 30px;
+        }
+
+        .key[data-key="S"] {
+            top: 60px;
+            left: 80px;
+        }
+
+        .key[data-key="D"] {
+            top: 60px;
+            left: 130px;
+        }
+
+        .label {
+            position: absolute;
+            font-size: 10px;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .key[data-key="ArrowUp"] { top: 10px; left: 80px; }
+        .key[data-key="ArrowLeft"] { top: 60px; left: 30px; }
+        .key[data-key="ArrowDown"] { top: 60px; left: 80px; }
+        .key[data-key="ArrowRight"] { top: 60px; left: 130px; }
+
+
+        .label[data-key="W"] {
+            top: -5px;
+            left: 90px;
+        }
+
+        .label[data-key="A"] {
+            top: var(--move-up-offset);
+            left: var(--move-left-offset);
+        }
+
+        .label[data-key="S"] {
+            top: 105px;
+            left: 90px;
+        }
+
+        .label[data-key="D"] {
+            top: 70px;
+            left: var(--move-right-offset);
+        }
+
+        .line {
+            position: absolute;
+            background: #58a6ff;
+            transform-origin: top left;
+            height: 2px;
+            transition: opacity 0.2s;
+            opacity: 0.7;
+        }
+
+        #lineW {
+            top: 20px;
+            left: 100px;
+            width: 15px;
+            transform: rotate(270deg);
+        }
+
+        #lineA {
+            top: 80px;
+            left: 40px;
+            width: 30px;
+            transform: rotate(180deg);
+        }
+
+        #lineS {
+            top: 90px;
+            left: 102px;
+            width: 15px;
+            transform: rotate(90deg);
+        }
+
+        #lineD {
+            top: 80px;
+            left: 160px;
+            width: 15px;
+            transform: rotate(0deg);
+        }
+
+        #vline {
+            opacity: 0.7;
+            position: absolute;
+            top: var(--vline-top);
+            left: var(--vline-left);
+            width: var(--vline-width);
+            height: var(--vline-height);
+            background: var(--vline-color);
+        }
+
+        .bottom-instructions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #ddd;
+            line-height: 1.2;
+        }
+
+        .bottom-key {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 2px 4px;
+            background: #222;
+            border: 2px solid #555;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .bottom-key.active {
+            background: #2f81f7;
+            border-color: #58a6ff;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- WASD Keys -->
-    <div class="key" data-key="W">W</div>
-    <div class="key" data-key="A">A</div>
-    <div class="key" data-key="S">S</div>
-    <div class="key" data-key="D">D</div>
+    <div class="container">
+        <div class="wasd-container" id="wasd-container">
+            <div class="key" data-key="W">W</div>
+            <div class="key" data-key="A">A</div>
+            <div class="key" data-key="S">S</div>
+            <div class="key" data-key="D">D</div>
+        </div>
+        <div class="udlr-container" id="udlr-container">
+            <div class="key" data-key="ArrowUp">↑</div>
+            <div class="key" data-key="ArrowLeft">←</div>
+            <div class="key" data-key="ArrowDown">↓</div>
+            <div class="key" data-key="ArrowRight">→</div>
+        </div>
+        <div class="label" data-key="W">Move Up</div>
+        <div class="label" data-key="A">Move Left</div>
+        <div class="label" data-key="S">Move Down</div>
+        <div class="label" data-key="D">Move Right</div>
 
-    <!-- Labels -->
-    <div class="label" data-key="W">Move Up</div>
-    <div class="label" data-key="A">Move Left</div>
-    <div class="label" data-key="S">Move Down</div>
-    <div class="label" data-key="D">Move Right</div>
+        <div class="line" id="lineW"></div>
+        <div class="line" id="lineA"></div>
+        <div class="line" id="lineS"></div>
+        <div class="line" id="lineD"></div>
 
-    <!-- Lines -->
-    <div class="line" id="lineW"></div>
-    <div class="line" id="lineA"></div>
-    <div class="line" id="lineS"></div>
-    <div class="line" id="lineD"></div>
+        <div id="vline"></div>
 
-    <!-- Vertical line -->
-    <div id="vline"></div>
-
-    <!-- Bottom Instructions -->
-    <div class="bottom-instructions">
-      <div><span class="bottom-key" data-key=" ">SPACE</span> to Shoot</div>
-      <div><span class="bottom-key" data-key="r">R</span> to Reload</div>
+        <div class="bottom-instructions">
+            <div><span class="bottom-key" data-key=" ">SPACE</span> to Shoot</div>
+            <div><span class="bottom-key" data-key="r">R</span> to Reload</div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const keys = document.querySelectorAll('.key');
-    const bottomKeys = document.querySelectorAll('.bottom-key');
-    const lines = {
-      W: document.getElementById('lineW'),
-      A: document.getElementById('lineA'),
-      S: document.getElementById('lineS'),
-      D: document.getElementById('lineD')
-    };
+    <script>
+        const keys = document.querySelectorAll('.key');
+        const bottomKeys = document.querySelectorAll('.bottom-key');
+        const lines = {
+            W: document.getElementById('lineW'),
+            A: document.getElementById('lineA'),
+            S: document.getElementById('lineS'),
+            D: document.getElementById('lineD')
+        };
 
-    document.addEventListener('keydown', e => {
-      const key = e.key.toUpperCase();
-      const el = document.querySelector(`.key[data-key='${key}']`);
-      const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
-      if (el) {
-        el.classList.add('active');
-        if (lines[key]) lines[key].style.opacity = '1';
-      }
-      if (bottomEl) bottomEl.classList.add('active');
-    });
+        document.addEventListener('keydown', e => {
 
-    document.addEventListener('keyup', e => {
-      const key = e.key.toUpperCase();
-      const el = document.querySelector(`.key[data-key='${key}']`);
-      const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
-      if (el) {
-        el.classList.remove('active');
-        if (lines[key]) lines[key].style.opacity = '0.7';
-      }
-      if (bottomEl) bottomEl.classList.remove('active');
-    });
-  </script>
+            const keyName = e.key; // "ArrowUp"
+            const keyUpper = keyName.toUpperCase(); // "ARROWUP"
+            const el = document.querySelector(`.key[data-key='${keyName}']`) ||
+                    document.querySelector(`.key[data-key='${keyUpper}']`);
+            const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
+            if (el) {
+                el.classList.add('active');
+                if (lines[key]) lines[key].style.opacity = '1';
+            }
+            if (bottomEl) bottomEl.classList.add('active');
+        });
+
+        document.addEventListener('keyup', e => {
+            const keyName = e.key; // "ArrowUp"
+            const keyUpper = keyName.toUpperCase(); // "ARROWUP"
+
+            const el = document.querySelector(`.key[data-key='${keyName}']`) ||
+                    document.querySelector(`.key[data-key='${keyUpper}']`);
+
+            const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
+            if (el) {
+                el.classList.remove('active');
+                if (lines[key]) lines[key].style.opacity = '0.7';
+            }
+            if (bottomEl) bottomEl.classList.remove('active');
+        });
+    </script>
+    <script>
+        let Arroworwasd = true;
+        function ArrowOrWASD(Arroworwasd){
+            if(Arroworwasd){
+                // display wasd
+                document.getElementById("udlr-container").classList.add("displaynone");
+            }else if(!Arroworwasd){
+                // display arrow keys
+                document.getElementById("wasd-container").classList.add("displaynone");
+            }  
+        }
+        ArrowOrWASD(Arroworwasd)
+    </script>
 </body>
 </html>

@@ -191,16 +191,16 @@
 <body>
     <div class="container">
         <div class="wasd-container" id="wasd-container">
-            <div class="key" data-key="W">W</div>
-            <div class="key" data-key="A">A</div>
-            <div class="key" data-key="S">S</div>
-            <div class="key" data-key="D">D</div>
+            <div class="key" data-key="W" id="w">W</div>
+            <div class="key" data-key="A" id="a">A</div>
+            <div class="key" data-key="S" id="s">S</div>
+            <div class="key" data-key="D" id="d">D</div>
         </div>
         <div class="udlr-container" id="udlr-container">
-            <div class="key" data-key="ArrowUp">↑</div>
-            <div class="key" data-key="ArrowLeft">←</div>
-            <div class="key" data-key="ArrowDown">↓</div>
-            <div class="key" data-key="ArrowRight">→</div>
+            <div class="key" data-key="ArrowUp" id="au">↑</div>
+            <div class="key" data-key="ArrowLeft" id="al">←</div>
+            <div class="key" data-key="ArrowDown" id="ad">↓</div>
+            <div class="key" data-key="ArrowRight" id="ar">→</div>
         </div>
         <div class="label" data-key="W">Move Up</div>
         <div class="label" data-key="A">Move Left</div>
@@ -215,62 +215,82 @@
         <div id="vline"></div>
 
         <div class="bottom-instructions">
-            <div><span class="bottom-key" data-key=" ">SPACE</span> to Shoot</div>
-            <div><span class="bottom-key" data-key="r">R</span> to Reload</div>
+            <div><span class="bottom-key" data-key=" " id="spaceKey">SPACE</span> to Shoot</div>
+            <div><span class="bottom-key" data-key="r" id="rKey">R</span> to Reload</div>
         </div>
     </div>
-
     <script>
-        const keys = document.querySelectorAll('.key');
-        const bottomKeys = document.querySelectorAll('.bottom-key');
-        const lines = {
-            W: document.getElementById('lineW'),
-            A: document.getElementById('lineA'),
-            S: document.getElementById('lineS'),
-            D: document.getElementById('lineD')
-        };
-
-        document.addEventListener('keydown', e => {
-
-            const keyName = e.key; // "ArrowUp"
-            const keyUpper = keyName.toUpperCase(); // "ARROWUP"
-            const el = document.querySelector(`.key[data-key='${keyName}']`) ||
-                    document.querySelector(`.key[data-key='${keyUpper}']`);
-            const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
-            if (el) {
-                el.classList.add('active');
-                if (lines[key]) lines[key].style.opacity = '1';
-            }
-            if (bottomEl) bottomEl.classList.add('active');
-        });
-
-        document.addEventListener('keyup', e => {
-            const keyName = e.key; // "ArrowUp"
-            const keyUpper = keyName.toUpperCase(); // "ARROWUP"
-
-            const el = document.querySelector(`.key[data-key='${keyName}']`) ||
-                    document.querySelector(`.key[data-key='${keyUpper}']`);
-
-            const bottomEl = document.querySelector(`.bottom-key[data-key='${e.key}']`);
-            if (el) {
-                el.classList.remove('active');
-                if (lines[key]) lines[key].style.opacity = '0.7';
-            }
-            if (bottomEl) bottomEl.classList.remove('active');
-        });
-    </script>
-    <script>
-        let Arroworwasd = true;
+        let Arroworwasd = false;
+        let keysArray = [];
+        ArrowOrWASD(Arroworwasd)
         function ArrowOrWASD(Arroworwasd){
             if(Arroworwasd){
                 // display wasd
                 document.getElementById("udlr-container").classList.add("displaynone");
+                document.getElementById("wasd-container").classList.remove("displaynone");
             }else if(!Arroworwasd){
                 // display arrow keys
                 document.getElementById("wasd-container").classList.add("displaynone");
+                document.getElementById("udlr-container").classList.remove("displaynone");
             }  
         }
-        ArrowOrWASD(Arroworwasd)
+        function ApplyGlow(){
+            if(keysArray.includes(" ")){
+                document.getElementById("spaceKey").classList.add("active");
+            }else{
+                document.getElementById("spaceKey").classList.remove("active");
+            }
+            if(keysArray.includes("r")  || keysArray.includes("R")){
+                document.getElementById("rKey").classList.add("active");
+            }else{
+                document.getElementById("rKey").classList.remove("active");
+            }
+            if(keysArray.includes("ArrowRight")){
+                document.getElementById("ar").classList.add("active");
+            }else{
+                document.getElementById("ar").classList.remove("active");
+            }
+            if(keysArray.includes("ArrowLeft")){
+                document.getElementById("al").classList.add("active");
+            }else{
+                document.getElementById("al").classList.remove("active");
+            }
+            if(keysArray.includes("ArrowUp")){
+                document.getElementById("au").classList.add("active");
+            }else{
+                document.getElementById("au").classList.remove("active");
+            }
+            if(keysArray.includes("ArrowDown")){
+                document.getElementById("ad").classList.add("active");
+            }else{
+                document.getElementById("ad").classList.remove("active");
+            }
+            if(keysArray.includes("w")){
+                document.getElementById("w").classList.add("active");
+            }else{
+                document.getElementById("w").classList.remove("active");
+            }
+            if(keysArray.includes("a")){
+                document.getElementById("a").classList.add("active");
+            }else{
+                document.getElementById("a").classList.remove("active");
+            }
+            if(keysArray.includes("s")){
+                document.getElementById("s").classList.add("active");
+            }else{
+                document.getElementById("s").classList.remove("active");
+            }
+            if(keysArray.includes("d")){
+                document.getElementById("d").classList.add("active");
+            }else{
+                document.getElementById("d").classList.remove("active");
+            }
+        }
+        window.addEventListener('message', (msg) => {
+            if (!msg.data || msg.data.type !== 'syncKeys') return;
+            keysArray = [...msg.data.keys];
+            ApplyGlow()
+        });
     </script>
 </body>
 </html>

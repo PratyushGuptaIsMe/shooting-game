@@ -350,6 +350,7 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => {
     if(game.keysArray.includes(event.key)){
         game.keysArray.splice(game.keysArray.indexOf(event.key), 1);
+        syncKeysToIframe();
     }
 });
 

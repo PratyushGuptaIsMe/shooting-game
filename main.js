@@ -30,8 +30,9 @@ class GAME{
         }else{
             this.season = this.ALLSEASONS.MORNING;
         }
+
         this.backgrounds = new Background(this);
-        this.seasonChangeInterval = 10000;
+        this.seasonChangeInterval = 15000;  //ms
         this.seasonTimer = 0;
 
         this.maxAmmo = 10;
@@ -340,6 +341,7 @@ animationLoop(l);
 window.addEventListener("keydown", (event) => {
     if(!game.keysArray.includes(event.key)){
         game.keysArray.push(event.key);
+        syncKeysToIframe();
     }
     if(event.key === activateDebugPassKey){
         game.debugMode = !game.debugMode;
@@ -348,6 +350,7 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => {
     if(game.keysArray.includes(event.key)){
         game.keysArray.splice(game.keysArray.indexOf(event.key), 1);
+        syncKeysToIframe();
     }
 });
 
@@ -359,4 +362,14 @@ function animationLoop(t){
     game.draw(ctx);
     game.updateText(text);
     requestAnimationFrame(animationLoop);
+}
+
+function syncKeysToIframe(){
+    const iframe = document.getElementById("controlsIframe");
+    if(iframe && iframe.contentWindow){
+        iframe.contentWindow.postMessage({
+            type: 'syncKeys',
+            keys: [...game.keysArray]
+        }, '*');
+    }
 }

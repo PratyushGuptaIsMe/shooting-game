@@ -58,6 +58,8 @@ class Preloading{
         document.getElementById("textArea").style.display = "block";
         document.getElementById("sideColumn").classList.remove("displaynone");
         document.getElementById("sideColumn").style.display = "block";
+        document.getElementById("controlsIframe").classList.remove("displaynone");
+        document.getElementById("controlsIframe").style.display = "block";
         new GameStart();
     }
     #addMainCanvas(){
@@ -127,7 +129,7 @@ class GameStart{
         this.#clickToStartGameListener(_canvas, ctx);
     }
     #clickToStartGameListener(_canvas, ctx){
-        document.addEventListener("click", () => {
+        _canvas.addEventListener("click", () => {
             ctx.clearRect(0, 0, _canvas.width, _canvas.height);
 
             this.#unlockAudioOnClick();
@@ -175,13 +177,7 @@ class GameStart{
         }catch(e){}
     }
 }
-function restartGame(){
-    console.log("restarted game");
-}
+
 let game;
 let allAudio;
 new Preloading();
-let restartBtn = document.getElementById("restartBtn");
-if (restartBtn) {
-    restartBtn.addEventListener("click", restartGame);
-}

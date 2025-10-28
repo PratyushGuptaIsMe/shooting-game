@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple iframe for WASD, shoot, and reload controls for my game.">
+    <meta name="author" content="pratyushguptaisme">
+    <meta name="keywords" content="game, controls, WASD, movement, HTML, tutorial, shooting, reloading, games">
+    <meta property="og:title" content="Controls">
+    <meta property="og:description" content="Simple iframe for WASD, shoot, and reload controls for my game.">
+    <meta property="og:type" content="website">
+    <title>Control Display</title>
+    <link rel="stylesheet" href="ifr-styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="wasd-container" id="wasd-container">
+            <div class="key" data-key="W" id="w">W</div>
+            <div class="key" data-key="A" id="a">A</div>
+            <div class="key" data-key="S" id="s">S</div>
+            <div class="key" data-key="D" id="d">D</div>
+        </div>
+        <div class="udlr-container" id="udlr-container">
+            <div class="key" data-key="ArrowUp" id="au">↑</div>
+            <div class="key" data-key="ArrowLeft" id="al">←</div>
+            <div class="key" data-key="ArrowDown" id="ad">↓</div>
+            <div class="key" data-key="ArrowRight" id="ar">→</div>
+        </div>
+        <div class="label" data-key="W">Move Up</div>
+        <div class="label" data-key="A">Move Left</div>
+        <div class="label" data-key="S">Move Down</div>
+        <div class="label" data-key="D">Move Right</div>
+
+        <div class="line" id="lineW"></div>
+        <div class="line" id="lineA"></div>
+        <div class="line" id="lineS"></div>
+        <div class="line" id="lineD"></div>
+
+        <div id="vline"></div>
+
+        <div class="bottom-instructions">
+            <div><span class="bottom-key" data-key=" " id="spaceKey">SPACE</span> to Shoot</div>
+            <div><span class="bottom-key" data-key="r" id="rKey">R</span> to Reload</div>
+        </div>
+    </div>
+    <script src="cntrls-iframe-logic.js"></script>
+</body>
+</html>

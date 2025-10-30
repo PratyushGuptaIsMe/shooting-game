@@ -1,5 +1,5 @@
-function ArrowOrWASD(Arroworwasd){
-    if(Arroworwasd){
+function ArrowOrWASD(WASD){
+    if(WASD){
         // Display WASD
         document.getElementById("udlr-container").classList.add("displaynone");
         document.getElementById("wasd-container").classList.remove("displaynone");
@@ -71,18 +71,34 @@ function applyGlow(){
         document.getElementById("d").classList.remove("active");
     }
 }
+function displayWASDorARROWS(){
+    if(keysArray.includes("ArrowUp")  ||
+    keysArray.includes("ArrowDown") ||
+    keysArray.includes("ArrowLeft") ||
+    keysArray.includes("ArrowRight")){
+        ArrowOrWASD(false);
+    }
+    if(keysArray.includes("w")  ||
+    keysArray.includes("W") ||
+    keysArray.includes("s") ||
+    keysArray.includes("S") ||
+    keysArray.includes("a") ||
+    keysArray.includes("A") ||
+    keysArray.includes("d") ||
+    keysArray.includes("D")){
+        ArrowOrWASD(true);
+    }
+}
 
-
-let Arroworwasd = false;
+let WASD = true;
 let keysArray = [];
-
-ArrowOrWASD(Arroworwasd);
 
 window.addEventListener('message', (msg)=>{
     if(!msg.data || msg.data.type !== 'syncKeys'){
         return;
     }else{
         keysArray = [...msg.data.keys];
+        displayWASDorARROWS();
         applyGlow();
     }
 });

@@ -158,13 +158,13 @@ class GameStart{
                 source.connect(audioContext.destination);
                 source.start();
                 
-                if(window.allAudio && window.allAudio.length > 0) {
+                if(window.allAudio && window.allAudio.length > 0){
                     const backgroundMusic = window.allAudio.find(audio => 
                         audio.src && audio.src.includes('Pirate-orchestra')
                     );
                     
                     const testAudio = backgroundMusic || window.allAudio[0];
-                    if(testAudio) {
+                    if(testAudio){
                         testAudio.currentTime = 0;
                         testAudio.volume = 0.01;
                         testAudio.play().then(() => {

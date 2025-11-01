@@ -11,8 +11,8 @@ This is a open-source sandbox to try and make a decent js game. All assets are d
 ---
 
 **Contact:**  
-- Email: **pratyushngupta@gmail.com**
-- School Email: **pratyush.gupta102@cfbmail.com**
+- Email: [**pratyushngupta@gmail.com**](mailto:pratyushngupta@gmail.com)
+- School Email: [**pratyush.gupta102@cfbmail.com**](mailto:pratyush.gupta102@gmail.com)
 - Discord: **pratyushguptaisme1**
 
 Feel free to reach out via Discord, Google Spaces, WhatsApp, or other platforms if you prefer.

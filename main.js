@@ -359,7 +359,7 @@ const text = {
     score: document.getElementById("scoreDisplay")
 };
 
-const activateDebugPassKey = "p";   //////////////////////////////////////////////
+const activateDebugPassKey = null;
 
 animationLoop(l);
 window.addEventListener("keydown", (event) => {

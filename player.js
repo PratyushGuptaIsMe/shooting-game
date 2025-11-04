@@ -321,12 +321,8 @@ export class Player{
 
         if(this.game.debugMode === true){
             ctx.strokeRect(this.hitbox.x, this.hitbox.y, this.hitbox.w, this.hitbox.h);
-            
-            ctx.strokeRect(this.hitbox.x, this.gunHeight, 1000, 1); //line
-            ctx.save();
-            ctx.strokeStyle = "grey";
+            ctx.strokeRect(this.hitbox.x, this.gunHeight, 1000, 1);
             ctx.strokeRect(this.hitbox.x, this.gunHeight, -1000, 1);
-            ctx.restore();
         }
     }
 

@@ -262,7 +262,7 @@ class GAME{
         let chosen = audios.sort(() => 0.5 - Math.random()).slice(0, count);
         let index = 0;
         const playNext = () => {
-            if (index < chosen.length) {
+            if(index < chosen.length){
                 let current = chosen[index].a;
                 index++;
                 current.currentTime = 0;

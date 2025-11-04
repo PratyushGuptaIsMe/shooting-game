@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 </head>
 <body>
+
+    <!-- CONTROLS DISPLAY -->
     <iframe src="controls-iframe/controls.html" class="controls displaynone" id="controlsIframe" frameborder="0"></iframe>
 
     <!-- PLAYER SPRITES -->
@@ -44,6 +46,7 @@
         <h1 id="loadingPercentageCounter" class="loadingPercentageCounter">0%</h1>
     </div>
 
+    <!-- DISPLAY AREA -->
     <div id="textArea" class="textArea displaynone">
         <h1 id="healthDisplay" class="counters"></h1>
         <h1 id="ammoDisplay" class="counters"></h1>
@@ -51,6 +54,7 @@
     </div>
 
     <div id="sideColumn" class="sideColumn displaynone">
+        <!-- RESTART BUTTON -->
         <div class="restartPanel">
             <button id="restartButton" class="restartButton">Restart</button>
         </div>
@@ -64,6 +68,7 @@
             })
         </script>
 
+        <!-- ATTRIBUTIONS -->
         <div class="attributionArea">
             <ul>
                 <li>
@@ -125,6 +130,8 @@
 
         bgMusicPre.play().then(() => {
             // audio playing
+            bgMusicPre.pause();
+            bgMusicPre.currentTime = 0;
         }).catch(() => {
             // audio blocked
             let stopAudioFunc = () => {

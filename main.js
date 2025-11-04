@@ -4,6 +4,7 @@ import { Background, LoadAudio } from "./aesthetics.js";
 
 class GAME{
     constructor(width, height){
+        this.startScreen = true;
         let temporaryRandomVariable = Math.random();
         this.ALLSEASONS = {
             MORNING: 1,
@@ -69,6 +70,15 @@ class GAME{
         }
     }
 
+    #drawStartScreen(ctx){
+        ctx.save();
+        ctx.fillStyle = "black"
+        ctx.textBaseline = "top";
+        ctx.fillStyle = this.fillStyle;
+        ctx.font = "50px Hind Siliguri";
+        ctx.fillText("Click to start Game.", 50, 50);
+        ctx.restore();
+    }
     updateText(text){
         if(this.Player.health < 0){
             this.Player.health = 0;
@@ -246,7 +256,7 @@ class GAME{
     playRandomAudio(audio){
         this.playAudio(this.getRandomObjectValue(audio));
     }
-    playRandomSequence(audioObjects) {
+    playRandomSequence(audioObjects){
         let audios = Object.values(audioObjects);
         let count = Math.floor(Math.random() * audios.length) + 1;
         let chosen = audios.sort(() => 0.5 - Math.random()).slice(0, count);
@@ -263,7 +273,7 @@ class GAME{
         playNext();
     }
 
-    playMainBackgroundMusic() {
+    playMainBackgroundMusic(){
         if(!this.musicStarted && !this.gameOver){
             if(window.gameAudioContext && window.gameAudioContext.state === 'suspended') {
                 window.gameAudioContext.resume().then(() => {
@@ -278,7 +288,17 @@ class GAME{
     }
 
 
-    update(dt){  
+    update(dt){
+        if(this.startScreen === true){
+            this._startClickHandler = () => {
+                this.startScreen = false;
+                CANVAS.removeEventListener("click", this._startClickHandler);
+                this._startClickHandler = null;
+            };
+            CANVAS.addEventListener("click", this._startClickHandler);
+            return;
+        }
+
         this.Player.update(dt);
         this.backgrounds.update();
         this.allCurrentEnemies.forEach((enemy) => {
@@ -312,6 +332,10 @@ class GAME{
         this.playMainBackgroundMusic();
     }
     draw(ctx){
+        if(this.startScreen === true){
+            this.#drawStartScreen(ctx);
+            return;
+        }
         this.backgrounds.draw(ctx);
         this.Player.draw(ctx);
         this.allCurrentEnemies.forEach((enemy) => {
@@ -373,3 +397,10 @@ function syncKeysToIframe(){
         }, '*');
     }
 }
+
+document.getElementById("restartButton").addEventListener("click", () => {
+    game.keysArray = [];
+    game.audio.miscellaneous.background_music.a.pause();
+    game.audio.miscellaneous.background_music.currentTime = 0;
+    game = new GAME(CANVAS.width, CANVAS.height);
+})

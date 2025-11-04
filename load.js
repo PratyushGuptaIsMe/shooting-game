@@ -105,47 +105,15 @@ class Preloading{
 }
 class GameStart{
     constructor(){
-        this.INFO = {
-            msg1: {
-                text: "Click to start Game.",
-                x: 50,
-                y: 50,
-                fontsize: "50px",
-                fontfamily: "Hind Siliguri"
-            }
-        }
-        this.fillStyle = "black";
-
-        const space = " ";
-        const s = space;
-        const _canvas = document.getElementById("mainCanvas");
-        const ctx = _canvas.getContext('2d');
-        ctx.textBaseline = "top";
-        ctx.fillStyle = this.fillStyle;
-
-        ctx.font = this.INFO.msg1.fontsize + s + this.INFO.msg1.fontfamily;
-        ctx.fillText(this.INFO.msg1.text, this.INFO.msg1.x, this.INFO.msg1.y);
-        
-        this.#clickToStartGameListener(_canvas, ctx);
+        this.#unlockAudioOnClick();
+        const mainscript = document.createElement('script');
+        mainscript.type = 'module';
+        mainscript.src = 'main.js';
+        document.body.appendChild(mainscript);
+        mainscript.onload = () => {
+            game.playMainBackgroundMusic();
+        };
     }
-    #clickToStartGameListener(_canvas, ctx){
-        _canvas.addEventListener("click", () => {
-            ctx.clearRect(0, 0, _canvas.width, _canvas.height);
-
-            this.#unlockAudioOnClick();
-
-            const mainscript = document.createElement('script');
-            mainscript.type = 'module';
-            mainscript.src = 'main.js';
-            document.body.appendChild(mainscript);
-            mainscript.onload = () => {
-                game.playMainBackgroundMusic();
-            };
-        }, {
-            once: true
-        });
-    }
-
     #unlockAudioOnClick() {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;

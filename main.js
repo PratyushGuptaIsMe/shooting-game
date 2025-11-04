@@ -72,7 +72,7 @@ class GAME{
 
     #drawStartScreen(ctx){
         ctx.save();
-        ctx.fillStyle = "white"
+        ctx.fillStyle = "black"
         ctx.textBaseline = "top";
         ctx.fillStyle = this.fillStyle;
         ctx.font = "50px Hind Siliguri";
@@ -296,6 +296,7 @@ class GAME{
                 this._startClickHandler = null;
             };
             CANVAS.addEventListener("click", this._startClickHandler);
+            return;
         }
 
         this.Player.update(dt);
@@ -398,5 +399,8 @@ function syncKeysToIframe(){
 }
 
 document.getElementById("restartButton").addEventListener("click", () => {
+    game.keysArray = [];
+    game.audio.miscellaneous.background_music.a.pause();
+    game.audio.miscellaneous.background_music.currentTime = 0;
     game = new GAME(CANVAS.width, CANVAS.height);
 })

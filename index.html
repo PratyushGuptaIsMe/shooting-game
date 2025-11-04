@@ -120,6 +120,24 @@
     </div>
 
     <script>
+        let bgMusicPre = new Audio("audio/misc/Pirates-orchestra/Pirate-orchestra-(opengameart).mp3");
+        bgMusicPre.loop = false;
+
+        bgMusicPre.play().then(() => {
+            // audio playing
+        }).catch(() => {
+            // audio blocked
+            let stopAudioFunc = () => {
+                bgMusicPre.pause();
+                bgMusicPre.currentTime = 0;
+                document.removeEventListener("pointerdown", stopAudioFunc);
+                document.removeEventListener("keydown", stopAudioFunc);
+            }
+            document.addEventListener("pointerdown", stopAudioFunc);
+            document.addEventListener("keydown", stopAudioFunc);
+        })
+
+
         allLinksQueryArr = document.querySelectorAll('a');
         allLinks = Array.from(allLinksQueryArr);
         allLinks.forEach((link) => {
